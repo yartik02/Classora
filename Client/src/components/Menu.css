@@ -1,0 +1,71 @@
+/* --- THE BACKDROP --- */
+.offcanvas-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(15, 23, 42, 0.4);
+  backdrop-filter: blur(4px);
+  z-index: 1040;
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 0.3s ease,
+    visibility 0.3s ease;
+}
+.offcanvas-backdrop.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* --- THE PANEL --- */
+.offcanvas-panel {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 75%;
+  max-height: 100vh;
+  height: 100%;
+  background: #1a257d;
+  z-index: 1050;
+  box-shadow: 4px 0 25px rgba(0, 0, 0, 0.1);
+  transform: translateX(
+    -100%
+  );
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.offcanvas-panel.open {
+  transform: translateX(0);
+}
+
+/* --- MENU ITEMS --- */
+.offcanvas-nav-item {
+  display: flex;
+  align-items: center;
+  padding: 0.85rem 1.5rem;
+  color: #f0f0f0;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  border-left: 3px solid transparent;
+}
+.offcanvas-nav-item:hover {
+  background-color: #f8fafc;
+  color: #065064;
+  border-left-color: #065064;
+}
+/* Close Button Hover */
+.btn-close-custom {
+  background: transparent;
+  border: none;
+  color: #f0f0f0b9;
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    color 0.2s ease;
+}
+.btn-close-custom:hover {
+  color: #ef4444;
+  transform: rotate(90deg);
+}
