@@ -5,7 +5,7 @@ import { Link, useLocation } from "react-router-dom";
 
 const navData = [
   { name: "Home", path: "/" },
-  { name: "About", path: "/about" },
+  { name: "About", path: "/aboutUs" },
   { name: "Contact Us", path: "/contactUs" },
 ];
 

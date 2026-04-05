@@ -1,0 +1,562 @@
+/* App.css */
+:root {
+  --classora-blue: #0a2540; /* Deep Royal Blue */
+  --classora-light: #f1f1f1;
+}
+
+/* section2 */
+.wrapperClip {
+  filter: drop-shadow(0px -15px 20px rgb(0, 0, 0));
+}
+
+@media (min-width: 900px) {
+  .whyClassoraCreated {
+    clip-path: ellipse(75% 100% at 50% 100%);
+  }
+  .lead {
+    font-size: 1rem;
+  }
+}
+@media (max-width: 900px) {
+  .whyClassoraCreated {
+    clip-path: ellipse(105% 100% at 50% 100%);
+  }
+  .lead {
+    font-size: 0.8rem;
+  }
+}
+@media (max-width: 600px) {
+  .whyClassoraCreated {
+    clip-path: ellipse(125% 100% at 50% 100%);
+  }
+  .btnText {
+    display: none;
+  }
+  .unified-heading {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: #1b2559;
+    letter-spacing: -0.03em;
+  }
+}
+@media (min-width: 600px) {
+  .unified-heading {
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: #1b2559;
+    letter-spacing: -0.03em;
+  }
+}
+
+/* The 'Stage' unites the heading and cards into one cohesive block */
+.clay-stage {
+  background: rgba(
+    116,
+    158,
+    255,
+    0.4
+  ); /* Very faint background to group elements */
+  border-radius: 40px;
+  padding: 40px 30px;
+  box-shadow: inset 2px 2px 10px rgba(163, 174, 208, 0.1); /* Subtle inner shadow */
+}
+
+.text-primary-glow {
+  color: #4318ff; /* Adjust to your brand primary color */
+  text-shadow: 0px 4px 15px rgba(67, 24, 255, 0.3);
+}
+
+/* The Grid */
+.clay-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
+}
+
+/* The Cards */
+.clay-card {
+  background: #001b4c;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.clay-card:hover {
+  transform: translateY(-6px) scale(1.02);
+}
+
+/* Icons */
+.clay-icon {
+  font-size: 2.5rem;
+  margin-bottom: 15px;
+  background: #f4f7fe;
+  width: 75px;
+  height: 75px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow:
+    inset 5px 5px 10px rgba(163, 174, 208, 0.2),
+    inset -5px -5px 10px rgba(255, 255, 255, 1),
+    2px 2px 4px rgba(163, 174, 208, 0.05);
+}
+
+.clay-card:hover .clay-icon {
+  transform: scale(1.1) rotate(15deg);
+}
+
+/* Typography Inside Cards */
+.clay-card-title {
+  font-size: 1.15rem;
+}
+
+.clay-card p {
+  color: #afbadd;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+/* Smooth Transition */
+.fade-in {
+  animation: fadeIn 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* section3 */
+.btnGrp button {
+  box-shadow: 2px 2px 5px rgb(0 0 0 / 26%);
+  transition: all 0s ease-in-out;
+}
+.btnGrp .active {
+  color: rgb(0, 4, 255);
+  box-shadow:
+    rgb(0 0 0 / 33%) 6px 6px 8px 0px inset,
+    rgb(0 0 0 / 33%) -6px -6px 8px 0px inset,
+    rgb(255 255 255 / 38%) 0px 0px 8px 1px;
+}
+
+/* section4 */
+/* Section & Ambient Lighting */
+.premium-boundaries-section {
+  background-color: #fafbfc;
+  position: relative;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.ambient-glow {
+  position: absolute;
+  width: 400px;
+  height: 400px;
+  border-radius: 50%;
+  filter: blur(80px);
+  z-index: -1;
+  opacity: 0.7;
+}
+
+.glow-red {
+  top: -100px;
+  right: -50px;
+  background: radial-gradient(
+    circle,
+    rgb(255, 0, 0) 0%,
+    rgba(255, 91, 91, 0) 70%
+  );
+}
+
+.glow-blue {
+  bottom: -150px;
+  left: -100px;
+  background: radial-gradient(
+    circle,
+    rgb(0, 102, 255) 0%,
+    rgba(47, 0, 255, 0) 100%
+  );
+}
+
+/* Typography Enhancements */
+.eyebrow-label {
+  display: inline-block;
+  font-size: 0.85rem;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+  color: #ff5b5b;
+  background: rgba(255, 91, 91, 0.1);
+  padding: 6px 14px;
+  border-radius: 20px;
+  margin-bottom: 20px;
+}
+
+.premium-heading {
+  color: #111c44;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+}
+
+/* Gradient Text for emphasis */
+.text-danger-gradient {
+  background: linear-gradient(135deg, #aa0202 0%, #ff2a2a 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: 0px 10px 20px rgba(255, 91, 91, 0.15); /* Soft drop shadow beneath the gradient */
+}
+
+.premium-text-muted {
+  color: #68769f;
+  line-height: 1.8;
+  font-weight: 500;
+}
+
+/* Premium Bento Grid */
+.premium-bento-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 24px;
+}
+
+/* Glass-Clay Hybrid Cards */
+.premium-bento-card {
+  background: linear-gradient(145deg, #ffffff 0%, #fcfdfd 100%);
+  padding: 32px 28px;
+  border-radius: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+  /* Layered Premium Shadow */
+  box-shadow:
+    10px 10px 30px rgba(163, 174, 208, 0.08),
+    -10px -10px 30px rgba(255, 255, 255, 1),
+    inset 1px 1px 2px rgba(255, 255, 255, 1);
+
+  /* Frosted Glass Border effect */
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  border-bottom: 1px solid rgba(163, 174, 208, 0.15);
+  border-right: 1px solid rgba(163, 174, 208, 0.15);
+}
+
+.premium-bento-card:hover {
+  transform: translateY(-8px);
+  border-color: rgba(255, 91, 91, 0.3); /* Subtle red border glow on hover */
+  box-shadow:
+    15px 15px 35px rgba(255, 91, 91, 0.06),
+    -10px -10px 30px rgba(255, 255, 255, 1);
+}
+
+/* Enhanced Bento Icon */
+.bento-icon-wrapper {
+  width: 48px;
+  height: 48px;
+  background: linear-gradient(135deg, #fff2f2 0%, #ffe5e5 100%);
+  color: #ff5b5b;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 24px;
+
+  /* Deep pressed inner shadow + soft outer glow */
+  box-shadow:
+    inset 2px 2px 6px rgba(255, 91, 91, 0.15),
+    inset -2px -2px 6px rgba(255, 255, 255, 0.8),
+    0px 8px 16px rgba(255, 91, 91, 0.12);
+  transition: all 0.4s ease;
+}
+
+.premium-bento-card:hover .bento-icon-wrapper {
+  transform: scale(1.1) rotate(90deg);
+  background: #ff5b5b;
+  color: #ffffff;
+}
+
+/* Card Text */
+.bento-text {
+  color: #2b3674;
+  font-weight: 600;
+  font-size: 1.05rem;
+  margin: 0;
+  line-height: 1.6;
+  letter-spacing: -0.01em;
+}
+
+/* Staggered Fade-in Animation */
+.fade-in-up {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* section5 */
+
+/* The Grid System */
+.belief-bento-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr); /* 12-column grid system */
+  gap: 24px;
+}
+
+/* Spacing classes mapped from the array */
+.col-span-4 {
+  grid-column: span 12; /* Mobile: full width */
+}
+.col-span-6 {
+  grid-column: span 12; /* Mobile: full width */
+}
+
+/* Tablet & Desktop Grid Behavior */
+@media (min-width: 992px) {
+  .col-span-4 {
+    grid-column: span 4;
+  } /* 3 cards per row */
+  .col-span-6 {
+    grid-column: span 6;
+  } /* 2 cards per row */
+}
+
+/* Glass-Clay Cards */
+.premium-glass-card {
+  background: linear-gradient(145deg, #ffffff 0%, #f0f0f0 100%);
+  padding: 35px 30px;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+  box-shadow:
+    10px 10px 30px rgba(163, 174, 208, 0.1),
+    inset 1px 1px 2px rgba(255, 255, 255, 1);
+
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  border-bottom: 1px solid rgba(163, 174, 208, 0.15);
+  border-right: 1px solid rgba(163, 174, 208, 0.15);
+}
+
+.premium-glass-card:hover {
+  border-color: rgba(67, 24, 255, 0.2);
+  box-shadow: 15px 15px 35px rgba(67, 24, 255, 0.08);
+}
+
+/* Card Icons */
+.belief-icon-wrapper {
+  width: 55px;
+  height: 55px;
+  font-size: 1.5rem;
+  background-color: #001b4c;
+  transition: all 0.2s ease;
+}
+
+.premium-glass-card:hover .belief-icon-wrapper {
+  transform: scale(1.1) rotate(12deg);
+}
+
+/* Typography inside cards */
+.belief-title {
+  color: #111c44;
+}
+
+.belief-text {
+  font-size: 0.95rem;
+}
+
+/* section6 */
+
+.visionImg {
+  border-radius: 48% 52% 74% 26% / 71% 41% 59% 29% ;
+  box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.438);
+  transition: border-radius 0.4s ease;
+}
+.visionImg:hover {
+  border-radius: 57% 43% 30% 70% / 43% 71% 29% 57% ;
+}
+
+/* CTA section  */
+
+.premium-cta-section {
+  background: linear-gradient(180deg, #001b4c 0%, #001b4c00 100%);
+  position: relative;
+  z-index: 1;
+}
+
+.cta-glass-wrapper {
+  border-radius: 40px;
+  padding: 80px 40px;  
+  backdrop-filter: blur(80px);
+}
+
+.cta-ambient-glow {
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+}
+
+.cta-glow1 {
+  top: -28%;
+  left: -20%;
+  background: radial-gradient(circle, rgb(47, 0, 255) 0%, rgba(255, 255, 255, 0) 70%);
+}
+
+.cta-glow2 {
+  bottom: -35%;
+  left: 12%;
+  background: radial-gradient(circle, rgb(238, 255, 0) 0%, rgba(134, 140, 255, 0) 70%);
+}
+
+.cta-glow3 {
+  top: -30%;
+  right: 12%;
+  background: radial-gradient(circle, rgb(255, 24, 243) 0%, rgba(255, 255, 255, 0) 70%);
+}
+
+.cta-glow4 {
+  bottom: -35%;
+  right: -20%;
+  background: radial-gradient(circle,rgb(0, 150, 150) 0%, rgba(134, 140, 255, 0) 70%);
+}
+
+.cta-heading {
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+
+.cta-subtitle {
+  max-width: 700px;
+}
+
+.premium-cta-btn {
+  background: linear-gradient(135deg, #4318FF 0%, #140266 100%);
+  padding: 18px 40px;
+  font-size: 1.1rem;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow: 
+    0px 10px 20px rgba(67, 24, 255, 0.3),
+    inset 0px 1px 1px rgba(255, 255, 255, 0.3);
+}
+
+.premium-cta-btn:hover {
+  translate: 0 -3px;
+  box-shadow: 
+    0px 15px 25px rgba(67, 24, 255, 0.4),
+    inset 0px 1px 1px rgba(255, 255, 255, 0.4);
+}
+
+.cta-btn-icon {
+  transition: transform 0.3s ease;
+}
+
+.premium-cta-btn:hover .cta-btn-icon {
+  transform: translateX(5px);
+}
+
+/* how it works */
+
+.timeline-section-bg {
+  background-color: #cfe2ff;
+}
+
+.timeline-container {
+  position: relative;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 60px 0;
+}
+
+/* The central vertical line with a sleek gradient fade */
+.timeline-container::after {
+  content: '';
+  position: absolute;
+  width: 4px;
+  background: linear-gradient(to bottom, rgba(10,37,64,0) 0%, rgb(10, 37, 64) 50%, rgba(10,37,64,0) 100%);
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  margin-left: -1.5px;
+}
+
+.timeline-step {
+  padding: 20px 40px;
+  position: relative;
+  width: 50%;
+}
+
+/* Alternating sides */
+.timeline-step:nth-child(odd) {
+  left: 0;
+}
+.timeline-step:nth-child(even) {
+  left: 50%;
+}
+
+/* Elevated Timeline Nodes (Solid Blue with a Halo) */
+.timeline-step::after {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  right: -10px;
+  background-color: #cfe2ff;
+  border: 4px solid #ffd52d;
+  top: 30px;
+  border-radius: 50%;
+  z-index: 1;
+  transition: all 0.3s ease;
+}
+.timeline-step:nth-child(even)::after {
+  left: -10px;
+}
+
+/* Highly Aesthetic Step Cards */
+.timeline-content {
+  padding: 32px;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+}
+
+/* Hover effect for interactivity */
+.timeline-step:hover .timeline-content {
+  transform: translateY(-5px);
+  box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.175);
+}
+.timeline-step:hover::after {
+  transform: scale(1.2);
+  box-shadow: 0 0 0 6px rgba(10, 37, 64, 0.15);
+}
+
+/* Mobile Responsiveness adjustments */
+@media screen and (max-width: 768px) {
+  .timeline-container::after {
+    left: 24px;
+  }
+  .timeline-step {
+    width: 100%;
+    padding-left: 60px;
+    padding-right: 0;
+    margin-bottom: 20px;
+  }
+  .timeline-step:nth-child(even) {
+    left: 0%;
+  }
+  .timeline-step::after {
+    left: 12px;
+  }
+  .timeline-step:nth-child(odd)::after {
+    left: 12px;
+  }
+}

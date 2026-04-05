@@ -140,16 +140,10 @@ nav .nav-items {
   fill: rgb(53, 53, 255);
 }
 .icon:nth-child(2):hover svg {
-  fill: rgb(255, 117, 140);
+  fill: rgb(255, 75, 105);
 }
 .icon:nth-child(3):hover svg {
   fill: rgb(255, 255, 255);
-}
-.icon:nth-child(4):hover svg {
-  fill: rgb(69, 69, 255);
-}
-.icon:last-child:hover svg {
-  fill: red;
 }
 
 .footer-item {
@@ -209,11 +203,6 @@ nav .nav-items {
   .hearderText {
     width: 100%;
   }
-  /* .getStartedBtn {
-    top: 73vh;
-    left: 42vw;
-    font-size: 0.9rem;
-  } */
   .getStartedArrow {
     width: 14px;
   }
@@ -221,15 +210,6 @@ nav .nav-items {
   footer {
     border-top-left-radius: 56px;
     border-top-right-radius: 56px;
-    background-color: rgba(255, 255, 255, 0.12);
-    box-shadow:
-      rgb(255 255 255 / 27%) 22px 22px 38px 0px inset,
-      rgb(255 255 255 / 27%) -22px -7px 38px 0px inset,
-      rgba(0, 0, 0, 0.301) -1px -20px 20px 20px;
-  }
-
-  .footerLogoImg {
-    width: 48px;
   }
 }
 
