@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import LogoImg from "../assets/ClassoraLogoNew.svg";
 import "./Menu.css";
 
@@ -11,11 +11,13 @@ const NAV_LINKS = [
 ];
 
 const AUTH_BUTTONS = [
-  { label: "Sign Up", className: "w-100 py-2 d-flex justify-content-center align-items-center rounded-3 login_btn2" },
-  { label: "Login", className: "w-100 mt-3 py-2 d-flex justify-content-center align-items-center rounded-3 login_btn2" },
+  { label: "Sign Up", className: " " },
+  { label: "Login", className: "mt-3" },
 ];
 
 const Menu = ({ isOpen, onClose }) => {
+  const navigate = useNavigate();
+
   // Prevent background scrolling when the menu is open
   useEffect(() => {
     document.body.style.overflow = isOpen ? "hidden" : "unset";
@@ -26,11 +28,9 @@ const Menu = ({ isOpen, onClose }) => {
 
   const handleOnClick = (e) => {
     if (e.target.innerText === "Login") {
-      // Handle login logic here
-      console.log("Login button clicked");
+      navigate("/login");
     } else if (e.target.innerText === "Sign Up") {
-      // Handle sign-up logic here
-      console.log("Sign Up button clicked");
+      navigate("/signUp");
     }
   };
 
@@ -81,7 +81,7 @@ const Menu = ({ isOpen, onClose }) => {
           {AUTH_BUTTONS.map(({ label, className }, index) => (
             <button
               key={index}
-              className={className}
+              className={`w-100 py-2 d-flex justify-content-center align-items-center rounded-3 login_btn2 ${className}`}
               onClick={(e) => {
                 onClose();
                 handleOnClick(e);

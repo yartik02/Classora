@@ -1,0 +1,104 @@
+/* --- privacy.css --- */
+
+/* Smooth scroll for anchor links */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Offset for anchor links so the sticky header doesn't cover the title */
+.scroll-mt {
+  scroll-margin-top: 50px;
+}
+
+/* Max width utility for hero text */
+.max-w-700 {
+  max-width: 700px;
+}
+
+/* Tracking wider for small caps headers */
+.tracking-widest {
+  letter-spacing: 0.15em;
+}
+
+/* Transition utility */
+.transition-all {
+  transition: all 0.3s ease-in-out;
+}
+
+/* Hero Back Button Hover */
+.back-btn-hover:hover {
+  color: white !important;
+  transform: translateX(-3px);
+}
+
+/* --- Sidebar Navigation Styles --- */
+.policy-nav-links {
+  border-left: 3px solid transparent;
+}
+
+.policy-nav-links:hover,
+.policy-nav-links:focus {
+  background-color: #10529421;
+  color: var(--classora-accent-blue) !important;
+  border-left-color: var(--classora-accent-blue);
+  padding-left: 1rem !important; /* Slight indent on hover */
+}
+
+/* --- Content Card Styles --- */
+.icon-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background-color: rgba(37, 99, 235, 0.1); /* Light blue background */
+  color: var(--classora-accent-blue); /* Classora accent blue */
+}
+
+/* Custom Checkmark Bullets */
+.custom-bullet-list {
+  list-style: none;
+  padding-left: 0;
+}
+
+.custom-bullet-list li {
+  position: relative;
+  padding-left: 1.8rem;
+  margin-bottom: 0.75rem;
+  color: #6c757d; /* text-muted */
+  line-height: 1.6;
+}
+
+.custom-bullet-list li::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: var(--classora-accent-blue);
+  font-weight: 900;
+  font-size: 1.1rem;
+}
+
+/* Text Gradient for Headers */
+.text-primary-custom {
+  color: var(--classora-dark-blue);
+}
+
+@media (max-width: 768) {
+  .big-shield {
+    display: none;
+  }
+  .smallText{
+    font-size: 0.875rem;
+  }
+  .smallHeading{
+    font-size: 1.25rem;
+  }
+}
+
+@media (min-width: 769) {
+  .big-shield {
+    display: block;
+  }
+}
