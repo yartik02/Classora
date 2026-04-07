@@ -1,19 +1,20 @@
 import React, { useState, useRef, useEffect } from "react";
 
-function CustomDropdown({ dropdownData, onSelect }) {
+// 1. ADDED 'selectedValue' to the destructured props
+function CustomDropdown({ dropdownData, onSelect, selectedValue }) {
   const [openDropdown, setOpenDropdown] = useState(null);
   const [selectedValues, setSelectedValues] = useState({});
   const dropdownContainerRef = useRef(null);
 
-  // Initialize default selected values based on the passed data
+  // 2. UPDATED to respect the parent's selectedValue or a defaultValue
   useEffect(() => {
     const initialValues = {};
     dropdownData.forEach((dropdown) => {
-      // Default to the first option if no default is provided, or set a generic default
-      initialValues[dropdown.name] = `Select ${dropdown.name}`;
+      // Prioritize the parent's state, then a defaultValue, then fallback to "Select..."
+      initialValues[dropdown.name] = selectedValue || dropdown.defaultValue || `Select ${dropdown.name}`;
     });
     setSelectedValues(initialValues);
-  }, [dropdownData]);
+  }, [dropdownData, selectedValue]); // Added selectedValue as a dependency so it updates if parent changes
 
   // Handle clicking outside to close the dropdown
   useEffect(() => {
@@ -36,15 +37,15 @@ function CustomDropdown({ dropdownData, onSelect }) {
   };
 
   const handleSelectOption = (name, option) => {
-    // 1. Update internal state for UI display
+    // Update internal state
     setSelectedValues((prev) => ({ ...prev, [name]: option }));
 
-    // 2. Pass the selected value back up to the parent component
+    // Pass the value back up to the parent
     if (onSelect) {
       onSelect(name, option);
     }
 
-    // 3. Close the dropdown
+    // Close dropdown
     setOpenDropdown(null);
   };
 
@@ -52,25 +53,26 @@ function CustomDropdown({ dropdownData, onSelect }) {
     <div className="dropdowns w-100" ref={dropdownContainerRef}>
       {dropdownData.map((dropdown) => {
         const isOpen = openDropdown === dropdown.name;
-        const selectedValue = selectedValues[dropdown.name];
+        const currentDisplayValue = selectedValues[dropdown.name];
 
         return (
           <div
-            className="text-start position-relative mb-3"
+            className="text-start position-relative"
             key={dropdown.name}
           >
             {/* The Dropdown Trigger (The Box) */}
             <div
-              className={`p-3 py-2 border rounded-3 d-flex justify-content-between align-items-center cursor-pointer bg-white ${isOpen ? "border-primary shadow-sm" : ""}`}
+              className={`p-3 py-2 border rounded-3 d-flex justify-content-between align-items-center cursor-pointer bg-white transition-all ${isOpen ? "border-primary shadow-sm" : ""}`}
               role="button"
               onClick={() => handleToggleDropdown(dropdown.name)}
               aria-expanded={isOpen}
               aria-haspopup="listbox"
             >
+              {/* 3. FIXED text color: It changes from muted to dark when a real option is selected */}
               <span
-                className={`fw-medium ${selectedValue === `Select ${dropdown.name}` ? "text-muted" : "text-muted"}`}
+                className={`fw-medium ${currentDisplayValue?.startsWith("Select") ? "text-muted" : "text-dark"}`}
               >
-                {selectedValue}
+                {currentDisplayValue}
               </span>
 
               <svg
@@ -99,13 +101,14 @@ function CustomDropdown({ dropdownData, onSelect }) {
                 style={{ 
                   top: "100%", 
                   left: 0, 
-                  maxHeight: "160px", /* Limits height to roughly 3 options */
-                  overflowY: "auto"   /* Adds scrollbar if options exceed maxHeight */
+                  maxHeight: "160px",
+                  overflowY: "auto",
+                  scrollbarWidth:"thin"
                 }}
                 role="listbox"
               >
                 {dropdown.options.map((option) => {
-                  const isSelected = option === selectedValue;
+                  const isSelected = option === currentDisplayValue;
 
                   return (
                     <div
@@ -119,7 +122,7 @@ function CustomDropdown({ dropdownData, onSelect }) {
                         transition: "background-color 0.2s",
                       }}
                     >
-                      <span className={isSelected ? "fw-bold" : ""}>
+                      <span className={isSelected ? "fw-bold text-success" : "text-dark"}>
                         {option}
                       </span>
 

@@ -9,10 +9,14 @@ import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsOfService from "./pages/TermsOfService";
 import Login from "./pages/Login";
 import ForgotPassword from "./pages/ForgotPassword";
-
+import { ToastContainer, toast, Bounce } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import StudentDashboard from "./pages/dashboard/student/StudentDashboard";
+import Logout from "./components/Logout";
 
 function app() {
   const location = useLocation();
+
   const hideNavbarAndFooter =
     location.pathname === "/register" ||
     location.pathname === "/login" ||
@@ -24,6 +28,20 @@ function app() {
     location.pathname === "/privacy-policy";
   return (
     <>
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick={true}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+        transition={Bounce}
+      />
+      
       {!hideNavbarAndFooter && <Navbar />}
       <Routes>
         <Route path="/" element={<Home />} />
@@ -31,11 +49,13 @@ function app() {
         <Route path="/contactUs" element={<ContactUs />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/logout" element={<Logout/>} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/terms-of-service" element={<TermsOfService />} />
+        <Route path="/dashboard/student/:rollno" element={<StudentDashboard />} />
       </Routes>
-      {!hideNavbarAndFooter && <Footer/>}
+      {!hideNavbarAndFooter && <Footer />}
     </>
   );
 }

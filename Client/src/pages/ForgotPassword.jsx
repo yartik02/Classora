@@ -131,7 +131,7 @@ const ForgotPassword = () => {
       {/* backbtn */}
       <button
         className="back-btn shadow-lg z-3 p-2 px-3 rounded-pill border-0"
-        onClick={() => navigate("/login")}
+        onClick={() => navigate(-1)}
         aria-label="Go back"
       >
         <svg width="24" height="24" fill="#090f3d" viewBox="0 0 16 16">

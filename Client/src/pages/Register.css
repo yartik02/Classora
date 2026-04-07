@@ -150,3 +150,11 @@ input[type="text"]:focus {
     height: 40px;
   }
 }
+
+.otpInputs{
+  transition: all 0.2s ease;
+}
+
+.otpInputs:focus {
+  transform: translateY(-4px) scale(1.05);
+}
