@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./ContactUs.css";
 import FaqSection from "../components/Faqs";
-// import { toast } from "react-toastify";
+import { toast } from "react-toastify";
 // import { useAuth } from "../store/auth";
 
 const contactInfo = [
@@ -55,7 +55,7 @@ const socialLinks = [
     classValue: "bi bi-instagram",
     color: "rgb(255, 48, 245)",
     url: "https://www.instagram.com/jmietiofficial/",
-  }
+  },
 ];
 
 const inputFields1 = [
@@ -100,6 +100,7 @@ function ContactUs() {
     message: "",
   });
   //   const {user} = useAuth();
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleClick = (url) => {
     window.open(url, "_blank");
@@ -120,47 +121,52 @@ function ContactUs() {
   //   }
   // }, [user]);
 
-  //   const handleSubmit = async (e) => {
-  //     e.preventDefault();
-  //     // console.log(formData);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    // console.log(formData);
+    setIsSubmitting(true);
 
-  //     if (!formData.name || !formData.email || !formData.subject || !formData.message) {
-  //       toast.error("Can’t submit empty fields, fill all!");
-  //       return;
-  //     }
+    if (
+      !formData.name ||
+      !formData.email ||
+      !formData.subject ||
+      !formData.message
+    ) {
+      toast.error("Can’t submit empty fields, fill all!");
+      setIsSubmitting(false);
+      return;
+    }
 
-  //         try {
-  //           const response = await fetch(
-  //             `${import.meta.env.VITE_API_BASE_URL}/api/auth/contactUs`,
-  //             {
-  //               method: "POST",
-  //               headers: { "Content-Type": "application/json" },
-  //               body: JSON.stringify({
-  //                 name: formData.name,
-  //                 email: formData.email,
-  //                 subject: formData.subject,
-  //                 message: formData.message,
-  //               }),
-  //             },
-  //           );
+    try {
+      const response = await fetch(`http://localhost:4000/api/auth/contactUs`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          subject: formData.subject,
+          message: formData.message,
+        }),
+      });
 
-  //           if (response.ok) {
-  //             const res_Data = await response.json(); // Parse success data
-
-  //             setFormData({ name: "", email: "", subject: "", message: "" });
-  //             toast.success("Message sent successfully!", { autoClose: 2000 });
-  //             // console.log(res_Data);
-  //           } else {
-  //             // If the response was not ok, parse the error message from the body.
-  //             const errorData = await response.json();
-  //             toast.error(errorData.msg || "Message not sent, please try again!");
-  //           }
-  //         } catch (err) {
-  //         console.error("Error during contactUs:", err);
-  //           toast.error("Message not sent, Network error occurred!");
-  //         }
-
-  //   };
+      if (response.ok) {
+        const res_Data = await response.json(); // Parse success data
+        setIsSubmitting(false);
+        setFormData({ name: "", email: "", subject: "", message: "" });
+        toast.success("Message sent successfully!", { autoClose: 2000 });
+        // console.log(res_Data);
+      } else {
+        // If the response was not ok, parse the error message from the body.
+        const errorData = await response.json();
+        setIsSubmitting(false);
+        toast.error(errorData.msg || "Message not sent, please try again!");
+      }
+    } catch (err) {
+      console.error("Error during contactUs:", err);
+      setIsSubmitting(false);
+      toast.error("Message not sent, Network error occurred!");
+    }
+  };
 
   return (
     <section className="ContactUs mt-5 pt-5">
@@ -193,15 +199,17 @@ function ContactUs() {
           Let's get in <span className="text-gradient">Touch</span>
         </h6>
         <p className="fs-6 fw-light opacity-75 mb-4 text-center mx-auto w-50">
-          Have questions about Classora? Need assistance with your
-          account? We're here to help! Reach out to us through any of the
-          channels below.
+          Have questions about Classora? Need assistance with your account?
+          We're here to help! Reach out to us through any of the channels below.
         </p>
       </div>
 
       <section className="contact-section" style={{ width: "100%" }}>
         <div className="border bg-light slantedSection pb-5">
-          <div className="row container g-5 my-5 py-4 mx-auto" style={{ width: "100%" }}>
+          <div
+            className="row container g-5 my-5 py-4 mx-auto"
+            style={{ width: "100%" }}
+          >
             {/* --- Left Column (Sticky Form) --- */}
             <div className="col-lg-6">
               <div className="sticky-form-wrapper bg-white">
@@ -255,18 +263,26 @@ function ContactUs() {
                       )}
                     </div>
                   ))}
-                  <button type="submit" className="login_btn2 py-2 rounded w-100">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 16 16"
-                      fill="currentColor"
-                      width="18"
-                      height="18"
-                      className="bi bi-send me-2"
-                    >
-                      <path d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576zm6.787-8.201L1.591 6.602l4.339 2.76z"></path>
-                    </svg>
-                    Send Message
+                  <button
+                    type="submit"
+                    className="login_btn2 py-2 rounded w-100"
+                    onClick={handleSubmit}
+                  >
+                    {isSubmitting ? (
+                      ""
+                    ) : (
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 16 16"
+                        fill="currentColor"
+                        width="18"
+                        height="18"
+                        className="bi bi-send me-2"
+                      >
+                        <path d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576zm6.787-8.201L1.591 6.602l4.339 2.76z"></path>
+                      </svg>
+                    )}
+                    {isSubmitting ? "Sending..." : "Send Message"}
                   </button>
                 </form>
               </div>
@@ -381,7 +397,7 @@ function ContactUs() {
             </div>
           </div>
         </div>
-    <FaqSection/>
+        <FaqSection />
       </section>
 
       {/* <section className="FAQ">

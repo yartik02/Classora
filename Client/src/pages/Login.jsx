@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { toast } from "react-toastify";
+import { useAuth } from "../store/auth";
 import "./Register.css"; 
 
 const Login = () => {
   const navigate = useNavigate();
+  const { storeTokenInLocalStorage } = useAuth();
   const [loginType, setLoginType] = useState("student"); // 'student' or 'teacher'
   
   const [formData, setFormData] = useState({
@@ -28,7 +31,7 @@ const Login = () => {
     // setFormData({ email: "", password: "" }); 
   };
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     if (!formData.email || !formData.password) {
       setFormError("Please fill in both email and password.");
@@ -37,12 +40,28 @@ const Login = () => {
     
     setIsSubmitting(true);
     
-    // Simulate API Call
-    setTimeout(() => {
-      alert(`Logging in as ${loginType.toUpperCase()} with ${formData.email}`);
-      console.log("Login Payload:", { role: loginType, ...formData });
+    const response = await fetch("http://localhost:4000/api/auth/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ ...formData, role: loginType }),
+    });
+    const data = await response.json();
+    if (!response.ok) {
+      setFormError(data.msg || "Login failed. Please try again.");
+      toast.error(data.msg || "Login failed. Please try again.");
       setIsSubmitting(false);
-    }, 1000);
+      return;
+    }
+
+    storeTokenInLocalStorage(data.token);
+
+    if(data.role==='student'){
+        toast.success(`Welcome back, ${data.studentName}!`);
+        setTimeout(() => {
+            navigate(`/dashboard/student/${data.rollno}`)
+          setIsSubmitting(false);
+        }, 1000);  
+    }
   };
 
   return (
@@ -197,7 +216,7 @@ const Login = () => {
               {/* Optional: Signup redirect for students only */}
               {loginType === "student" && (
                 <p className="text-center mt-4 mb-0 text-muted small">
-                  Don't have an account? <Link to="/signup" className="fw-bold text-decoration-none" style={{ color: "var(--classora-accent-blue)" }}>Register here</Link>
+                  Don't have an account? <Link to="/register" className="fw-bold text-decoration-none" style={{ color: "var(--classora-accent-blue)" }}>Register here</Link>
                 </p>
               )}
             </div>

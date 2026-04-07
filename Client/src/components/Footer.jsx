@@ -203,7 +203,7 @@ function Footer() {
             <Link
               to="/privacy-policy"
               onClick={scrollToTop}
-              className="text-decoration-none text-secondary"
+              className="text-decoration-none text-light fw-light footer-item"
             >
               Privacy Policies
             </Link>
@@ -212,7 +212,7 @@ function Footer() {
             <Link
               to="/terms-of-service"
               onClick={scrollToTop}
-              className="text-decoration-none text-secondary"
+              className="text-decoration-none text-light fw-light footer-item"
             >
               Terms of Service
             </Link>

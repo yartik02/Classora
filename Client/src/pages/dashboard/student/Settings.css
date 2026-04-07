@@ -1,0 +1,67 @@
+.settings-window {
+    animation: fadeIn 0.4s ease-out;
+    /* background-color: #d8d8d8; */
+    min-height: 100vh;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+
+/* ACADEMIC IDENTITY GRID */
+.identity-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+}
+
+.info-item label {
+    display: block;
+    font-size: 0.7rem;
+    font-weight: 800;
+    color: #003391; 
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    /* margin-bottom: 4px; */
+}
+
+.info-item p {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #2D3748;
+    margin: 0;
+}
+
+/* SECURITY ITEMS (Modern Navigational Style) */
+.security-link-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.25rem;
+    border-radius: 16px;
+    background: #f8fafc;
+    border: 1px solid #edf2f7;
+    text-decoration: none !important;
+    transition: all 0.2s ease;
+}
+
+.security-link-item:hover {
+    background: #ffffff;
+    border-color: #A8E6CF; /* Mint Green from Overview */
+    transform: translateY(-2px);
+    box-shadow: 0 8px 15px rgba(168, 230, 207, 0.15);
+}
+
+.item-icon-circle {
+    width: 44px;
+    height: 44px;
+    background: white;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+}

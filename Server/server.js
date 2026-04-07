@@ -4,6 +4,8 @@ dotenv.config({path: './.env'});
 import express from "express"
 import cors from "cors";
 import { connectDB } from "./src/db/connection.js";
+import authRouter from "./src/routes/auth-router.js";
+import adminRoute from "./src/routes/admin-router.js";
 
 const app = express();
 
@@ -16,6 +18,12 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 app.use(express.json());
+
+
+app.use("/api/auth", authRouter);
+// app.use("/api/complaints", router);
+app.use("/api/admin", adminRoute);
+
 
 const PORT = process.env.PORT || 4000;
 
