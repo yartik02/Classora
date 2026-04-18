@@ -9,12 +9,13 @@ import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsOfService from "./pages/TermsOfService";
 import Login from "./pages/Login";
 import ForgotPassword from "./pages/ForgotPassword";
-import { ToastContainer, toast, Bounce } from "react-toastify";
+import { ToastContainer, Bounce } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import StudentDashboard from "./pages/dashboard/student/StudentDashboard";
 import Logout from "./components/Logout";
+import AdminDashboard from "./pages/dashboard/admin/AdminDashboard";
 
-function app() {
+function App() {
   const location = useLocation();
 
   const hideNavbarAndFooter =
@@ -54,10 +55,11 @@ function app() {
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/terms-of-service" element={<TermsOfService />} />
         <Route path="/dashboard/student/:rollno" element={<StudentDashboard />} />
+        <Route path="/dashboard/admin" element={<AdminDashboard />} />
       </Routes>
       {!hideNavbarAndFooter && <Footer />}
     </>
   );
 }
 
-export default app;
+export default App;

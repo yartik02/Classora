@@ -10,10 +10,12 @@ export default function Logout() {
 
   useEffect(() => {
     if (!hasLoggedOut.current) {
-      LogoutUser();
       toast.success("Logged out successfully!");
-      
-      navigate("/");
+      LogoutUser();
+
+      // setTimeout(() => {
+        navigate("/");
+      // }, 100);
       hasLoggedOut.current = true;
     }
   }, [LogoutUser, navigate]);

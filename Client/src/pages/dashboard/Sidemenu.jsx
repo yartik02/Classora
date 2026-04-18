@@ -1,6 +1,5 @@
-import logo from "../../../assets/ClassoraLogoNew.svg";
-import { useNotifications } from "../../../store/NotificationContext";
-import "./StudentDash.css";
+import logo from "../../assets/ClassoraLogoNew.svg";
+import { useNotifications } from "../../store/NotificationContext";
 import { Link } from "react-router-dom";
 
 const Icons = {
@@ -190,26 +189,9 @@ const Icons = {
   ),
 };
 
-const navItems = [
-  {
-    key: "Overview",
-    label: "Overview",
-    icon: Icons.Home,
-  },
-  {
-    key: "Assignments",
-    label: "Assignments",
-    icon: Icons.CheckSquare,
-  },
-  {
-    key: "Notifications",
-    label: "Notifications",
-    icon: Icons.Message,
-  },
-];
-
-const SidebarStudent = ({
-  student,
+const Sidemenu = ({
+  navItems,
+  user,
   activeTab,
   setActiveTab,
   isSidebarCollapsed,
@@ -222,12 +204,14 @@ const SidebarStudent = ({
     }
     setActiveTab(key);
   };
+  
+  
   return (
     <aside
       className={`classora-sidebar ${isSidebarCollapsed ? "collapsed" : ""}`}
     >
       <div className="sidebar-top">
-        <div className="sidebar-logo-container mb-4">
+        <div className="sidebar-logo-container mb-3">
           <img src={logo} alt="Classora Logo" height={35} className="me-0" />
           {!isSidebarCollapsed && (
             <span className="brand-name fw-semibold p-0 ">Classora</span>
@@ -243,7 +227,7 @@ const SidebarStudent = ({
 
         <div className="fade-in">
           {!isSidebarCollapsed && (
-            <p className="nav-group-title  text-start fw-semibold">Main menu</p>
+            <p className={`nav-group-title text-start fw-semibold ${user.role === "Admin" ? "mb-0" : "mt-4"}`}>Main menu</p>
           )}
           <nav className="nav-group">
             {navItems.map(({ key, label, icon }) => (
@@ -271,14 +255,16 @@ const SidebarStudent = ({
               </button>
             ))}
           </nav>
-
           {!isSidebarCollapsed && (
-            <p className="nav-group-title mt-4 text-start fw-semibold">
+            <p className={`nav-group-title mt-2 text-start fw-semibold ${user.role === "Admin" ? "mb-0" : "mt-3"}`}>
               Settings
             </p>
           )}
+          {isSidebarCollapsed && (
+            <hr className="mt-4 w-50 mx-auto border-secondary" />
+          )}
           {/* When collapsed, we add top margin to separate settings from main menu visually */}
-          <nav className={`nav-group ${isSidebarCollapsed ? "mt-4" : ""}`}>
+          <nav className={`nav-group`}>
             <button
               className={`nav-item rounded-4 ${activeTab === "Settings" ? "active" : ""}`}
               onClick={() => setActiveTab("Settings")}
@@ -294,18 +280,20 @@ const SidebarStudent = ({
       </div>
 
       {/* Account stays at bottom, only shows Avatar when collapsed */}
-      <div className="sidebar-bottom fade-in d-flex flex-column">
+      <div className="sidebar-bottom fade-in d-flex flex-column py-0">
         {!isSidebarCollapsed && (
           <p className="nav-group-title text-start fw-semibold">Account</p>
         )}
         <div
           className={`account-card rounded-pill ${isSidebarCollapsed ? "bg-transparent mx-auto" : "bg-white bg-opacity-75"}`}
         >
-          <div className="account-avatar">{student.name.charAt(0)}</div>
+          <div className={`account-avatar d-flex align-items-center justify-content-center rounded-circle text-white fw-bold ${user.role === "Admin" ? "bg-dark" : ""}`}>
+            {user.name.charAt(0)}
+          </div>
           {!isSidebarCollapsed && (
             <div className="account-info d-flex flex-column align-items-start">
-              <h4>{student.name}</h4>
-              <p>Student</p>
+              <h4>{user.name}</h4>
+              <p>{user.role|| "Student"}</p>
             </div>
           )}
         </div>
@@ -344,4 +332,4 @@ const SidebarStudent = ({
   );
 };
 
-export default SidebarStudent;
+export default Sidemenu

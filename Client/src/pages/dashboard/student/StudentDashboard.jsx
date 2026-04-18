@@ -4,11 +4,11 @@ import OverviewTab from "./OverviewStudent";
 import AssignmentsTab from "./AssignmentStudent.jsx";
 import { toast } from "react-toastify";
 import { useAuth } from "../../../store/auth.jsx";
-import SidebarStudent from "./StudentSidebar.jsx";
 import NotificationsDrawer from "./NotificationsDrawer.jsx";
 // import Error from "../../Error.jsx";
 import { NotificationProvider } from "../../../store/NotificationContext.jsx";
 import SettingsPage from "./StudentSettings.jsx";
+import Sidemenu from "../Sidemenu.jsx";
 
 const Icons = {
   SidebarToggle: (
@@ -197,10 +197,30 @@ const Icons = {
   ),
 };
 
+
+const navItems = [
+  {
+    key: "Overview",
+    label: "Overview",
+    icon: Icons.Home,
+  },
+  {
+    key: "Assignments",
+    label: "Assignments",
+    icon: Icons.CheckSquare,
+  },
+  {
+    key: "Notifications",
+    label: "Notifications",
+    icon: Icons.Message,
+  },
+];
+
+
 const StudentDashboard = () => {
   const [activeTab, setActiveTab] = useState("Overview");
   const [student, setStudent] = useState(null);
-  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(true);
   const { user } = useAuth();
 
   useEffect(() => {
@@ -208,21 +228,22 @@ const StudentDashboard = () => {
       setStudent({
         name: user.name,
         rollNo: user.rollno,
-        department: user.dept,
-        year: user.year,
+        department: user.department,
+        batch: user.batch,
         email: user.email,
       });
     }
+    console.log("Student data in dashboard:", student);
   }, [user, student]);
+  
 
   if (!student) {
     return (
       <div
-        className="mt-5 d-flex flex-column text-white p-5 align-items-center justify-content-center"
-        style={{ width: "100vw" }}
+        className="mt-5 d-flex flex-column text-white p-5 align-items-center justify-content-center w-100"
       >
         <div
-          className="spinner-border text-white spinner-border-lg"
+          className="spinner-border border-2 opacity-75 text-white spinner-border-lg"
           role="status"
         >
           <span className="visually-hidden">Loading...</span>
@@ -243,8 +264,9 @@ const StudentDashboard = () => {
     <NotificationProvider>
       <div className="classora-wrapper d-flex">
         {/* --- FIXED SIDEBAR --- */}
-        <SidebarStudent
-          student={student}
+        <Sidemenu
+          navItems={navItems}
+          user={student}
           activeTab={activeTab}
           setActiveTab={setActiveTab}
           isSidebarCollapsed={isSidebarCollapsed}
@@ -258,6 +280,8 @@ const StudentDashboard = () => {
               <div className="breadcrumbs">
                 <span className="bc-parent">Classora</span>
                 <span className="bc-separator">{Icons.ChevronRight}</span>
+                <span className="bc-parent">Student</span>
+                <span className="bc-separator">{Icons.ChevronRight}</span>
                 <span className="bc-current">{activeTab}</span>
               </div>
               <div className="d-flex flex-row align-items-center">
@@ -265,13 +289,7 @@ const StudentDashboard = () => {
                   className="text-uppercase fw-bold border-end border-2 d-flex align-items-center text-secondary m-0 pe-3 border-dark-subtle"
                   style={{ letterSpacing: "1px", fontSize: "0.85rem" }}
                 >
-                  {student.department === "Computer Science & Engineering"
-                    ? "Btech CSE"
-                    : student.department === "Bachelor of Computer Applications"
-                      ? "BCA"
-                      : student.department === "Civil Engineering"
-                        ? "Btech CE"
-                        : " Btech " + student.department}
+                  {student.batch.programName} &nbsp;{student.department.code}
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="19"
@@ -282,7 +300,7 @@ const StudentDashboard = () => {
                   >
                     <path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3" />
                   </svg>
-                  {student.year}
+                   {student.batch.currentSemester} Sem
                 </p>
                 <p
                   className="text-uppercase fw-bold text-primary m-0 ps-3"
@@ -295,7 +313,7 @@ const StudentDashboard = () => {
             {activeTab === "Overview" && (
               <OverviewTab setActiveTab={setActiveTab} />
             )}
-            {activeTab === "Assignments" && <AssignmentsTab />}
+            {activeTab === "Assignments" && <AssignmentsTab student={user}/>}
             {activeTab === "Settings" && <SettingsPage student={user}/>}
             <NotificationsDrawer />
           </div>

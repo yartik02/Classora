@@ -97,8 +97,8 @@
     position: fixed; /* This makes it pop out of the normal layout */
     top: 0;
     left: 0;
-    width: 100vw;
-    height: 100vh;
+    width: 100%;
+    height: 100%;
     background-color: rgba(0, 16, 54, 0.4);
     backdrop-filter: blur(10px)
     ;z-index: 1040 !important; /* Must be lower than the drawer (1045) */

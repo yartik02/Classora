@@ -352,3 +352,8 @@ nav .nav-items {
     width: 10px;
   }
 }
+
+.dropdownOption:hover {
+  background-color: rgba(83, 83, 83, 0.11);
+  transition: all 0.1s ease-in-out ;
+}

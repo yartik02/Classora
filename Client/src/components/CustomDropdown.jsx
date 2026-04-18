@@ -11,7 +11,8 @@ function CustomDropdown({ dropdownData, onSelect, selectedValue }) {
     const initialValues = {};
     dropdownData.forEach((dropdown) => {
       // Prioritize the parent's state, then a defaultValue, then fallback to "Select..."
-      initialValues[dropdown.name] = selectedValue || dropdown.defaultValue || `Select ${dropdown.name}`;
+      initialValues[dropdown.name] =
+        selectedValue || dropdown.defaultValue || `Select ${dropdown.name}`;
     });
     setSelectedValues(initialValues);
   }, [dropdownData, selectedValue]); // Added selectedValue as a dependency so it updates if parent changes
@@ -56,10 +57,7 @@ function CustomDropdown({ dropdownData, onSelect, selectedValue }) {
         const currentDisplayValue = selectedValues[dropdown.name];
 
         return (
-          <div
-            className="text-start position-relative"
-            key={dropdown.name}
-          >
+          <div className="text-start position-relative" key={dropdown.name}>
             {/* The Dropdown Trigger (The Box) */}
             <div
               className={`p-3 py-2 border rounded-3 d-flex justify-content-between align-items-center cursor-pointer bg-white transition-all ${isOpen ? "border-primary shadow-sm" : ""}`}
@@ -98,12 +96,12 @@ function CustomDropdown({ dropdownData, onSelect, selectedValue }) {
             {isOpen && (
               <div
                 className="border mt-2 p-2 rounded-3 bg-white position-absolute w-100 shadow-sm z-3"
-                style={{ 
-                  top: "100%", 
-                  left: 0, 
+                style={{
+                  top: "100%",
+                  left: 0,
                   maxHeight: "160px",
                   overflowY: "auto",
-                  scrollbarWidth:"thin"
+                  scrollbarWidth: "thin",
                 }}
                 role="listbox"
               >
@@ -113,7 +111,7 @@ function CustomDropdown({ dropdownData, onSelect, selectedValue }) {
                   return (
                     <div
                       key={option}
-                      className={`m-1 p-2 rounded-3 d-flex justify-content-between align-items-center ${isSelected ? "bg-success bg-opacity-10" : ""}`}
+                      className={`m-1 p-2 rounded-3 d-flex justify-content-between align-items-center dropdownOption ${isSelected ? "bg-success bg-opacity-10" : ""}`}
                       role="option"
                       aria-selected={isSelected}
                       onClick={() => handleSelectOption(dropdown.name, option)}
@@ -122,7 +120,11 @@ function CustomDropdown({ dropdownData, onSelect, selectedValue }) {
                         transition: "background-color 0.2s",
                       }}
                     >
-                      <span className={isSelected ? "fw-bold text-success" : "text-dark"}>
+                      <span
+                        className={
+                          isSelected ? "fw-bold text-success" : "text-dark"
+                        }
+                      >
                         {option}
                       </span>
 

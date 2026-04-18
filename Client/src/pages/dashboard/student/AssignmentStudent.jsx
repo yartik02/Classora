@@ -3,10 +3,26 @@ import { Search, Filter, Clock, FileText } from "lucide-react";
 import "./StudentDash.css";
 import CustomDropdown from "../../../components/CustomDropdown";
 
-const AssignmentsTab = () => {
+const AssignmentsTab = ({student}) => {
   const [activeSubTab, setActiveSubTab] = useState("new");
   const [searchQuery, setSearchQuery] = useState("");
   const [courseFilter, setCourseFilter] = useState("All Courses");
+  
+  if (!student) {
+    return (
+      <div
+        className="mt-5 d-flex flex-column text-dark p-5 align-items-center justify-content-center w-100"
+      >
+        <div
+          className="spinner-border border-2 text-dark opacity-75 spinner-border-lg"
+          role="status"
+        >
+          <span className="visually-hidden bg-dark"></span>
+        </div>
+        <span className="mt-2">Loading your assignments...</span>
+      </div>
+    );
+  }
 
   // --- MOCK DATA ---
   const newAssignments = [
@@ -79,7 +95,7 @@ const AssignmentsTab = () => {
     "Computer Networks",
     "Data Structures",
   ];
-
+  
   const courseDropdownData = [
     {
       name: "Courses",

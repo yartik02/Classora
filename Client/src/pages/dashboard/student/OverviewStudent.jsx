@@ -235,7 +235,7 @@ const OverviewTab = ({ setActiveTab }) => {
                 >
                   <div className="d-flex align-items-center gap-3">
                     <div
-                      className="fw-bolder d-flex align-items-center bg-white justify-content-center rounded-3 flex-shrink-0"
+                      className="fw-bolder d-flex align-items-center bg-white justify-content-center rounded-3 flex-shrink-0 shadow-sm"
                       style={{
                         width: "45px",
                         height: "45px",
