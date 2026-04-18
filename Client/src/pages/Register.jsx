@@ -2,13 +2,12 @@ import React, { useState, useRef, useEffect, useMemo } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import "./Register.css";
 import CustomDropdown from "../components/CustomDropdown";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 
 // --- Data Structures for Clean Mapping ---
 const stepperData = [
   { stepNum: 1, title: "Account Details", desc: "Basic information" },
-  { stepNum: 2, title: "Academic Profile", desc: "University & Department" },
+  { stepNum: 2, title: "Academic Profile", desc: "Department & Batch" },
   { stepNum: 3, title: "Verification", desc: "Email confirmation" },
 ];
 
@@ -32,11 +31,20 @@ const dropdownData1 = [
   },
 ];
 
+const sectionDropdownData = [
+  {
+    name: "Section",
+    value: "section",
+    options: ["Section A", "Section B", "Section C"],
+  },
+];
+
 const Register = () => {
   const [step, setStep] = useState(1);
   const navigate = useNavigate();
 
   // --- CENTRALIZED FORM STATE ---
+  // UPDATED: Replaced 'year' with 'batch' and 'section'
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -44,7 +52,8 @@ const Register = () => {
     confirmPassword: "",
     rollno: "",
     department: "",
-    year: "",
+    batch: "",
+    section: "",
   });
 
   const [formError, setFormError] = useState("");
@@ -56,13 +65,14 @@ const Register = () => {
   const [showPasswords, setShowPasswords] = useState({});
   const [resendTimer, setResendTimer] = useState(0); 
 
-  const dynamicDropdownData2 = useMemo(() => [
+  // UPDATED: Dynamic Batch generation based on Department duration
+  const dynamicBatchData = useMemo(() => [
     {
-      name: "Year",
-      value: "year",
+      name: "Batch",
+      value: "batch",
       options: formData.department === "Bachelor of Computer Applications" 
-        ? ["1st Year", "2nd Year", "3rd Year"] 
-        : ["1st Year", "2nd Year", "3rd Year", "4th Year"],
+        ? ["Batch 2024-2027", "Batch 2023-2026", "Batch 2022-2025"] 
+        : ["Batch 2024-2028", "Batch 2023-2027", "Batch 2022-2026", "Batch 2021-2025"],
     },
   ], [formData.department]);
 
@@ -97,15 +107,17 @@ const Register = () => {
     setFormError("");
   };
 
+  // UPDATED: Handles Department, Batch, and Section dynamic updates
   const handleDropdownSelect = (name, value) => {
-    const key = name === "Department" ? "department" : "year";
+    const key = name.toLowerCase(); // 'department', 'batch', or 'section'
     
     setFormData((prev) => {
       const updatedData = { ...prev, [key]: value };
       
-      if (key === "department" && value === "Bachelor of Computer Applications" && prev.year === "4th Year") {
-        updatedData.year = ""; 
-        setFormError("BCA is a 3-year program. Please re-select your year.");
+      // Auto-clear invalid batches if they switch from a 4-year to a 3-year program
+      if (key === "department" && value === "Bachelor of Computer Applications" && prev.batch.includes("2028")) {
+        updatedData.batch = ""; 
+        setFormError("BCA is a 3-year program. Please re-select your batch.");
       }
       
       return updatedData;
@@ -143,7 +155,8 @@ const Register = () => {
       return formData.name.trim() !== "" && formData.email.trim() !== "" && formData.password !== "" && formData.confirmPassword !== "";
     }
     if (step === 2) {
-      return formData.rollno.trim() !== "" && formData.department !== "" && formData.year !== "";
+      // UPDATED: Require department, batch, and section
+      return formData.rollno.trim() !== "" && formData.department !== "" && formData.batch !== "" && formData.section !== "";
     }
     if (step === 3) {
       return otp.join("").length === 6;
@@ -200,7 +213,7 @@ const Register = () => {
 
       if (response.ok) {
         toast.success("OTP sent to your email!");
-        setResendTimer(90); // Start 90-second countdown
+        setResendTimer(90); 
         if (step !== 3) handleNextStep(); 
       } else {
         setFormError(data.msg || "Failed to send OTP. Please try again.");
@@ -238,21 +251,24 @@ const Register = () => {
         throw new Error(verifyData.msg || "Invalid OTP");
       }
 
+      // CRITICAL UPDATE: Payload exactly matches Mongoose Schema requirements
       const response = await fetch(`http://localhost:4000/api/auth/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           name: formData.name,
-          rollno: formData.rollno,
-          dept: formData.department,
-          year: formData.year,
           email: formData.email,
           password: formData.password,
+          role: "Student", // Drives the Discriminator logic on the backend
+          rollno: formData.rollno,
+          department: formData.department,
+          batch: formData.batch,
+          section: formData.section,
         }),
       });
 
       if (response.ok) {
-        setFormData({ name: "", email: "", password: "", confirmPassword: "", rollno: "", department: "", year: "" });
+        setFormData({ name: "", email: "", password: "", confirmPassword: "", rollno: "", department: "", batch: "", section: "" });
         setOtp(["", "", "", "", "", ""]);
         toast.success("Registration successful! Please log in.");
         setTimeout(() => navigate("/login"), 1500);
@@ -299,10 +315,7 @@ const Register = () => {
   };
 
   return (
-    <div
-      className="signup-wrapper position-relative d-flex align-items-center justify-content-center p-4 m-0"
-      // style={{ height: "fit-content" }}
-    >
+    <div className="signup-wrapper position-relative d-flex align-items-center justify-content-center p-4 m-0">
       <button className="global-back-btn" onClick={() => navigate(-1)} aria-label="Go back">
         <svg width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
           <path fillRule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z" />
@@ -475,13 +488,25 @@ const Register = () => {
                     selectedValue={formData.department} 
                   />
                 </div>
-                <div className="mb-3">
-                  <label className="form-label fw-bold small">Current Year</label>
-                  <CustomDropdown 
-                    dropdownData={dynamicDropdownData2} 
-                    onSelect={handleDropdownSelect} 
-                    selectedValue={formData.year} 
-                  />
+                
+                {/* NEW: Batch and Section placed side-by-side using Bootstrap Row */}
+                <div className="row g-3 mb-3">
+                  <div className="col-md-6">
+                    <label className="form-label fw-bold small">Academic Batch</label>
+                    <CustomDropdown 
+                      dropdownData={dynamicBatchData} 
+                      onSelect={handleDropdownSelect} 
+                      selectedValue={formData.batch} 
+                    />
+                  </div>
+                  <div className="col-md-6">
+                    <label className="form-label fw-bold small">Section</label>
+                    <CustomDropdown 
+                      dropdownData={sectionDropdownData} 
+                      onSelect={handleDropdownSelect} 
+                      selectedValue={formData.section} 
+                    />
+                  </div>
                 </div>
               </div>
             )}

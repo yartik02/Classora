@@ -31,6 +31,18 @@ const adminSchema= new mongoose.Schema({
 },{timestamps: true}
 );
 
+adminSchema.pre("save", async function(next){
+
+    if(!this.isModified("password")) return next();
+
+    try {
+        const saltRounds = await bcrypt.genSalt(10);
+        const hash_Password = await bcrypt.hash(this.password, saltRounds);
+        this.password = hash_Password;
+    } catch (error) {
+        next( error);
+    }
+});
 
 adminSchema.methods.admingenerateToken = async function() {
 
@@ -49,6 +61,9 @@ adminSchema.methods.admingenerateToken = async function() {
     }
 };
 
+adminSchema.methods.comparePassword = async function(password) {
+        return bcrypt.compare(password, this.password);
+};
 
 const admin= mongoose.model("admin",adminSchema);
 export default admin;

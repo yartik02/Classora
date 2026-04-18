@@ -1,0 +1,80 @@
+.admin-overview-container {
+  padding: 1rem;
+  animation: fadeIn 0.4s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Metric Cards */
+.metric-card {
+  transition: all 0.2s ease;
+  background-color: #ffffff;
+}
+
+.metric-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05) !important;
+}
+
+/* Activity Log Indicators */
+.activity-indicator {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.activity-indicator.faculty {
+  background-color: #4caf50; /* Green */
+}
+
+.activity-indicator.student {
+  background-color: #2196f3; /* Blue */
+}
+
+.activity-indicator.system {
+  background-color: #ff9800; /* Orange */
+}
+
+/* Table overrides to make it look premium */
+.table > :not(caption) > * > * {
+  background-color: transparent;
+}
+
+.table-hover tbody tr:hover {
+  background-color: #f8fafd;
+  border-radius: 8px;
+}
+
+.transition-hover {
+  transition:
+    transform 0.2s ease-in-out,
+    box-shadow 0.2s ease-in-out;
+}
+
+.transition-hover:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.08) !important;
+}
+
+/* Hide the last border in the table to keep the card rounding clean */
+.border-transparent {
+  border-color: transparent !important;
+}
+
+.Adminblobs {
+  width: 300px;
+  height: 300px;
+  filter: blur(60px);
+  /* transform: translate(30%, -30%); */
+  z-index: 1;
+  background-color: #cdd8e2;
+}

@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import student from "../modals/student-modal.js";
+import {Student, User} from "../modals/users-modal.js";
 import admin from "../modals/admin-modal.js";
 
 const authMiddleware = async(req, res, next) => {
@@ -14,11 +14,10 @@ const authMiddleware = async(req, res, next) => {
     
     const isVerified = jwt.verify(token, process.env.JWT_SECRET_KEY);
     console.log("Data after verification of token is: \n",isVerified);
-    const userData = await student.findOne({ email: isVerified.email }).select({
+    const userData = await Student.findOne({ email: isVerified.email }).select({
       password: 0, // Exclude password field
-    })|| await admin.findOne({ email: isVerified.email }).select({ password: 0 });
+    })|| await User.findOne({ email: isVerified.email }).select({ password: 0 });
     
-    req.user = userData;
     req.token = token;
     req.userId = userData._id;
     next();

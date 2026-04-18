@@ -390,13 +390,7 @@ select.form-select:focus {
 .account-avatar {
   width: 40px;
   height: 40px;
-  background: var(--text-muted);
-  color: white;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
+  background-color: #001b4c;
   flex-shrink: 0;
 }
 

@@ -1,13 +1,12 @@
-import student from "../modals/student-modal.js";
+import { User, Student } from "../modals/users-modal.js";
+import { Department, Batch, Section } from "../modals/Dept_Batch_Sec-modal.js";
 import { contactMsg } from "../modals/ContactUs-modal.js";
 import admin from "../modals/admin-modal.js";
 // import { NotificationMsg } from "../Modals/Notification-modals.js";
 import { generateOtp } from "../utility/otpGenerator.js";
 import nodemailer from "nodemailer";
 import bcrypt from "bcrypt";
-// import { Complaint } from "../Modals/Complaint-modal.js";
 
-// temporary in-memory store (use DB / Redis in production)
 const otpStore = new Map();
 
 const home = async (req, res) => {
@@ -20,34 +19,109 @@ const home = async (req, res) => {
 
 const register = async (req, res) => {
   try {
-    const { name, rollno, email, password, dept, year } =
+    // 1. Update destructuring to match the new frontend payload
+    const { name, rollno, email, password, department, batch, section } =
       req.body;
+    console.log("Recived data:", req.body);
+
+    // 2. Email Validation
     const correctEmail = email.endsWith("@jmieti.edu.in");
     if (!correctEmail) {
       return res
         .status(400)
         .json({ msg: "Please use your college email to register!" });
     }
-    const userExists = await student.findOne({ email });
+
+    // 3. User Existence Check (Check the unified User collection, not just Students)
+    const userExists = await User.findOne({ email });
     if (userExists) {
       return res
-        .status(500)
-        .json({ msg: "Student with this email already exists!" });
+        .status(400)
+        .json({ msg: "A user with this email already exists!" });
     }
-    const studentCreated = await student.create({
+
+    const rollnoExists = await Student.findOne({ rollno });
+    if (rollnoExists) {
+      return res
+        .status(400)
+        .json({ msg: "A student with this Roll Number already exists!" });
+    }
+
+    // A. Find Department ID
+    const deptDoc = await Department.findOne({ name: department });
+    if (!deptDoc) {
+      return res
+        .status(400)
+        .json({ msg: `Department '${department}' not found in the database.` });
+    }
+
+    if (!batch || typeof batch !== "string") {
+      return res.status(400).json({ msg: "Batch is required" });
+    }
+
+    const match = batch.match(/batch\s*(\d{4})-(\d{4})/i);
+
+    if (!match) {
+      return res
+        .status(400)
+        .json({ msg: "Batch format must be 'Batch YYYY-YYYY'" });
+    }
+    const startYear = Number(match[1]);
+    const endYear = Number(match[2]);
+    // const deptIdStr = deptDoc._id.toString();
+
+    if (startYear >= endYear) {
+      return res.status(400).json({ msg: "Invalid batch years" });
+    }
+    const batchDoc = await Batch.findOne({
+      department: deptDoc._id,
+      startingYear: startYear,
+      endingYear: endYear,
+    });
+
+    if (!batchDoc) {
+      return res
+        .status(400)
+        .json({
+          msg: `Batch '${batch}' is not configured for this department.`,
+        });
+    }
+    // C. Parse and Find Section ID (Converts "Section A" -> "A")
+    const sectionName = section.replace("Section ", "").trim();
+    console.log("Finding section with batch ID:", batchDoc._id, "and name:", sectionName);
+
+    const sectionDoc = await Section.findOne({
+      batch: batchDoc._id,
+      name: sectionName,
+    });
+    console.log("Found section document: ", sectionDoc);
+
+    if (!sectionDoc) {
+      return res
+        .status(400)
+        .json({
+          msg: `Section '${sectionName}' does not exist for this batch.`,
+        });
+    }
+    // We use Student.create(), which automatically applies the "Student" discriminator role
+    const studentCreated = await Student.create({
       name,
       rollno,
       email,
       password,
-      dept,
-      year,
+      department: deptDoc._id,
+      batch: batchDoc._id,
+      section: sectionDoc._id,
     });
-    res.status(200).json({
+
+    // 6. Success Response
+    res.status(201).json({
       msg: "Student registered successfully!",
       token: await studentCreated.generateToken(),
       studentID: studentCreated._id.toString(),
     });
-    console.log("Student registered successfully:", studentCreated);
+
+    console.log("Student registered successfully:", studentCreated.email);
   } catch (error) {
     console.error("🔥 Register error:", error.message);
     console.error(error.stack);
@@ -63,64 +137,53 @@ const register = async (req, res) => {
 
 const login = async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { email, password, loginRole } = req.body;
+    const user = await User.findOne({ email });
 
-    const adminExist = await admin.findOne({ email });
-    const studentExist = await student.findOne({ email });
-
-    if (!studentExist) {
-      if (adminExist) {
-        const isAdminMatch = await adminExist.comparePassword(password);
-        if (!isAdminMatch) {
-          return res.status(401).json({ msg: "Invalid email or password" });
-        }
-        return res.status(200).json({
-          msg: "Admin login successful",
-          token: await adminExist.admingenerateToken(),
-          adminID: adminExist._id.toString(),
-          adminName: adminExist.name,
-          role: adminExist.role,
-        });
-      }
-      return res.status(400).json({ msg: "Invalid Credentials" });
+    if (!user) {
+      return res.status(401).json({ msg: "Invalid email or password" });
     }
 
-    // 1. Verify Password first
-    const isMatch = await studentExist.comparePassword(password);
+    if (loginRole && user.role !== loginRole) {
+      return res.status(403).json({ 
+        msg: `Access Denied. You are registered as ${user.role}. Please use the correct login portal.` 
+      });
+    }
+
+    const isMatch = await user.comparePassword(password);
     if (!isMatch) {
       return res.status(401).json({ msg: "Invalid email or password" });
-    }    
+    }
 
-    // if (studentExist.isSuspended && studentExist.suspensionDetails) {
-    //   const expiryDate = studentExist.suspensionDetails.expiresAt 
-    //     ? new Date(studentExist.suspensionDetails.expiresAt) 
-    //     : null;
-    //   const now = new Date();
+    if (user.isSuspended && user.suspensionDetails) {
+      const expiryDate = user.suspensionDetails.expiresAt
+        ? new Date(user.suspensionDetails.expiresAt)
+        : null;
+      const now = new Date();
 
-      // If an expiry date exists and the current time has passed it
-    //   if (expiryDate && now > expiryDate) {
-    //     // Lift the suspension
-    //     studentExist.isSuspended = false;
-    //     await studentExist.save();
-    //   }
-    // }
+      if (expiryDate && now > expiryDate) {
+        user.isSuspended = false;
+        await user.save();
+      } else {
+        return res.status(403).json({
+          msg: user.suspensionDetails.reason 
+            ? `Account suspended: ${user.suspensionDetails.reason}`
+            : "Your account is suspended. Please contact the administration."
+        });
+      }
+    }
 
-    //2. check for the suspension
-    // if (isMatch && studentExist.suspensionDetails && studentExist.isSuspended) {
-    //   return res.status(403).json({
-    //     message: "Your account is suspended. You cannot perform this action.",
-    //     token: await studentExist.generateToken()
-    //   });
-    // } else {
-      return res.status(200).json({
-        msg: "Student logged in successfully!",
-        token: await studentExist.generateToken(),
-        studentID: studentExist._id.toString(),
-        studentName: studentExist.name,
-        rollno: studentExist.rollno,
-        role: studentExist.role || "student",
-      });
-    // }
+    return res.status(200).json({
+      msg: `${user.role} logged in successfully!`,
+      token: user.generateToken(), // Uses the single method from base schema
+      userID: user._id.toString(),
+      name: user.name,
+      role: user.role,
+      
+      ...(user.role === 'Student' && { rollno: user.rollno }),
+      ...(user.role === 'Faculty' && { employeeId: user.employeeId })
+    });
+
   } catch (error) {
     console.error("Login Error:", error);
     return res.status(500).json({ msg: "Internal Server Error!" });
@@ -131,8 +194,18 @@ const login = async (req, res) => {
 
 const user = async (req, res) => {
   try {
-    const userData = req.user;
-    console.log("User data in user in studentcontrollers:", userData);
+    const userId = req.userId;
+    console.log("Fetching data for user ID:", userId);
+    const adminData = await User.findById(userId);
+    console.log("Admin data fetched:", adminData);
+    if (adminData && adminData.role === "Admin") {
+      return res.status(200).json({ userData: adminData });
+    }
+    
+    const userData = await Student.findById(userId)
+      .populate("department", "name code")
+      .populate("batch", "startingYear endingYear currentSemester programName")
+      .populate("section", "name");
 
     res.status(200).json({ userData });
   } catch (error) {
@@ -202,9 +275,11 @@ const sendOtpToMail = async (req, res) => {
       return res.status(400).json({ msg: "Email is required" });
     }
 
-    const existingStudent = await student.findOne({ email });
+    const existingStudent = await Student.findOne({ email });
     if (existingStudent) {
-      return res.status(400).json({ msg: "Student with this email already exists!" });
+      return res
+        .status(400)
+        .json({ msg: "Student with this email already exists!" });
     }
 
     const otp = generateOtp();
@@ -274,12 +349,12 @@ const verifyOtp = async (req, res) => {
 const forgetPassword = async (req, res) => {
   const { email, newPassword } = req.body;
 
-  const doesStudentExist = await student.findOne({ email });
+  const doesStudentExist = await Student.findOne({ email });
   if (!doesStudentExist) {
     return res.status(400).json({ msg: "Invalid Email!" });
   }
   const hashedPassword = await bcrypt.hash(newPassword, 10);
-  const updatedPassword = await student.findByIdAndUpdate(
+  const updatedPassword = await Student.findByIdAndUpdate(
     doesStudentExist._id,
     { $set: { password: hashedPassword } },
     { new: true },
@@ -411,14 +486,14 @@ export {
   home,
   register,
   login,
-//   getAllComplaints,
+  //   getAllComplaints,
   user,
   contactUs,
-//   getNotifications,
+  //   getNotifications,
   sendOtpToMail,
   verifyOtp,
   forgetPassword,
-//   clearNotifications,
-//   markNotificationsAsRead,
-//   submitAppeal,
+  //   clearNotifications,
+  //   markNotificationsAsRead,
+  //   submitAppeal,
 };

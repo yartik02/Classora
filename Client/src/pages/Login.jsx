@@ -54,11 +54,18 @@ const Login = () => {
     }
 
     storeTokenInLocalStorage(data.token);
-
-    if(data.role==='student'){
-        toast.success(`Welcome back, ${data.studentName}!`);
+    console.log("Login successful data:", data);
+    if(data.role==='Student'){
+        toast.success(`Welcome back, ${data.name}!`);
         setTimeout(() => {
             navigate(`/dashboard/student/${data.rollno}`)
+          setIsSubmitting(false);
+        }, 1000);  
+    }
+    if(data.role==='Admin'){
+        toast.success(`Welcome back, ${data.name}!`);
+        setTimeout(() => {
+            navigate(`/dashboard/admin`)
           setIsSubmitting(false);
         }, 1000);  
     }
