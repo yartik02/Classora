@@ -129,6 +129,23 @@ const Faculty = User.discriminator(
       type: String,
       required: [true, "Designation is required"],
     },
+    // REQUIRED FIX: Mapping faculty to what they actually teach
+    assignedClasses: [
+      {
+        subject: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Subject",
+          required: true,
+        },
+        sections: [
+          {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Section",
+            required: true,
+          },
+        ],
+      },
+    ],
   }),
 );
 

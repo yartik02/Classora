@@ -182,7 +182,7 @@ const navItems = [
     icon: Icons.Appeals,
   },
   {
-    key: "ReportedRequests",
+    key: "Reported Requests",
     label: "Reported Requests",
     icon: Icons.Reported,
   },
@@ -274,7 +274,7 @@ const AdminDashboard = () => {
             {activePage === "Students" && <StudentManagement />}
             {activePage === "Academics" && <AcademicStructure />}
             {activePage === "Appeals" && <SuspensionAppeals />}
-            {activePage === "ReportedRequests" && <ReportedRequests />}
+            {activePage === "Reported Requests" && <ReportedRequests />}
             {activePage === "Settings" && <AdminSettings />}
           </div>
         </main>
