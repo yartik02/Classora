@@ -52,8 +52,8 @@ html {
   width: 48px;
   height: 48px;
   border-radius: 12px;
-  background-color: rgba(37, 99, 235, 0.1); /* Light blue background */
-  color: var(--classora-accent-blue); /* Classora accent blue */
+  background-color: var(--btn-bg-blue);
+  color: var(--btn-bg-blue);
 }
 
 /* Custom Checkmark Bullets */
@@ -66,7 +66,7 @@ html {
   position: relative;
   padding-left: 1.8rem;
   margin-bottom: 0.75rem;
-  color: #6c757d; /* text-muted */
+  color: var(--text-muted);
   line-height: 1.6;
 }
 
@@ -75,24 +75,24 @@ html {
   position: absolute;
   left: 0;
   top: 0;
-  color: var(--classora-accent-blue);
+  color: var(--btn-bg-blue);
   font-weight: 900;
   font-size: 1.1rem;
 }
 
 /* Text Gradient for Headers */
 .text-primary-custom {
-  color: var(--classora-dark-blue);
+  color: var(--text-muted);
 }
 
 @media (max-width: 768) {
   .big-shield {
     display: none;
   }
-  .smallText{
+  .smallText {
     font-size: 0.875rem;
   }
-  .smallHeading{
+  .smallHeading {
     font-size: 1.25rem;
   }
 }
@@ -101,4 +101,73 @@ html {
   .big-shield {
     display: block;
   }
+}
+
+/* --- Dark Theme Overrides for Privacy Policy --- */
+.policy-page[data-theme="dark"],
+.policy-page[data-theme="dark"] .bg-light,
+.policy-page[data-theme="dark"].bg-light {
+  background-color: var(--bg-main) !important;
+  color: var(--text-main) !important;
+}
+
+.policy-page[data-theme="dark"] .bg-white,
+.policy-page[data-theme="dark"].bg-white {
+  background-color: var(--bg-surface) !important;
+}
+
+.policy-page[data-theme="dark"] .text-dark {
+  color: var(--text-main) !important;
+}
+
+.policy-page[data-theme="dark"] .text-muted {
+  color: var(--text-muted) !important;
+}
+
+.policy-page[data-theme="dark"] .border,
+.policy-page[data-theme="dark"] .border-top,
+.policy-page[data-theme="dark"] .border-start,
+.policy-page[data-theme="dark"] .border-end,
+.policy-page[data-theme="dark"] .border-bottom {
+  border-color: var(--border-color) !important;
+}
+
+.policy-page[data-theme="dark"] .shadow-sm {
+  box-shadow: var(--shadow-md) !important;
+}
+
+.policy-page[data-theme="dark"] .btn-outline-dark {
+  color: var(--text-main) !important;
+  border-color: var(--border-color) !important;
+}
+
+.policy-page[data-theme="dark"] .btn-outline-dark:hover {
+  background-color: var(--bg-surface) !important;
+  color: var(--classora-accent-blue) !important;
+}
+
+.policy-page[data-theme="dark"] .btn-outline-secondary {
+  color: var(--text-muted) !important;
+  border-color: var(--border-color) !important;
+}
+
+.policy-page[data-theme="dark"] .btn-outline-secondary:hover {
+  background-color: var(--bg-main) !important;
+  color: var(--classora-accent-blue) !important;
+}
+
+.policy-page[data-theme="dark"] .text-danger {
+  color: #ef4444 !important;
+}
+
+.policy-page[data-theme="dark"] .border-danger {
+  border-color: #ef4444 !important;
+}
+
+.policy-page[data-theme="dark"] .bg-danger.bg-opacity-10 {
+  background-color: rgba(239, 68, 68, 0.15) !important;
+}
+
+.policy-page[data-theme="dark"] .big-shield {
+  color: var(--bg-main) !important;
 }

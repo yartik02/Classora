@@ -2,13 +2,16 @@ import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useAuth } from "../store/auth";
-import "./Register.css"; 
+import { useTheme } from "../store/useTheme";
+import { eyeClosed, eyeOpened, moon, sun } from "../store/Icons";
+import "./Register.css";
 
 const Login = () => {
   const navigate = useNavigate();
   const { storeTokenInLocalStorage } = useAuth();
+  const { theme, toggleTheme } = useTheme();
   const [loginType, setLoginType] = useState("student"); // 'student' or 'teacher'
-  
+
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -28,7 +31,7 @@ const Login = () => {
     setLoginType(type);
     setFormError("");
     // Optionally clear form data when switching tabs
-    // setFormData({ email: "", password: "" }); 
+    // setFormData({ email: "", password: "" });
   };
 
   const handleLogin = async (e) => {
@@ -37,9 +40,9 @@ const Login = () => {
       setFormError("Please fill in both email and password.");
       return;
     }
-    
+
     setIsSubmitting(true);
-    
+
     const response = await fetch("http://localhost:4000/api/auth/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -55,25 +58,26 @@ const Login = () => {
 
     storeTokenInLocalStorage(data.token);
     console.log("Login successful data:", data);
-    if(data.role==='Student'){
-        toast.success(`Welcome back, ${data.name}!`);
-        setTimeout(() => {
-            navigate(`/dashboard/student/${data.rollno}`)
-          setIsSubmitting(false);
-        }, 1000);  
+    if (data.role === "Student") {
+      toast.success(`Welcome back, ${data.name}!`);
+      setTimeout(() => {
+        navigate(`/dashboard/student/${data.rollno}`);
+        setIsSubmitting(false);
+      }, 1000);
     }
-    if(data.role==='Admin'){
-        toast.success(`Welcome back, ${data.name}!`);
-        setTimeout(() => {
-            navigate(`/dashboard/admin`)
-          setIsSubmitting(false);
-        }, 1000);  
+    if (data.role === "Admin") {
+      toast.success(`Welcome back, ${data.name}!`);
+      setTimeout(() => {
+        navigate(`/dashboard/admin`);
+        setIsSubmitting(false);
+      }, 1000);
     }
   };
 
   return (
     <div
-      className="signup-wrapper position-relative d-flex align-items-center justify-content-center p-4"
+      className="signup-wrapper position-relative d-flex align-items-center justify-content-center p-4 m-0"
+      data-theme={theme}
     >
       {/* Global Back Button */}
       <button
@@ -89,57 +93,104 @@ const Login = () => {
         </svg>
       </button>
 
+      <span className="signup-theme-toggle-wrapper position-absolute p-1 d-flex align-items-center justify-content-center rounded-circle z-3">
+        <button
+          className="signup-theme-toggle w-100 h-100 rounded-circle btn-click-animation"
+          onClick={toggleTheme}
+          aria-label="Toggle Theme"
+        >
+          <svg
+            width="28"
+            height="28"
+            fill="currentColor"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            {theme === "light" ? moon : sun}
+          </svg>
+        </button>
+      </span>
+
       <div
-        className="signup-container d-flex flex-column-reverse flex-lg-row bg-white rounded-5 overflow-hidden w-100 shadow-lg"
+        className="signup-container d-flex flex-column-reverse flex-lg-row rounded-5 overflow-hidden w-100 shadow-lg"
         style={{ maxWidth: "1100px", minHeight: "600px" }}
       >
-        
         {/* --- LEFT PANEL: Login Form --- */}
         <div
           className="signup-content d-flex flex-column p-4 p-md-5"
           style={{ width: "100%", lg: { width: "65%" } }} // CSS handles responsive width, inline style is fallback
         >
           <div className="form-header mb-4 mt-2">
-            <h2 className="fw-bold mb-2" style={{ color: "var(--classora-dark-blue)" }}>
+            <h2 className="fw-bold mb-2">
               Welcome <span className="text-gradient">back</span>
             </h2>
-            <p className="text-muted" style={{ fontSize: "0.9rem" }}>
+            <p style={{ fontSize: "0.9rem", color: "var(--text-muted)" }}>
               Please enter your details to access your dashboard.
             </p>
           </div>
 
           {/* --- TAB SWITCHER --- */}
-          <div className="d-flex bg-light rounded-pill p-1 mb-4 border shadow-sm">
+          <div
+            className="d-flex rounded-pill p-1 mb-4 shadow-sm"
+            style={{
+              backgroundColor: "var(--login-tab)",
+              border: "1px solid var(--border-login)",
+            }}
+          >
             <button
-              className={`btn flex-grow-1 rounded-pill fw-bold transition-all ${
-                loginType === "student" ? "btn-white shadow-sm" : "btn-link text-muted text-decoration-none"
-              }`}
-              style={{ backgroundColor: loginType === "student" ? "white" : "transparent" }}
+              className={`btn flex-grow-1 rounded-pill fw-bold transition-all border-0`}
+              style={{
+                backgroundColor:
+                  loginType === "student" ? "var(--bg-glass)" : "transparent",
+                color:
+                  loginType === "student"
+                    ? "var(--text-main)"
+                    : "var(--text-muted)",
+              }}
               onClick={() => handleTabSwitch("student")}
             >
               Student Login
             </button>
             <button
-              className={`btn flex-grow-1 rounded-pill fw-bold transition-all ${
-                loginType === "teacher" ? "btn-white shadow-sm" : "btn-link text-muted text-decoration-none"
-              }`}
-              style={{ backgroundColor: loginType === "teacher" ? "white" : "transparent" }}
+              className={`btn flex-grow-1 rounded-pill fw-bold transition-all border-0`}
+              style={{
+                backgroundColor:
+                  loginType === "teacher" ? "var(--bg-glass)" : "transparent",
+                color:
+                  loginType === "teacher"
+                    ? "var(--text-main)"
+                    : "var(--text-muted)",
+              }}
               onClick={() => handleTabSwitch("teacher")}
             >
               Faculty Login
             </button>
           </div>
 
-          <form className="form-body flex-grow-1 d-flex flex-column" onSubmit={handleLogin}>
-            
+          <form
+            className="form-body flex-grow-1 d-flex flex-column"
+            onSubmit={handleLogin}
+          >
             <div className="mb-3 text-start">
-              <label className="form-label fw-bold small">
-                {loginType === "student" ? "Student Email" : "Institutional Email"}
+              <label
+                className="form-label fw-bold small"
+                style={{ color: "var(--text-muted)" }}
+              >
+                {loginType === "student"
+                  ? "Student Email"
+                  : "Institutional Email"}
               </label>
               <input
-                type="text" // Type text allows either email or roll number
-                className="form-control form-control-lg fs-6 bg-light border-0 shadow-none"
-                placeholder={loginType === "student" ? "e.g. student@uni.edu" : "faculty@university.edu"}
+                type="text"
+                className="form-control form-control-lg fs-6 shadow-none"
+                placeholder={
+                  loginType === "student"
+                    ? "e.g. student@uni.edu"
+                    : "faculty@university.edu"
+                }
                 name="email"
                 value={formData.email}
                 onChange={handleInputChange}
@@ -149,15 +200,24 @@ const Login = () => {
 
             <div className="mb-3 text-start position-relative">
               <div className="d-flex justify-content-between align-items-center mb-1">
-                <label className="form-label fw-bold small m-0">Password</label>
-                <Link to="/forgot-password" className="small fw-bold text-decoration-none" style={{ color: "var(--classora-accent-blue)" }}>
+                <label
+                  className="form-label fw-bold small m-0"
+                  style={{ color: "var(--text-muted)" }}
+                >
+                  Password
+                </label>
+                <Link
+                  to="/forgot-password"
+                  className="small fw-bold underlineTextOnHover"
+                  style={{ color: "var(--classora-accent-blue)" }}
+                >
                   Forgot password?
                 </Link>
               </div>
               <div className="position-relative">
                 <input
                   type={showPassword ? "text" : "password"}
-                  className="form-control form-control-lg fs-6 bg-light border-0 shadow-none pe-5"
+                  className="form-control form-control-lg fs-6 shadow-none pe-5"
                   placeholder="Enter your password"
                   name="password"
                   value={formData.password}
@@ -170,20 +230,19 @@ const Login = () => {
                   onClick={() => setShowPassword(!showPassword)}
                   tabIndex="-1"
                 >
-                  {showPassword ? (
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0" />
-                      <circle cx="12" cy="12" r="3" />
-                    </svg>
-                  ) : (
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="m15 18-.722-3.25" />
-                      <path d="M2 8a10.645 10.645 0 0 0 20 0" />
-                      <path d="m20 15-1.726-2.05" />
-                      <path d="m4 15 1.726-2.05" />
-                      <path d="m9 18 .722-3.25" />
-                    </svg>
-                  )}
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="var(--text-muted)"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    {showPassword ? eyeClosed : eyeOpened}
+                  </svg>
                 </button>
               </div>
             </div>
@@ -198,32 +257,56 @@ const Login = () => {
             {/* Info text specific to teachers based on your previous requirements */}
             {loginType === "teacher" && (
               <div className="bg-primary bg-opacity-10 rounded-end-5 p-3 mb-3 border-start border-primary border-3 text-start">
-                <p className="small m-0 text-muted">
-                  <span className="fw-bold text-dark">First time here?</span> Faculty accounts are provisioned by the institution. Use the credentials sent to your email.
+                <p className="small m-0" style={{ color: "var(--text-muted)" }}>
+                  <span className="fw-bold">First time here?</span> Faculty
+                  accounts are provisioned by the institution. Use the
+                  credentials sent to your email.
                 </p>
               </div>
             )}
 
             {/* Form Actions (Buttons) */}
-            <div className="mt-auto pt-4 border-top border-2">
+            <div
+              className="mt-auto pt-4"
+              style={{ borderTop: "1px solid var(--text-muted)" }}
+            >
               <button
                 type="submit"
-                className="btn text-white w-100 py-2 fw-medium d-flex align-items-center justify-content-center fs-5"
-                style={{ backgroundColor: "#001b4c" }}
+                className="btn text-white border-0 w-100 py-2 fw-bold d-flex align-items-center justify-content-center fs-5 btn-click-animation"
+                style={{ backgroundColor: "var(--btn-bg-blue)" }}
                 disabled={isSubmitting}
               >
                 {isSubmitting ? "Authenticating..." : "Sign In"}
                 {!isSubmitting && (
-                  <svg className="ms-2" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
-                    <path fillRule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z" />
+                  <svg
+                    className="ms-2"
+                    width="20"
+                    height="20"
+                    fill="currentColor"
+                    viewBox="0 0 16 16"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"
+                    />
                   </svg>
                 )}
               </button>
-              
+
               {/* Optional: Signup redirect for students only */}
               {loginType === "student" && (
-                <p className="text-center mt-4 mb-0 text-muted small">
-                  Don't have an account? <Link to="/register" className="fw-bold text-decoration-none" style={{ color: "var(--classora-accent-blue)" }}>Register here</Link>
+                <p
+                  className="text-center mt-4 mb-0 small"
+                  style={{ color: "var(--text-muted)" }}
+                >
+                  Don't have an account?{" "}
+                  <Link
+                    to="/register"
+                    className="fw-bold underlineTextOnHover"
+                    style={{ color: "var(--classora-accent-blue)" }}
+                  >
+                    Register here
+                  </Link>
                 </p>
               )}
             </div>
@@ -233,13 +316,33 @@ const Login = () => {
         {/* --- RIGHT SIDEBAR: Branding (Flipped from Signup) --- */}
         <div
           className="signup-sidebar position-relative d-flex flex-column p-5 text-white justify-content-between"
-          style={{ width: "100%", lg: { width: "35%" }, backgroundColor: "var(--classora-dark-blue)" }}
+          style={{
+            width: "100%",
+            lg: { width: "35%" },
+            backgroundColor: "var(--bg-darkBlue)",
+          }}
         >
           {/* Top Section */}
           <div>
-            <div className="brand-header d-flex align-items-center fw-bold z-1 mb-4" style={{ fontSize: "2rem" }}>
-              <span className="border rounded-3 me-2 bg-light bg-opacity-25 d-flex justify-content-center align-items-center" style={{ width: "35px", height: "35px", padding: "0px" }}>
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+            <div
+              className="brand-header d-flex align-items-center fw-bold z-1 mb-4"
+              style={{ fontSize: "2rem" }}
+            >
+              <span
+                className="border rounded-3 me-2 bg-light bg-opacity-25 d-flex justify-content-center align-items-center"
+                style={{ width: "35px", height: "35px", padding: "0px" }}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
                   <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
                   <circle cx="9" cy="7" r="4" />
                   <line x1="19" x2="19" y1="8" y2="14" />
@@ -248,15 +351,20 @@ const Login = () => {
               </span>
               Classora
             </div>
-            
+
             {/* Dynamic Welcome Text based on Tab */}
             <div className="z-1 position-relative mt-5">
               <h3 className="fw-bold mb-3">
-                {loginType === "student" ? "Your Academic Hub" : "Faculty Portal"}
+                {loginType === "student"
+                  ? "Your Academic Hub"
+                  : "Faculty Portal"}
               </h3>
-              <p className="fw-light opacity-75 lh-lg" style={{ fontSize: "0.95rem" }}>
-                {loginType === "student" 
-                  ? "Access your assignments, track your deadlines, and view your evaluation rubrics all in one secure place." 
+              <p
+                className="fw-light opacity-75 lh-lg"
+                style={{ fontSize: "0.95rem" }}
+              >
+                {loginType === "student"
+                  ? "Access your assignments, track your deadlines, and view your evaluation rubrics all in one secure place."
                   : "Manage course assignments, evaluate submissions efficiently, and communicate with your students seamlessly."}
               </p>
             </div>
@@ -266,14 +374,15 @@ const Login = () => {
           <div className="d-none text-start d-lg-block z-1">
             <p className="text-primary-50 mb-0" style={{ fontSize: "0.8rem" }}>
               Need Help?{" "}
-              <Link to="/contactUs" className="text-primary text-decoration-none border-bottom border-primary">
+              <Link
+                to="/contactUs"
+                className="text-primary text-decoration-none border-bottom border-primary"
+              >
                 Contact Support
               </Link>
             </p>
           </div>
-
         </div>
-
       </div>
     </div>
   );

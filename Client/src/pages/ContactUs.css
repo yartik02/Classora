@@ -1,6 +1,6 @@
-.contact-section {    
-    filter: drop-shadow(0px 15px 30px rgb(0, 0, 0));
-}   
+.contact-section {
+  filter: drop-shadow(0px 15px 30px rgb(0, 0, 0));
+}
 
 .sticky-form-wrapper {
   position: sticky;
@@ -17,45 +17,90 @@
   gap: 20px;
   font-size: 0.9rem;
 }
+
+/* ── Premium Minimalist Form Inputs ───────────────────────────── */
+.contactForm input.form-control,
+.contactForm textarea.form-control {
+  background: rgba(255, 255, 255, 0.03) !important;
+  border: 1px solid var(--light-hover) !important;
+  color: var(--text-main) !important;
+  transition: all 0.3s ease;
+  border-radius: 12px !important;
+  padding: 16px 24px !important;
+  box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.05) !important;
+}
+
+[data-theme="light"] .contactForm input.form-control,
+[data-theme="light"] .contactForm textarea.form-control {
+  background: rgba(0, 0, 0, 0.03) !important;
+}
+
+.contactForm input::placeholder,
+.contactForm textarea::placeholder {
+  color: var(--text-muted);
+  opacity: 0.6;
+}
+
+.contactForm input.form-control:hover,
+.contactForm textarea.form-control:hover {
+  border-color: rgba(255, 213, 45, 0.5) !important; /* subtle gold hover */
+  background: rgba(255, 213, 45, 0.02) !important;
+}
+
+.contactForm input.form-control:focus,
+.contactForm textarea.form-control:focus {
+  border-color: var(--color-secondary) !important; /* Bold gold focus */
+  background: rgba(255, 213, 45, 0.05) !important;
+  box-shadow: 0 0 15px rgba(255, 213, 45, 0.1) !important;
+  outline: none !important;
+}
 .contact-details {
   display: flex;
   flex-direction: column;
 }
 /* Info Card (Immediate Help) */
 .info-card {
-  background: #eef2ff;
-  border-left: 5px solid #4f46e5;
+  background: #ffd52d3c;
+  border-left: 5px solid var(--color-secondary);
   padding: 30px;
   margin-bottom: 40px;
 }
 /*.info-card h5 { font-weight: 700; }
 .info-card p { color: #6c757d; font-size: 0.95rem; } */
-.info-card ul { padding-left: 20px; font-size: 0.9rem; color: #4338ca; }
+.info-card ul {
+  padding-left: 20px;
+  font-size: 0.9rem;
+  color: var(--text-main);
+}
 
 /* Social Links */
-.social-links { display: flex; gap: 15px; }
+.social-links {
+  display: flex;
+  gap: 15px;
+}
 .social-icon {
   width: 45px;
   height: 45px;
   display: grid;
   place-items: center;
-  background: #eef2ff;
-  color: #4f46e5;
+  background: var(--bg-main);
+  color: var(--color-secondary);
   border-radius: 50%;
   transition: all 0.3s ease;
 }
-.social-icon:first-child:hover {
-  background-color: #4f46e5;
+.social-icon:hover {
+  background-color: var(--color-secondary);
+  color: var(--bg-main);
   transform: translateY(-3px);
 }
-.social-icon:first-child:hover svg,
+/* .social-icon:first-child:hover svg,
 .social-icon:nth-child(2):hover svg,
 .social-icon:nth-child(3):hover svg,
 .social-icon:nth-child(4):hover svg,
-.social-icon:nth-child(5):hover svg{
+.social-icon:nth-child(5):hover svg {
   fill: #fff;
-}
-.social-icon:nth-child(2):hover {
+} */
+/* .social-icon:nth-child(2):hover {
   background-color: #050a2b;
   transform: translateY(-3px);
 }
@@ -70,7 +115,7 @@
 .social-icon:nth-child(5):hover {
   background-color: #ff1111ff;
   transform: translateY(-3px);
-}
+} */
 
 /* --- Responsive Stacking for Mobile --- */
 @media (max-width: 991.98px) {
@@ -78,62 +123,84 @@
     position: static; /* Disables the sticky effect on mobile */
     margin-bottom: 40px;
   }
-  
-.slantedSection {
-    clip-path: polygon(0 calc(100% - 1%),0 0,100% 1%,100% 100%)
-}
-}
-@media (min-width: 990px) {
-    
-.slantedSection {
-    clip-path: polygon(0 calc(100% - 5%),0 0,100% 5%,100% 100%)
-}
-}
 
-/* faqs */
+  .slantedSection {
+    clip-path: polygon(0 calc(100% - 1%), 0 0, 100% 1%, 100% 100%);
+  }
+}
+/* @media (min-width: 990px) { */
+
+.slantedSection/* ═══════════════════════════════════════════════════════
+   FAQ ACCORDION
+══════════════════════════════════════════════════════════ */
 
 /* Floating Card Accordion */
 .faq-accordion .accordion-item {
-  border: none;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
-  transition: box-shadow 0.3s ease, transform 0.3s ease;
-  overflow: hidden; 
+  background-color: var(--bg-surface);
+  border: none !important;
+  border-radius: 16px !important;
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition:
+    box-shadow 0.3s ease,
+    transform 0.3s ease;
 }
-
 .faq-accordion .accordion-item:hover {
-  box-shadow: 0 8px 24px rgba(10, 37, 64, 0.08);
-  transform: translateY(-2px); /* Slight lift on hover */
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
 }
 
 .faq-accordion .accordion-button {
-  background-color: transparent;
-  color: var(--classora-blue);
-  font-weight: 700;
-  font-size: 1.1rem;
+  background-color: var(--bg-surface);
+  color: var(--text-main);
+  font-weight: 600;
+  font-size: 1rem;
   padding: 1.5rem;
   box-shadow: none !important;
 }
-
 .faq-accordion .accordion-button:not(.collapsed) {
-  color: var(--classora-blue);
-  background-color: transparent;
+  color: var(--color-secondary); /* Gold when open */
+  background-color: var(--bg-surface);
+  box-shadow: none;
+}
+.faq-accordion .accordion-button:focus {
   box-shadow: none;
 }
 
-/* Custom Animated Plus/Minus Icon */
+/* Custom +/− icon */
 .faq-accordion .accordion-button::after {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%230A2540'%3E%3Cpath d='M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23676767'%3E%3Cpath d='M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z'/%3E%3C/svg%3E");
   transition: transform 0.3s ease;
 }
-
 .faq-accordion .accordion-button:not(.collapsed)::after {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%230A2540'%3E%3Cpath d='M2 8a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11A.5.5 0 0 1 2 8Z'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23ffd52d'%3E%3Cpath d='M2 8a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11A.5.5 0 0 1 2 8Z'/%3E%3C/svg%3E");
   transform: rotate(180deg);
 }
 
-.faq-accordion .accordion-body {
+/* Custom Smooth Animation via CSS Grid (Overrides Bootstrap display:none) */
+.faq-accordion .accordion-collapse {
+  display: grid !important;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.35s ease-in-out;
+}
+.faq-accordion .accordion-collapse.show {
+  grid-template-rows: 1fr;
+}
+.faq-accordion .accordion-collapse > .accordion-body {
+  overflow: hidden;
+  padding-top: 0;
+  padding-bottom: 0;
+  margin-top: 0;
+  transition:
+    padding 0.35s ease-in-out,
+    opacity 0.3s ease-in-out;
+  opacity: 0;
+}
+.faq-accordion .accordion-collapse.show > .accordion-body {
+  background-color: transparent;
   padding: 0 1.5rem 1.5rem 1.5rem;
-  border-top: 1px solid rgba(0,0,0,0.04);
+  border-top: 1px solid rgba(0, 0, 0, 0.04);
   margin-top: -10px;
   padding-top: 20px;
+  opacity: 1;
 }

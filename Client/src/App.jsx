@@ -14,6 +14,7 @@ import "react-toastify/dist/ReactToastify.css";
 import StudentDashboard from "./pages/dashboard/student/StudentDashboard";
 import Logout from "./components/Logout";
 import AdminDashboard from "./pages/dashboard/admin/AdminDashboard";
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
 function App() {
   const location = useLocation();

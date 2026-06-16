@@ -46,8 +46,7 @@ function Footer() {
       className="text-light mt-5 py-5 px-4"
       style={{
         backgroundColor: "#ffffff1a",
-        boxShadow:
-          "inset rgba(255, 255, 255, 0.33) 0px 20px 30px 0px, rgba(0, 0, 0, 0.52) 0px -20px 50px 12px",
+        boxShadow: "var(--footer-shadow)",
       }}
     >
       <div className="container py-3">
@@ -81,15 +80,6 @@ function Footer() {
                 >
                   About Classora
                 </Link>
-              </li>
-              <li className="mb-2">
-                <HashLink
-                  smooth
-                  to="/aboutUs#developer"
-                  className="text-decoration-none text-light fw-lighter footer-item"
-                >
-                  About Developer
-                </HashLink>
               </li>
               <li className="mb-2">
                 <HashLink
@@ -181,29 +171,31 @@ function Footer() {
 
         <hr />
 
-        <div className="text-center small text-secondary py-2">
-          <p className="mb-1">
-            © {new Date().getFullYear()} Classora. All rights reserved.
-          </p>
-          <div className="d-flex align-items-center justify-content-center">
-            Designed and Developed with
-            <svg
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="#ff0080"
-              className="mx-1"
-            >
-              <path d="M2 9.5a5.5 5.5 0 0 1 9.591-3.676.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5c0 2.29-1.5 4-3 5.5l-5.492 5.313a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5" />
-            </svg>
-            by Yartik.
+        <div className="text-center small text-secondary py-2 d-flex  flex-lg-row flex-column gap-1 align-items-center justify-content-between">
+          <div className="d-flex flex-lg-row flex-column align-items-center justify-content-start">
+            <p className="m-0">
+              © {new Date().getFullYear()} Classora. All rights reserved.
+            </p>
+            <p className="d-flex mx-lg-2 mx-md-2 mx-0 align-items-center text-nowrap m-0">
+              Designed and Developed with
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="#ff004c"
+                className="mx-1"
+              >
+                <path d="M2 9.5a5.5 5.5 0 0 1 9.591-3.676.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5c0 2.29-1.5 4-3 5.5l-5.492 5.313a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5" />
+              </svg>
+              by Yartik.
+            </p>
           </div>
 
-          <div className="mt-3 d-flex justify-content-center gap-3">
+          <div className="d-flex justify-content-center gap-3">
             <Link
               to="/privacy-policy"
               onClick={scrollToTop}
-              className="text-decoration-none text-light fw-light footer-item"
+              className="text-decoration-none text-light fw-light footer-item text-nowrap"
             >
               Privacy Policies
             </Link>
@@ -212,7 +204,7 @@ function Footer() {
             <Link
               to="/terms-of-service"
               onClick={scrollToTop}
-              className="text-decoration-none text-light fw-light footer-item"
+              className="text-decoration-none text-light fw-light footer-item text-nowrap"
             >
               Terms of Service
             </Link>

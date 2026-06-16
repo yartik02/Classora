@@ -1,6 +1,8 @@
 import React, { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import LogoImg from "../assets/ClassoraLogoNew.svg";
+import { useTheme } from "../store/useTheme.jsx";
+import { moon, sun } from "../store/Icons.jsx";
 import "./Menu.css";
 
 // Configuration arrays placed outside the component to prevent reallocation on every re-render
@@ -17,6 +19,7 @@ const AUTH_BUTTONS = [
 
 const Menu = ({ isOpen, onClose }) => {
   const navigate = useNavigate();
+  const { theme, toggleTheme } = useTheme();
 
   // Prevent background scrolling when the menu is open
   useEffect(() => {
@@ -43,7 +46,8 @@ const Menu = ({ isOpen, onClose }) => {
       ></div>
 
       {/* The Sliding Panel */}
-      <div className={`offcanvas-panel d-flex flex-column ${isOpen ? "open" : ""}`}>
+      <div className={`offcanvas-panel d-flex flex-column ${isOpen ? "open" : ""}`}
+      >
         
         {/* HEADER */}
         <div className="d-flex justify-content-between align-items-center p-4 border-bottom border-light border-opacity-50">
@@ -60,11 +64,36 @@ const Menu = ({ isOpen, onClose }) => {
             </p>
           </div>
 
-          <button className="btn-close-custom p-1" onClick={onClose} aria-label="Close">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
-              <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z" />
-            </svg>
-          </button>
+          <div className="d-flex align-items-center gap-3">
+            <button
+              onClick={toggleTheme}
+              aria-label={`Switch to ${theme === "light" ? "dark" : "light"} mode`}
+              className="theme-toggle-btn border-0 p-2 d-flex align-items-center justify-content-center text-light"
+              style={{
+                cursor: "pointer",
+                borderRadius: "50%",
+                transition: "transform 0.2s ease",
+              }}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="22"
+                height="22"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+              >
+                {theme === "light" ? moon : sun}
+              </svg>
+            </button>
+            <button className="btn-close-custom p-1" onClick={onClose} aria-label="Close">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
+                <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z" />
+              </svg>
+            </button>
+          </div>
         </div>
 
         {/* NAVIGATION LINKS */}

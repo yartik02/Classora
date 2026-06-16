@@ -1,9 +1,11 @@
-const boundaries = [
-  { text: "A social networking platform", delay: "0.1s" },
-  { text: "A chat-heavy communication tool", delay: "0.2s" },
-  { text: "A fully AI-driven black-box system", delay: "0.3s" },
-  { text: "A replacement for educators or academic judgment", delay: "0.4s" },
-];
+import { useTheme } from "../store/useTheme";
+
+// const boundaries = [
+//   { text: "A social networking platform", delay: "0.1s" },
+//   { text: "A chat-heavy communication tool", delay: "0.2s" },
+//   { text: "A fully AI-driven black-box system", delay: "0.3s" },
+//   { text: "A replacement for educators or academic judgment", delay: "0.4s" },
+// ];
 
 const beliefs = [
   {
@@ -80,92 +82,20 @@ const beliefs = [
 ];
 
 function About1() {
+  const { theme } = useTheme();
+
   return (
     <section className="About1">
-      {/* 4. Boundaries (What it is NOT) */}
-      <section className="premium-boundaries-section py-5">
-        <div className="ambient-glow glow-red"></div>
-        <div className="ambient-glow glow-blue"></div>
-
-        <div className="container py-5 position-relative z-index-1">
-          <div className="row align-items-center">
-            {/* Left Column: Context */}
-            <div className="col-lg-5 mb-5 mb-lg-0 text-center text-lg-start pe-lg-5">
-              <span
-                className="badge bg-danger text-danger bg-opacity-10 fw-normal mx-lg-0 mx-auto mb-lg-5 mb-4 p-2 px-3 rounded-pill fs-6 d-flex align-items-center justify-content-center"
-                style={{ width: "fit-content" }}
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="22"
-                  height="22"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="me-2"
-                >
-                  <circle cx="12" cy="12" r="10" />
-                  <path d="m15 9-6 6" />
-                  <path d="m9 9 6 6" />
-                </svg>
-                <p className="m-0">Our Boundaries</p>
-              </span>
-
-              <h2 className="display-5 fw-bold premium-heading mb-4">
-                What CLASSORA <br />
-                <span className="text-danger-gradient">Is Not</span>
-              </h2>
-              <p className="premium-text-muted fs-6 fw-normal">
-                To maintain clarity and trust, it is equally important to define
-                our boundaries. We prioritize responsibility, control, and
-                clarity over unnecessary automation.
-              </p>
-            </div>
-
-            {/* Right Column: Premium Bento Grid */}
-            <div className="col-lg-7">
-              <div className="premium-bento-grid">
-                {boundaries.map((item, index) => (
-                  <div
-                    className="premium-bento-card fade-in-up"
-                    key={index}
-                    style={{ animationDelay: item.delay }}
-                  >
-                    {/* Custom Styled SVG Icon */}
-                    <div className="bento-icon-wrapper">
-                      <svg
-                        width="22"
-                        height="22"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2.5"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      >
-                        <line x1="18" y1="6" x2="6" y2="18"></line>
-                        <line x1="6" y1="6" x2="18" y2="18"></line>
-                      </svg>
-                    </div>
-                    <p className="bento-text">{item.text}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* 5. Philosophy (Grid of Cards) */}
-      <section className="premium-beliefs-section py-5 bg-primary-subtle ">
+      <section
+        className="premium-beliefs-section py-5"
+        style={{ backgroundColor: "var(--bg-surface)" }}
+      >
         <div className="container py-5">
           {/* Section Header */}
           <div className="text-center mb-5 fade-in-up">
             <span
-              className="badge bg-white bg-opacity-50 fw-normal mx-auto mb-4 p-2 px-3 rounded-pill fs-6 d-flex align-items-center justify-content-center"
+              className={`badge ${theme === "dark" ? "bg-info text-info" : " bg-primary"} bg-opacity-10 fw-normal mx-auto mb-4 p-2 px-3 rounded-pill fs-6 d-flex align-items-center justify-content-center`}
               style={{ width: "fit-content", color: "rgb(26, 54, 155)" }}
             >
               <svg
@@ -187,7 +117,7 @@ function About1() {
               </svg>
               <p className="m-0">Core Values</p>
             </span>
-            <h2 className="fw-bold text-primary-custom mt-2">
+            <h2 className="fw-bold mt-2">
               What We <span className="text-gradient">Believe In</span>
             </h2>
           </div>
@@ -208,7 +138,7 @@ function About1() {
                       height="34"
                       viewBox="0 0 24 24"
                       fill="none"
-                      stroke="white"
+                      stroke={theme === "light" ? "#f8f9fa" : "#001b4c"}
                       strokeWidth="2"
                       strokeLinecap="round"
                       strokeLinejoin="round"
@@ -218,7 +148,10 @@ function About1() {
                   </div>
                   <h5 className="col fw-semibold m-0">{belief.title}</h5>
                 </div>
-                <p className="belief-text text-muted fw-normal m-0">
+                <p
+                  className="belief-textfw-normal m-0"
+                  style={{ color: "var(--text-muted)" }}
+                >
                   {belief.text}
                 </p>
               </div>
@@ -226,7 +159,6 @@ function About1() {
           </div>
         </div>
       </section>
-
     </section>
   );
 }

@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
+import { useAuth } from "../store/auth.jsx";
+import { useTheme } from "../store/useTheme.jsx";
 import logo from "../assets/ClassoraLogoNew.svg";
 import Menu from "./Menu";
-import { useAuth } from "../store/auth.jsx";
-import { Link, useLocation } from "react-router-dom";
+import { moon, sun, menu } from "../store/Icons.jsx";
 
-const navData = [
+const NAV_DATA = [
   { name: "Home", path: "/" },
   { name: "About", path: "/aboutUs" },
   { name: "Contact Us", path: "/contactUs" },
@@ -12,111 +14,173 @@ const navData = [
 
 function Navbar() {
   const { user } = useAuth();
+  const { theme, toggleTheme } = useTheme();
+  const location = useLocation();
+
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const location = useLocation();
+
   const isLoggedIn = !!user;
-  const isAdmin = user && user.email === "admin@classora.com";
-  const isDashboardActive = location.pathname.includes('dashboard')
+  const isAdmin = user?.email === "admin@classora.com";
+  const isDashboardActive = location.pathname.includes("dashboard");
+
+  const textClass = isScrolled
+    ? "navLinkTextScrolled"
+    : "navLinkTextNotScrolled";
 
   useEffect(() => {
     const handleScroll = () => {
-      // Triggering at 600px is quite late for a navbar, consider 50px-100px.
-      setIsScrolled(window.scrollY > 600);
+      setIsScrolled(window.scrollY > 100);
     };
 
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const getDashboardPath = () => {
+    if (!user) return "/";
+    return isAdmin
+      ? `/dashboard/${user.role?.toLowerCase()}`
+      : `/dashboard/student/${user.rollno}`;
+  };
+
   return (
     <nav
-      className={`py-2 navBar w-100 py-3 ${isScrolled ? "navbarScrolled" : "navbarNotScrolled"}`}
+      className={`py-3 navBar w-100 ${isScrolled ? "navbarScrolled" : "navbarNotScrolled"}`}
     >
       <div className="container d-flex align-items-center justify-content-between">
-        {/* BRAND SECTION (Left Side) */}
-        <div className="d-flex align-items-center me-auto">
+        {/* BRAND SECTION */}
+        <div className="d-flex align-items-center">
           <img src={logo} alt="Classora Logo" className="logoimg me-2" />
-          <p
-            className={`mb-0 fw-light fs-4 ${isScrolled ? "navLinkTextScrolled" : "navLinkTextNotScrolled"}`}
-          >
-            Classora
-          </p>
+          <p className={`mb-0 fw-light fs-4 ${textClass}`}>Classora</p>
         </div>
 
-        {/* NAVIGATION LINKS (Right Side) */}
-        <ul
-          className="d-flex p-0 mb-0 align-items-center"
-          style={{ listStyleType: "none" }}
-        >
-          {navData.map((item) => {
-            const isActive = location.pathname === item.path;
-            return (
-              <li className="mx-2" key={item.name}>
+        {/* NAVIGATION LINKS */}
+        <div className="pages d-flex align-items-center">
+          <ul className="d-flex p-0 mb-0 align-items-center justify-content-between gap-4 list-unstyled">
+            {NAV_DATA.map((item) => (
+              <li key={item.name}>
                 <Link
                   to={item.path}
-                  className={`text-decoration-none nav-items fs-5 ${isActive ? "activePageColor" : ""} ${isScrolled ? "navLinkTextScrolled" : "navLinkTextNotScrolled"}`}
+                  className={`text-decoration-none nav-items fs-5 ${
+                    location.pathname === item.path ? "activePageColor" : ""
+                  } ${textClass}`}
                 >
                   {item.name}
                 </Link>
               </li>
-            );
-          })}
-          
-          {/* Conditional Dashboard Link */}
-          {isLoggedIn && (
-            <li className="mx-2">
-              <Link
-                to={
-                  isAdmin
-                    ? `/dashboard/${user.role.toLowerCase()}`
-                    : `/dashboard/student/${user.rollno}`
+            ))}
+
+            {isLoggedIn && (
+              <li>
+                <Link
+                  to={getDashboardPath()}
+                  className={`text-decoration-none nav-items fs-5 ${
+                    isDashboardActive ? "activePageColor" : ""
+                  } ${textClass}`}
+                >
+                  Dashboard
+                </Link>
+              </li>
+            )}
+          </ul>
+        </div>
+
+        {/* ACTIONS */}
+        <div className="actions d-flex align-items-center">
+          <ul className="d-flex p-0 mb-0 align-items-center justify-content-between gap-3 list-unstyled">
+            {!isLoggedIn && (
+              <>
+                <li>
+                  <Link
+                    to="/register"
+                    className="login_btn2 px-2 py-1 rounded-1 text-decoration-none btn-click-animation"
+                  >
+                    Register
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/login"
+                    className="login_btn2 px-2 py-1 rounded-1 text-decoration-none btn-click-animation"
+                  >
+                    Login
+                  </Link>
+                </li>
+              </>
+            )}
+
+            {/* THEME TOGGLE */}
+            <li className="my-auto btn-click-animation">
+              <button
+                onClick={toggleTheme}
+                aria-label={`Switch to ${theme === "light" ? "dark" : "light"} mode`}
+                className={`theme-toggle-btn border-0 p-2 d-flex align-items-center justify-content-center ${textClass}`}
+                style={{
+                  cursor: "pointer",
+                  borderRadius: "50%",
+                  transition: "transform 0.2s ease",
+                }}
+                onMouseEnter={(e) =>
+                  (e.currentTarget.style.transform = "rotate(20deg)")
                 }
-                className={`text-decoration-none nav-items fs-5 ${isDashboardActive ? "activePageColor" : ""} ${isScrolled ? "navLinkTextScrolled" : "navLinkTextNotScrolled"}`}
+                onMouseLeave={(e) =>
+                  (e.currentTarget.style.transform = "rotate(0deg)")
+                }
               >
-                Dashboard
-              </Link>
+                <ThemeIcon theme={theme} />
+              </button>
             </li>
-          )}
 
-          <li className="mx-2">
-            <Link
-              to="/register"
-              className="login_btn2 px-2 py-1 rounded-1 text-decoration-none"
-            >
-              Register
-            </Link>
-          </li>
-          <li className="ms-2">
-            {/* Fixed the route to point to /login instead of /signup */}
-            <Link
-              to="/login"
-              className="login_btn2 px-2 py-1 rounded-1 text-decoration-none"
-            >
-              Login
-            </Link>
-          </li>
+            {/* OFF-CANVAS MENU */}
+            <li className="fs-5 ms-3 my-auto menu align-items-center">
+              <button
+                onClick={() => setIsMenuOpen(true)}
+                aria-label="Open Menu"
+                className={`border-0 bg-transparent p-0 ${textClass}`}
+                style={{ cursor: "pointer" }}
+              >
+                <MenuIcon />
+              </button>
+            </li>
+          </ul>
+        </div>
 
-          {/* Off-canvas Menu Icon */}
-          <li className="fs-5 ms-3 my-auto menu align-items-center">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 640 640"
-              width="30"
-              height="30"
-              role="button"
-              className={`${isScrolled ? "navLinkTextScrolled" : "navLinkTextNotScrolled"}`}
-              onClick={() => setIsMenuOpen(true)}
-            >
-              <path d="M96 160C96 142.3 110.3 128 128 128L512 128C529.7 128 544 142.3 544 160C544 177.7 529.7 192 512 192L128 192C110.3 192 96 177.7 96 160zM96 320C96 302.3 110.3 288 128 288L512 288C529.7 288 544 302.3 544 320C544 337.7 529.7 352 512 352L128 352C110.3 352 96 337.7 96 320zM544 480C544 497.7 529.7 512 512 512L128 512C110.3 512 96 497.7 96 480C96 462.3 110.3 448 128 448L512 448C529.7 448 544 462.3 544 480z" />
-            </svg>
-
-            <Menu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} />
-          </li>
-        </ul>
+        <Menu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} />
       </div>
     </nav>
   );
 }
 
 export default Navbar;
+
+function ThemeIcon({ theme }) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="22"
+      height="22"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+    >
+      {theme === "light" ? moon : sun}
+    </svg>
+  );
+}
+
+function MenuIcon() {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 640 640"
+      width="30"
+      height="30"
+      fill="currentColor"
+    >
+      {menu}
+    </svg>
+  );
+}

@@ -1,10 +1,9 @@
 import React, { useState } from "react";
-// import CoreValues from "./CoreValues";
-// import AestheticMissionSection from "./About2.jsx";
 import "./AboutUs.css";
 import About1 from "../components/About1";
 import About2 from "../components/About2";
 import HowItWorks from "../components/HowItWorks";
+import { useTheme } from "../store/useTheme";
 
 const tabContent = {
   institutional: {
@@ -192,6 +191,7 @@ const btns = [
 
 const AboutUs = () => {
   const [activeTab, setActiveTab] = useState("institutional");
+  const { theme } = useTheme();
   const currentView = tabContent[activeTab];
 
   return (
@@ -244,12 +244,12 @@ const AboutUs = () => {
       <div className="wrapperClip pt-4 m-0">
         <section
           className="py-5 whyClassoraCreated m-0"
-          style={{ backgroundColor: "var(--classora-light)" }}
+          style={{ backgroundColor: "var(--bg-surface)" }}
         >
           <div className="container d-flex flex-column align-items-center justify-content-center">
             <div className="bagdeContainer">
               <span
-                className="badge bg-primary-subtle bg-opacity-10 fw-normal d-flex align-items-center mb-4 p-2 px-3 rounded-pill"
+                className={`badge ${theme === "dark" ? "bg-info text-info" : "bg-primary-subtle"} bg-opacity-10 fw-normal d-flex align-items-center mb-4 p-2 px-3 rounded-pill`}
                 style={{ color: "rgb(26, 54, 155)", fontSize: "0.9rem" }}
               >
                 <svg
@@ -272,8 +272,8 @@ const AboutUs = () => {
               </span>
             </div>
             <div
-              className="textContainer text-muted text-center px-lg-0 px-3"
-              style={{ maxWidth: "900px" }}
+              className="textContainer text-center px-lg-0 px-3"
+              style={{ maxWidth: "900px", color: "var(--text-muted)" }}
             >
               <p className="lead">
                 Academic assignments management is a critical part of the
@@ -289,11 +289,20 @@ const AboutUs = () => {
               </p>
             </div>
           </div>
+          {/* <hr className="w-75 mx-auto mt-5" /> */}
         </section>
+
         {/* 3. How It Supports Institutions (Interactive Tabs) */}
 
-        <section className="py-5 m-0 bg-light" style={{ zIndex: 1000 }}>
-          <h2 className="text-center mt-5 fw-bold text-primary-custom mb-5 px-3 px-lg-0">
+        <section
+          className="py-5 m-0"
+          style={{
+            zIndex: 1000,
+            backgroundColor: "var(--bg-surface)",
+            borderTop: "1px solid var(--light-hover)",
+          }}
+        >
+          <h2 className="text-center mt-5 fw-bold mb-5 px-3 px-lg-0">
             How We Support the <span className="text-gradient">Ecosystem</span>
           </h2>
 
@@ -365,7 +374,7 @@ const AboutUs = () => {
             </div>
           </div>
         </section>
-        <HowItWorks/>
+        <HowItWorks />
         <About1 />
         <About2 />
       </div>

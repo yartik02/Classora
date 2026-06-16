@@ -3,19 +3,36 @@ import React, { useState, useRef, useEffect } from "react";
 // 1. ADDED 'selectedValue' to the destructured props
 function CustomDropdown({ dropdownData, onSelect, selectedValue }) {
   const [openDropdown, setOpenDropdown] = useState(null);
-  const [selectedValues, setSelectedValues] = useState({});
-  const dropdownContainerRef = useRef(null);
-
-  // 2. UPDATED to respect the parent's selectedValue or a defaultValue
-  useEffect(() => {
+  const [selectedValues, setSelectedValues] = useState(() => {
     const initialValues = {};
     dropdownData.forEach((dropdown) => {
-      // Prioritize the parent's state, then a defaultValue, then fallback to "Select..."
       initialValues[dropdown.name] =
         selectedValue || dropdown.defaultValue || `Select ${dropdown.name}`;
     });
-    setSelectedValues(initialValues);
-  }, [dropdownData, selectedValue]); // Added selectedValue as a dependency so it updates if parent changes
+    return initialValues;
+  });
+
+  const [prevSelectedValue, setPrevSelectedValue] = useState(selectedValue);
+  const [prevDropdownData, setPrevDropdownData] = useState(dropdownData);
+  const dropdownContainerRef = useRef(null);
+
+  // 2. UPDATED: Derive state during render instead of using useEffect
+  // This prevents the "cascading renders" error and is the recommended React approach
+  if (
+    selectedValue !== prevSelectedValue ||
+    dropdownData !== prevDropdownData
+  ) {
+    setPrevSelectedValue(selectedValue);
+    setPrevDropdownData(dropdownData);
+
+    const updatedValues = {};
+    dropdownData.forEach((dropdown) => {
+      // Prioritize the parent's state, then a defaultValue, then fallback to "Select..."
+      updatedValues[dropdown.name] =
+        selectedValue || dropdown.defaultValue || `Select ${dropdown.name}`;
+    });
+    setSelectedValues(updatedValues);
+  }
 
   // Handle clicking outside to close the dropdown
   useEffect(() => {
@@ -57,18 +74,26 @@ function CustomDropdown({ dropdownData, onSelect, selectedValue }) {
         const currentDisplayValue = selectedValues[dropdown.name];
 
         return (
-          <div className="text-start position-relative" key={dropdown.name}>
-            {/* The Dropdown Trigger (The Box) */}
+          <div
+            className="text-start position-relative"
+            key={dropdown.name}
+            style={{ zIndex: isOpen ? 100 : 1 }}
+          >
             <div
-              className={`p-3 py-2 border rounded-3 d-flex justify-content-between align-items-center cursor-pointer bg-white transition-all ${isOpen ? "border-primary shadow-sm" : ""}`}
+              className={`p-3 py-2 rounded-3 d-flex justify-content-between align-items-center cursor-pointer transition-all ${isOpen ? "border-primary shadow-sm" : ""}`}
               role="button"
               onClick={() => handleToggleDropdown(dropdown.name)}
               aria-expanded={isOpen}
               aria-haspopup="listbox"
+              style={{ border: "1px solid var(--light-hover)" }}
             >
-              {/* 3. FIXED text color: It changes from muted to dark when a real option is selected */}
               <span
-                className={`fw-medium ${currentDisplayValue?.startsWith("Select") ? "text-muted" : "text-dark"}`}
+                className="fw-medium"
+                style={{
+                  color: currentDisplayValue?.startsWith("Select")
+                    ? "var(--text-muted)"
+                    : "var(--text-main)",
+                }}
               >
                 {currentDisplayValue}
               </span>
@@ -78,8 +103,8 @@ function CustomDropdown({ dropdownData, onSelect, selectedValue }) {
                 width="16"
                 height="16"
                 fill="currentColor"
-                className="bi bi-chevron-down text-muted"
                 style={{
+                  color: "var(--text-muted)",
                   transition: "transform 0.3s ease",
                   transform: isOpen ? "rotate(180deg)" : "rotate(0deg)",
                 }}
@@ -95,13 +120,17 @@ function CustomDropdown({ dropdownData, onSelect, selectedValue }) {
             {/* The Dropdown Menu */}
             {isOpen && (
               <div
-                className="border mt-2 p-2 rounded-3 bg-white position-absolute w-100 shadow-sm z-3"
+                className="mt-2 p-2 rounded-3 position-absolute w-100"
                 style={{
                   top: "100%",
                   left: 0,
                   maxHeight: "160px",
                   overflowY: "auto",
+                  zIndex: 1000,
                   scrollbarWidth: "thin",
+                  backgroundColor: "var(--bg-surface)",
+                  border: "1px solid var(--light-hover)",
+                  boxShadow: "var(--shadow-md)",
                 }}
                 role="listbox"
               >
@@ -117,13 +146,13 @@ function CustomDropdown({ dropdownData, onSelect, selectedValue }) {
                       onClick={() => handleSelectOption(dropdown.name, option)}
                       style={{
                         cursor: "pointer",
+                        color: "var(--text-muted)",
+                        zIndex: 20,
                         transition: "background-color 0.2s",
                       }}
                     >
                       <span
-                        className={
-                          isSelected ? "fw-bold text-success" : "text-dark"
-                        }
+                        className={isSelected ? "fw-bold text-success" : ""}
                       >
                         {option}
                       </span>

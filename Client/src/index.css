@@ -1,12 +1,180 @@
+:root {
+  /* Strict Brand Colors */
+  --color-primary: #001b4c;
+  --color-secondary: #ffd52d;
+
+  --classora-accent-blue: #0d6efd;
+
+  /* Background Layers (Light) */
+  --bg-darkBlue: #001b4c;
+  --btn-bg-blue: #001b4c;
+  --bg-surface: #ffffff;
+  --bg-card: #ffffff;
+  --bg-main: #f2f5fe;
+  --bg-tab-btns: #ffffff;
+  --bg-light-blue: #eef2ff;
+  --bg-navbar: #6a74ff77;
+  --bg-glass: rgb(255, 255, 255);
+  --bg-info-card: #ffffff;
+  --faq-bg: transparent;
+  --clay-stage-bg: rgba(0, 27, 76, 0.03);
+
+  /* Text Colors (Light) */
+  --text-white: rgb(238, 238, 238);
+  --text-main: #111827;
+  --text-secondary: #4b5563;
+  --text-dark: var(--color-primary);
+  --text-muted: #676767;
+  --text-on-primary: #ffffff;
+  --text-gradient:
+    130deg, teal 10%, rgb(216, 111, 129) 20%, rgb(247, 79, 171) 40%, purple 60%,
+    #9e39f6 80%, blue 100%;
+
+  /* Interactive / Utility */
+  --light-hover: rgba(184, 184, 184, 0.288);
+  --light-background-btns: rgba(214, 214, 214, 0.171);
+  --border-color: rgba(0, 27, 76, 0.08);
+  --border-accent: var(--color-secondary);
+  --border-login: rgba(183, 183, 183, 0.493);
+  --login-tab: #eaf0feea;
+
+  /* Footer Shadow (Light) */
+  --footer-shadow:
+    inset rgba(255, 255, 255, 0.33) 0px 20px 30px 0px,
+    rgba(0, 0, 0, 0.52) 0px -20px 50px 12px;
+
+  /* Bento Cards Shadow (Light) */
+  --bento-shadow:
+    rgba(255, 255, 255, 0.73) 9.08px 10.13px 16px -2.4px inset,
+    rgba(255, 255, 255, 0.45) -9px -10px 16px -3.23px inset,
+    rgb(0 0 0 / 52%) 8px 9px 20px 2px;
+
+  /*  Shadows  */
+  --shadow-sm: 0 2px 10px rgba(0, 27, 76, 0.05);
+  --shadow-md: 0px 5px 20px rgba(0, 27, 76, 0.08);
+}
+
+/*  DARK THEME  */
+[data-theme="dark"] {
+  --color-primary: #f8f9fa;
+  --color-secondary: #ffd52d;
+
+  --classora-accent-blue: #1f57cf;
+
+  /*  Background Layers (Dark)  */
+  --bg-main: #121212;
+  --bg-surface: #1a1a1a;
+  --bg-card: #001240;
+  --btn-bg-blue: #1951cb;
+  --bg-glass: rgb(16, 16, 16);
+  --bg-light-blue: #0a1a40;
+  --bg-navbar: rgba(0, 9, 31, 0.77);
+  --bg-tab-btns: #464646;
+  --bg-info-card: #0a1329;
+  --faq-bg: transparent;
+  --clay-stage-bg: rgba(255, 255, 255, 0.02);
+
+  /*  Text Colors (Dark)  */
+  --text-main: #f1f1f1;
+  --text-secondary: #94a3b8;
+  --text-dark: var(--color-primary);
+  --text-muted: #94a3b8;
+  --text-on-primary: #020813;
+
+  /*  Interactive / Utility  */
+  --border-color: rgba(255, 255, 255, 0.08);
+  --border-accent: var(--color-secondary);
+  --light-hover: rgba(255, 255, 255, 0.05);
+  --border-login: rgba(196, 196, 196, 0.185);
+  --login-tab: rgba(65, 65, 65, 0.321);
+
+  /*  Footer Shadow (Dark)  */
+  --footer-shadow:
+    inset rgba(255, 255, 255, 0.239) 0px 20px 30px 0px,
+    rgba(0, 0, 0, 0.8) 0px -20px 50px 12px;
+
+  /*  Bento Cards Shadow (Dark)  */
+  --bento-shadow:
+    rgba(255, 255, 255, 0.2) 9.08px 10.13px 16px -2.4px inset,
+    rgba(255, 255, 255, 0.2) -9px -10px 16px -3.23px inset,
+    rgb(0 0 0 / 70%) 8px 9px 20px 2px;
+
+  /*  Shadows  */
+  --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0px 8px 24px rgba(0, 0, 0, 0.6);
+}
+
+/*  BASE RESET & TYPOGRAPHY  */
 * {
   font-family: "Inter", sans-serif;
-  /* user-select: none; */
+}
+
+/* Smooth global theme transition */
+*,
+*::before,
+*::after {
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease,
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
 body {
-  background-color: #001b4c;
+  background-color: var(--bg-darkBlue);
+  color: var(--text-main);
 }
 
+/*  REUSABLE SEMANTIC HELPERS  */
+
+/* Badge that adapts to both themes purely via soft background color */
+.about-badge {
+  background-color: var(--bg-light-blue);
+  color: var(--color-primary);
+  border: none;
+}
+
+/* Tab / segmented control button */
+.tab-btn {
+  background-color: transparent;
+  color: var(--text-main);
+  border: none;
+  opacity: 1;
+}
+.tab-btn:hover {
+  color: var(--color-primary);
+  background-color: var(--light-hover);
+  border-radius: 6px;
+  opacity: 1;
+}
+.tab-btn.active {
+  color: var(--color-primary);
+  background-color: var(--light-hover);
+  border-radius: 6px;
+  opacity: 1;
+}
+
+/* Role / secondary badge in timeline */
+.role-badge {
+  background-color: var(--bg-surface);
+  color: var(--text-muted);
+  border: 1px solid var(--border-color);
+}
+
+/* FAQ section background */
+.faq-section-bg {
+  background: linear-gradient(var(--bg-darkBlue) 70%, transparent 100%);
+}
+.underlineTextOnHover {
+  text-decoration: none;
+}
+.underlineTextOnHover:hover {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  text-decoration-color: var(--classora-accent-blue);
+}
+
+/*  NAVBAR  */
 .navBar {
   position: fixed;
   top: 0%;
@@ -15,25 +183,23 @@ body {
 }
 .navbarScrolled {
   box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.25);
-  background-color: #6a74ff77;
+  background-color: var(--bg-navbar);
   backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
 }
 .navLinkTextScrolled {
-  color: #1a257d;
-  fill: #1a257d;
+  color: var(--text-main);
 }
 .navLinkTextNotScrolled {
-  color: rgb(238, 238, 238);
-  fill: rgb(238, 238, 238);
+  color: var(--text-white);
 }
 
 nav .nav-items {
   position: relative;
   cursor: pointer;
   text-decoration: none;
-  transition: all 0.2 ease-in-out;
+  transition: all 0.2s ease-in-out;
 }
-
 .nav-items::after {
   content: "";
   position: absolute;
@@ -43,30 +209,47 @@ nav .nav-items {
   width: 0%;
   height: 8%;
   transition: 0.3s ease;
-  background-color: #fcd62b;
+  background-color: var(--color-secondary);
 }
 .nav-items:hover::after {
   width: 80%;
 }
-
 .activePageColor {
-  color: #fcd62b;
+  color: var(--color-secondary);
 }
 
+/* ── Theme toggle button ── */
+.theme-toggle-btn {
+  background-color: var(--light-background-btns);
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+}
+.theme-toggle-btn:hover {
+  background-color: var(--light-hover);
+}
+.btn-click-animation:active,
+.btn-click-animation:focus {
+  transform: scale(0.9);
+  transition: all 0.1s ease;
+}
+
+/*  BUTTONS  */
 .learnMoreBtn {
-  background-color: #1a257d;
-  color: white;
+  background-color: var(--color-primary);
+  color: var(--text-on-primary);
   font-weight: 400;
-  border: 2px solid #1a257d;
+  border: 2px solid var(--color-primary);
   cursor: pointer;
   width: fit-content;
   transition: 0.2s ease;
 }
-.learnMoreBtn:hover {
+.learnMoreBtn:hover,
+.learnMoreBtn:focus {
   background-color: transparent;
-  border: 2px solid #1a257d;
+  border: 2px solid var(--color-primary);
   transform: translateY(-3px);
-  color: #1a257d;
+  color: var(--color-primary);
 }
 
 .login_btn2 {
@@ -83,16 +266,17 @@ nav .nav-items {
   color: #ffd52d;
 }
 
+/* MENU (MOBILE OFF-CANVAS) */
 .menuItems:hover {
   background-color: rgb(83, 83, 83);
   color: white;
   transition: 0.2s step-start;
 }
-
 .menu {
   border: none;
 }
 
+/*  HOME — GET STARTED BUTTON & MISC  */
 .getStartedArrow {
   transition: all 0.2s ease-in-out;
 }
@@ -100,27 +284,22 @@ nav .nav-items {
   transform: translateX(5px);
 }
 
+/* Gradient Text */
 .text-gradient {
   background-clip: text;
   -webkit-background-clip: text;
   color: transparent;
-  background-image: linear-gradient(
-    130deg,
-    teal 10%,
-    rgb(216, 111, 129) 20%,
-    rgb(247, 79, 171) 40%,
-    purple 60%,
-    #9e39f6 80%,
-    blue 100%
-  );
+  background-image: linear-gradient(var(--text-gradient));
 }
 
+/* Hover scale */
 .xtra:hover {
   transform: scale(1.1);
   transition: transform 0.3s ease;
   box-shadow: 0px 15px 15px rgba(0, 0, 0, 0.207);
 }
 
+/* Social icons in footer */
 .icon {
   opacity: 0.6;
   box-shadow:
@@ -136,16 +315,8 @@ nav .nav-items {
     rgb(0 0 0 / 50%) -4px -4px 6px 1px inset,
     rgb(255 255 255 / 17%) 0px 0px 0px 0px;
 }
-.icon:first-child:hover svg {
-  fill: rgb(53, 53, 255);
-}
-.icon:nth-child(2):hover svg {
-  fill: rgb(255, 75, 105);
-}
-.icon:nth-child(3):hover svg {
-  fill: rgb(255, 255, 255);
-}
 
+/*  Footer links  */
 .footer-item {
   opacity: 0.8;
 }
@@ -153,9 +324,10 @@ nav .nav-items {
   opacity: 1;
 }
 .footer a:hover {
-  color: #1a257d;
+  color: var(--color-secondary);
 }
 
+/*  HOME — RESPONSIVE BENTO GRID (Main2)  */
 .responsive-grid {
   display: grid;
   gap: 20px;
@@ -164,10 +336,7 @@ nav .nav-items {
 .grid-item {
   backdrop-filter: blur(5px);
   border-radius: 26px;
-  box-shadow:
-    rgba(255, 255, 255, 0.73) 9.08px 10.13px 16px -2.4px inset,
-    rgba(255, 255, 255, 0.45) -9px -10px 16px -3.23px inset,
-    rgb(0 0 0 / 52%) 8px 9px 20px 2px;
+  box-shadow: var(--bento-shadow);
   transition: all 0.05s ease-in-out;
 }
 .grid-item:hover {
@@ -177,6 +346,13 @@ nav .nav-items {
     rgba(255, 255, 255, 0) 0px 0px 20px 6px;
 }
 
+/*  Dropdown  */
+.dropdownOption:hover {
+  background-color: var(--light-hover);
+  transition: all 0.1s ease-in-out;
+}
+
+/*  RESPONSIVE BREAKPOINTS  */
 @media (max-width: 900px) {
   .logo,
   .nav-items,
@@ -190,7 +366,6 @@ nav .nav-items {
   .menu {
     display: flex;
   }
-
   nav li {
     display: none;
   }
@@ -206,7 +381,6 @@ nav .nav-items {
   .getStartedArrow {
     width: 14px;
   }
-
   footer {
     border-top-left-radius: 56px;
     border-top-right-radius: 56px;
@@ -251,17 +425,12 @@ nav .nav-items {
   .hearderText {
     width: 75%;
   }
-
   footer {
     border-top-left-radius: 86px;
     border-top-right-radius: 86px;
     background-color: rgba(255, 255, 255, 0.12);
-    box-shadow:
-      rgb(255 255 255 / 27%) 22px 22px 38px 0px inset,
-      rgb(255 255 255 / 27%) -22px -7px 38px 0px inset,
-      rgba(0, 0, 0, 0.301) -1px -20px 20px 20px;
+    box-shadow: var(--footer-shadow);
   }
-
   .footerLogoImg {
     width: 58px;
   }
@@ -291,7 +460,7 @@ nav .nav-items {
     top: 40vh;
     left: 6.5vw;
     font-size: 0.7rem;
-  } 
+  }
 }
 
 @media (min-width: 2000px) {
@@ -342,7 +511,7 @@ nav .nav-items {
     width: 14px;
   }
 }
-@media (max-width: 325px){
+@media (max-width: 325px) {
   .getStartedBtn {
     top: 50vw;
     left: 34.5vw;
@@ -351,9 +520,4 @@ nav .nav-items {
   .getStartedArrow {
     width: 10px;
   }
-}
-
-.dropdownOption:hover {
-  background-color: rgba(83, 83, 83, 0.11);
-  transition: all 0.1s ease-in-out ;
 }

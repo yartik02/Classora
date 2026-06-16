@@ -1,6 +1,8 @@
 import React, { useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { HashLink } from "react-router-hash-link";
+import { useTheme } from "../store/useTheme";
+import { moon, sun } from "../store/Icons";
 import {
   ArrowLeft,
   ShieldCheck,
@@ -15,23 +17,34 @@ import {
   UserCog,
   RefreshCw,
   Mail,
-  Download
+  Download,
 } from "lucide-react";
 import "./privacy.css";
 
-const policySections = [
+const PrivacyPolicy = () => {
+  const navigate = useNavigate();
+  const { theme, toggleTheme } = useTheme();
+
+  const policySections = [
     {
       id: "purpose",
       icon: <Database size={24} />,
       title: "1. Purpose of Data Collection",
       content: (
         <>
-          <p className="text-muted lh-lg">
-            Classora collects information only to support academic workflows. We do not collect personal data for advertising, profiling, or social networking purposes.
+          <p className="lh-lg text-muted">
+            Classora collects information only to support academic workflows. We
+            do not collect personal data for advertising, profiling, or social
+            networking purposes.
           </p>
-          <p className="fw-bold text-dark mb-2">All data processing is performed to:</p>
+          <p className="fw-bold mb-2 text-muted">
+            All data processing is performed to:
+          </p>
           <ul className="custom-bullet-list mb-0">
-            <li>Enable assignment creation, submission, evaluation, and result publication</li>
+            <li>
+              Enable assignment creation, submission, evaluation, and result
+              publication
+            </li>
             <li>Ensure accountability, transparency, and academic integrity</li>
             <li>Support institutional administration and compliance</li>
           </ul>
@@ -44,24 +57,39 @@ const policySections = [
       title: "2. Information We Collect",
       content: (
         <>
-          <h5 className="fw-bold text-primary-custom mb-2">a) Institutional & User Information</h5>
-          <p className="text-muted mb-2">Classora may collect:</p>
+          <h5 className="fw-bold text-primary-custom mb-2">
+            a) Institutional & User Information
+          </h5>
+          <p className="mb-2 text-muted">Classora may collect:</p>
           <ul className="custom-bullet-list mb-4">
-            <li>Name, institutional email ID, and role (Student, Faculty, Admin)</li>
-            <li>Academic identifiers (roll number, course, class, department)</li>
+            <li>
+              Name, institutional email ID, and role (Student, Faculty, Admin)
+            </li>
+            <li>
+              Academic identifiers (roll number, course, class, department)
+            </li>
             <li>Login credentials (securely encrypted)</li>
           </ul>
-          <h5 className="fw-bold text-primary-custom mb-2">b) Academic Content</h5>
+          <h5 className="fw-bold text-primary-custom mb-2">
+            b) Academic Content
+          </h5>
           <ul className="custom-bullet-list mb-4">
             <li>Assignment files uploaded by students</li>
             <li>Submission timestamps and status</li>
             <li>Faculty feedback, remarks, and grades</li>
           </ul>
-          <h5 className="fw-bold text-primary-custom mb-2">c) Technical & Usage Data</h5>
+          <h5 className="fw-bold text-primary-custom mb-2">
+            c) Technical & Usage Data
+          </h5>
           <ul className="custom-bullet-list mb-0">
             <li>Login timestamps and activity logs</li>
-            <li>Device and browser information (for security and performance only)</li>
-            <li>Essential cookies used solely for maintaining secure login sessions.</li>
+            <li>
+              Device and browser information (for security and performance only)
+            </li>
+            <li>
+              Essential cookies used solely for maintaining secure login
+              sessions.
+            </li>
           </ul>
         </>
       ),
@@ -72,7 +100,9 @@ const policySections = [
       title: "3. How Information Is Used",
       content: (
         <>
-          <p className="fw-bold text-dark mb-2">Collected data is used strictly to:</p>
+          <p className="fw-bold mb-2 text-muted">
+            Collected data is used strictly to:
+          </p>
           <ul className="custom-bullet-list mb-4">
             <li>Manage academic assignments and evaluations</li>
             <li>Track submission deadlines and status</li>
@@ -96,17 +126,21 @@ const policySections = [
       title: "4. Data Ownership & Institutional Control",
       content: (
         <>
-          <p className="text-muted lh-lg fw-bold text-dark">
-            All academic and user data stored on Classora is the exclusive property of the institution.
+          <p className="lh-lg fw-bold text-muted">
+            All academic and user data stored on Classora is the exclusive
+            property of the institution.
           </p>
-          <p className="text-muted mb-2">Classora acts only as a secure digital facilitator, providing:</p>
+          <p className="mb-2 text-muted">
+            Classora acts only as a secure digital facilitator, providing:
+          </p>
           <ul className="custom-bullet-list mb-4">
             <li>Centralized storage</li>
             <li>Role-based access control</li>
             <li>Institutional visibility and oversight</li>
           </ul>
-          <p className="text-muted lh-lg mb-0">
-            Institutions may request data export, archival, or removal in accordance with their academic policies.
+          <p className="lh-lg mb-0 text-muted">
+            Institutions may request data export, archival, or removal in
+            accordance with their academic policies.
           </p>
         </>
       ),
@@ -117,14 +151,26 @@ const policySections = [
       title: "5. Data Access & Role-Based Permissions",
       content: (
         <>
-          <p className="text-muted mb-2">Access to data is strictly controlled based on user roles:</p>
+          <p className="mb-2 text-muted">
+            Access to data is strictly controlled based on user roles:
+          </p>
           <ul className="custom-bullet-list mb-4">
-            <li><strong>Students</strong> can view only their own submissions, grades, and feedback</li>
-            <li><strong>Faculty</strong> can access submissions related to their assigned courses</li>
-            <li><strong>Administrators</strong> have institution-level oversight based on permissions</li>
+            <li>
+              <strong>Students</strong> can view only their own submissions,
+              grades, and feedback
+            </li>
+            <li>
+              <strong>Faculty</strong> can access submissions related to their
+              assigned courses
+            </li>
+            <li>
+              <strong>Administrators</strong> have institution-level oversight
+              based on permissions
+            </li>
           </ul>
-          <p className="text-muted mb-0 border-top pt-3">
-            Unauthorized access is actively prevented through access controls and authentication mechanisms.
+          <p className="mb-0 border-top pt-3 text-muted">
+            Unauthorized access is actively prevented through access controls
+            and authentication mechanisms.
           </p>
         </>
       ),
@@ -135,14 +181,18 @@ const policySections = [
       title: "6. Data Security Measures",
       content: (
         <>
-          <p className="text-muted mb-2">Classora implements industry-standard security practices, including:</p>
+          <p className="mb-2 text-muted">
+            Classora implements industry-standard security practices, including:
+          </p>
           <ul className="custom-bullet-list mb-4">
             <li>Secure APIs and encrypted communication</li>
             <li>Controlled database access</li>
             <li>Regular system monitoring and integrity checks</li>
           </ul>
-          <p className="text-muted mb-0 fst-italic">
-            While no digital platform can guarantee absolute security, Classora continuously works to protect academic data against unauthorized access, misuse, or loss.
+          <p className="mb-0 fst-italic text-muted">
+            While no digital platform can guarantee absolute security, Classora
+            continuously works to protect academic data against unauthorized
+            access, misuse, or loss.
           </p>
         </>
       ),
@@ -153,15 +203,19 @@ const policySections = [
       title: "7. Use of Automation & AI Assistance",
       content: (
         <>
-          <p className="text-muted mb-2">Classora may use limited automation to:</p>
+          <p className="mb-2 text-muted">
+            Classora may use limited automation to:
+          </p>
           <ul className="custom-bullet-list mb-4">
             <li>Flag late submissions</li>
             <li>Identify highly similar content</li>
             <li>Assist with keyword relevance checks</li>
           </ul>
           <div className="bg-light p-3 rounded-end-5 border-start border-primary border-4">
-            <p className="text-dark fw-medium mb-0">
-              These features are supportive only and never replace human academic judgment. All final grading and academic decisions remain with faculty members.
+            <p className="fw-medium mb-0 text-dark">
+              These features are supportive only and never replace human
+              academic judgment. All final grading and academic decisions remain
+              with faculty members.
             </p>
           </div>
         </>
@@ -173,13 +227,16 @@ const policySections = [
       title: "8. Data Retention",
       content: (
         <>
-          <p className="text-muted mb-2">Data is retained only for the duration required by:</p>
+          <p className="mb-2 text-muted">
+            Data is retained only for the duration required by:
+          </p>
           <ul className="custom-bullet-list mb-3">
             <li>Institutional academic policies</li>
             <li>Legal or administrative obligations</li>
           </ul>
-          <p className="text-muted mb-0">
-            Upon institutional request, data may be archived or securely deleted as per agreed procedures.
+          <p className="mb-0 text-muted">
+            Upon institutional request, data may be archived or securely deleted
+            as per agreed procedures.
           </p>
         </>
       ),
@@ -190,11 +247,14 @@ const policySections = [
       title: "9. Third-Party Services",
       content: (
         <>
-          <p className="text-muted lh-lg mb-2">
-            Classora does not integrate with third-party advertising or social media platforms.
+          <p className="lh-lg mb-2 text-muted">
+            Classora does not integrate with third-party advertising or social
+            media platforms.
           </p>
-          <p className="text-muted lh-lg mb-0">
-            Any essential third-party services (such as hosting or infrastructure) are used strictly to support platform functionality and are bound by confidentiality and security obligations.
+          <p className="lh-lg mb-0 text-muted">
+            Any essential third-party services (such as hosting or
+            infrastructure) are used strictly to support platform functionality
+            and are bound by confidentiality and security obligations.
           </p>
         </>
       ),
@@ -205,15 +265,17 @@ const policySections = [
       title: "10. User Rights & Responsibilities",
       content: (
         <>
-          <p className="text-dark fw-bold mb-2">Users are responsible for:</p>
+          <p className="fw-bold mb-2 text-muted">Users are responsible for:</p>
           <ul className="custom-bullet-list mb-4">
             <li>Maintaining the confidentiality of their login credentials</li>
             <li>Ensuring uploaded content complies with institutional rules</li>
           </ul>
-          <p className="text-dark fw-bold mb-2">Users may request:</p>
+          <p className="fw-bold mb-2 text-muted">Users may request:</p>
           <ul className="custom-bullet-list mb-0">
             <li>Access to their stored information</li>
-            <li>Correction of inaccurate data through institutional administrators</li>
+            <li>
+              Correction of inaccurate data through institutional administrators
+            </li>
           </ul>
         </>
       ),
@@ -224,13 +286,16 @@ const policySections = [
       title: "11. Policy Updates",
       content: (
         <>
-          <p className="text-muted mb-2">Classora may update this Privacy Policy to reflect:</p>
-          <ul className="custom-bullet-list mb-3">
+          <p className="mb-2 text-muted">
+            Classora may update this Privacy Policy to reflect:
+          </p>
+          <ul className="custom-bullet-list mb-3 text-muted">
             <li>Platform enhancements</li>
             <li>Regulatory or institutional requirements</li>
           </ul>
-          <p className="text-muted mb-0">
-            Any significant changes will be clearly communicated through the platform.
+          <p className="mb-0 text-muted">
+            Any significant changes will be clearly communicated through the
+            platform.
           </p>
         </>
       ),
@@ -241,21 +306,27 @@ const policySections = [
       title: "12. Contact Information",
       content: (
         <>
-          <p className="text-muted lh-lg mb-4">
-            For privacy-related questions, data concerns, or compliance inquiries, please contact our support team.
+          <p className="lh-lg mb-4 text-muted">
+            For privacy-related questions, data concerns, or compliance
+            inquiries, please contact our support team.
           </p>
           <div className="d-flex flex-column flex-sm-row gap-3">
             <a
               href="mailto:info@classora.com"
-              className="btn text-white fw-bold px-4 py-2"
-              style={{ backgroundColor: "#001b4c" }}
+              className="btn text-white fw-bold px-4 py-2 btn-click-animation"
+              style={{ backgroundColor: "var(--btn-bg-blue)" }}
             >
               <Mail size={18} className="me-2 mb-1 smallText" />
               info@classora.com
             </a>
             <button
-              onClick={() => navigate("/contactUs")}
-              className="btn btn-outline-secondary fw-bold px-4 py-2 smallText"
+              onClick={() => {
+                setTimeout(() => {
+                  window.scrollTo(0, 0);
+                }, 50);
+                navigate("/contactUs");
+              }}
+              className="btn btn-outline-secondary fw-bold px-4 py-2 smallText btn-click-animation"
             >
               Visit Contact Us
             </button>
@@ -264,9 +335,6 @@ const policySections = [
       ),
     },
   ];
-
-const PrivacyPolicy = () => {
-  const navigate = useNavigate();
 
   // Scroll to top when component mounts
   useEffect(() => {
@@ -289,7 +357,11 @@ const PrivacyPolicy = () => {
   ];
 
   return (
-    <div className="bg-light pb-5">
+    <div
+      className="pb-5 policy-page"
+      style={{ backgroundColor: "var(--bg-main)" }}
+      data-theme={theme}
+    >
       {/* --- HERO HEADER --- */}
       <div
         className="text-white py-5 mb-5 position-relative overflow-hidden"
@@ -322,8 +394,13 @@ const PrivacyPolicy = () => {
         {/* Background decorative element */}
         <ShieldCheck
           size={400}
-          className="position-absolute text-light big-shield d-none d-lg-block"
-          style={{ transform: "translate(20%, -20%)", top: 72, right: 27 }}
+          className="position-absolute big-shield d-none d-lg-block"
+          style={{
+            transform: "translate(20%, -20%)",
+            top: 78,
+            right: 27,
+            color: "var(--bg-main)",
+          }}
         />
       </div>
 
@@ -332,8 +409,15 @@ const PrivacyPolicy = () => {
           {/* --- LEFT SIDEBAR (STICKY NAV) --- */}
           <div className="col-lg-4 d-none d-lg-block">
             <div className="sticky-top" style={{ top: "20px" }}>
-              <div className="bg-white rounded-4 shadow-sm border p-4" style={{maxHeight: "100%", overflowY: "auto", scrollbarWidth:"none" }}>
-                <h6 className="fw-bold text-dark text-uppercase small tracking-widest">
+              <div
+                className="bg-white rounded-4 shadow-sm border p-4"
+                style={{
+                  maxHeight: "100%",
+                  overflowY: "auto",
+                  scrollbarWidth: "none",
+                }}
+              >
+                <h6 className="fw-bold text-uppercase small tracking-widest text-dark">
                   Table of Contents
                 </h6>
                 <div className="d-flex flex-column policy-nav">
@@ -342,20 +426,24 @@ const PrivacyPolicy = () => {
                       smooth
                       key={link.id}
                       to={`#${link.id}`}
-                      className="text-decoration-none policy-nav-links text-muted fw-light p-2 rounded-end-4 transition-all"
+                      className="text-decoration-none policy-nav-links fw-light p-2 rounded-end-4 transition-all text-muted"
                     >
                       {link.title}
                     </HashLink>
                   ))}
                 </div>
                 <div className="mt-1 pt-2 border-top text-center">
-                  <p className="small text-muted mb-3">
+                  <p className="small mb-3 text-muted">
                     Need a copy for your institution?
                   </p>
                   <a
-                    href="Privacy_Policy_Classora_2026.pdf"
-                    download="Privacy_Policy_Classora_2026.pdf"
-                    className="btn btn-outline-dark btn-sm w-100 fw-bold rounded-pill"
+                    href="./public/Privacy_Policy_Classora.pdf"
+                    download="Privacy_Policy_Classora.pdf"
+                    className={`btn btn-sm w-100 fw-bold rounded-pill ${
+                      theme === "dark"
+                        ? "btn-outline-light"
+                        : "btn-outline-dark "
+                    }`}
                   >
                     <Download size={16} className="me-2 mb-1" />
                     Download PDF Version
@@ -371,27 +459,66 @@ const PrivacyPolicy = () => {
               <div
                 key={section.id}
                 id={section.id}
-                className="bg-white text-start rounded-4 shadow-sm border p-4 p-md-5 mb-4 scroll-mt"
+                className="text-start rounded-4 shadow-sm border p-4 p-md-5 mb-4 scroll-mt"
+                style={{ backgroundColor: "var(--bg-surface)" }}
               >
                 {/* Section Header (Icon + Title) */}
                 <div className="row align-items-center gap-4 mb-4 justify-content-lg-start justify-content-center">
-                  <div className="col-4 icon-box">
+                  <div
+                    className="col-4 icon-box"
+                    style={{
+                      backgroundColor: "var(--btn-bg-blue)",
+                      color: "var(--text-white)",
+                    }}
+                  >
                     {section.icon}
                   </div>
-                  <p className="col-8 fw-bold fs-4 m-0 text-dark smallHeading">
+                  <p className="col-8 fw-bold fs-4 m-0 smallHeading text-dark">
                     {section.title}
                   </p>
                 </div>
 
                 {/* Section Content */}
-                <div className="policy-text">
-                  {section.content}
-                </div>
+                <div className="policy-text">{section.content}</div>
               </div>
             ))}
           </div>
         </div>
       </div>
+
+      {/* --- FLOATING THEME TOGGLE --- */}
+      <span
+        className="position-fixed shadow-lg z-3 p-1 rounded-circle"
+        style={{
+          bottom: "2rem",
+          right: "2rem",
+          width: "56px",
+          height: "56px",
+          zIndex: 1000,
+          backgroundColor: "var(--bg-surface)",
+        }}
+      >
+        <button
+          onClick={toggleTheme}
+          className="theme-toggle-btn w-100 h-100 rounded-circle btn-click-animation d-flex align-items-center justify-content-center"
+          style={{ color: "var(--text-main)" }}
+          aria-label="Toggle Theme"
+          title="Toggle Theme"
+        >
+          <svg
+            width="28"
+            height="28"
+            fill="currentColor"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            {theme === "light" ? moon : sun}
+          </svg>
+        </button>
+      </span>
     </div>
   );
 };

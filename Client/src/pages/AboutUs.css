@@ -2,6 +2,25 @@
 :root {
   --classora-blue: #0a2540; /* Deep Royal Blue */
   --classora-light: #f1f1f1;
+  --unified-heading-color: #1b2559;
+  --text-primary-glow-color: #4318ff;
+  --timeline-section-bg: #cfe2ff;
+  --cta-blob1-color: rgb(47, 0, 255);
+  --cta-blob2-color: rgb(238, 255, 0);
+  --cta-blob3-color: rgb(255, 24, 243);
+  --cta-blob4-color: rgb(0, 150, 150);
+}
+[data-theme="dark"] {
+  --unified-heading-color: #091346;
+  --text-primary-glow-color: #3f91ee;
+  --timeline-section-bg: var(--bg-tab-btns);
+  --cta-blob1-color: rgb(57, 75, 229);
+  --cta-blob2-color: rgb(206, 190, 92);
+  --cta-blob3-color: rgb(250, 156, 245);
+  --cta-blob4-color: rgb(62, 141, 62);
+}
+* {
+  transition: all 0.3s ease-in-out;
 }
 
 /* section2 */
@@ -35,7 +54,7 @@
   .unified-heading {
     font-size: 1.8rem;
     font-weight: 800;
-    color: #1b2559;
+    color: var(--unified-heading-color);
     letter-spacing: -0.03em;
   }
 }
@@ -43,26 +62,23 @@
   .unified-heading {
     font-size: 2.2rem;
     font-weight: 800;
-    color: #1b2559;
+    color: var(--unified-heading-color);
     letter-spacing: -0.03em;
   }
 }
 
 /* The 'Stage' unites the heading and cards into one cohesive block */
 .clay-stage {
-  background: rgba(
-    116,
-    158,
-    255,
-    0.4
-  ); /* Very faint background to group elements */
+  background: rgba(116, 158, 255, 0.4);
   border-radius: 40px;
   padding: 40px 30px;
-  box-shadow: inset 2px 2px 10px rgba(163, 174, 208, 0.1); /* Subtle inner shadow */
+  box-shadow: inset 2px 2px 10px rgba(163, 174, 208, 0.1);
 }
 
 .text-primary-glow {
-  color: #4318ff; /* Adjust to your brand primary color */
+  color: var(
+    --text-primary-glow-color
+  ); /* Adjust to your brand primary color */
   text-shadow: 0px 4px 15px rgba(67, 24, 255, 0.3);
 }
 
@@ -87,7 +103,7 @@
 .clay-icon {
   font-size: 2.5rem;
   margin-bottom: 15px;
-  background: #f4f7fe;
+  background: var(--bg-surface);
   width: 75px;
   height: 75px;
   border-radius: 50%;
@@ -97,7 +113,6 @@
   transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   box-shadow:
     inset 5px 5px 10px rgba(163, 174, 208, 0.2),
-    inset -5px -5px 10px rgba(255, 255, 255, 1),
     2px 2px 4px rgba(163, 174, 208, 0.05);
 }
 
@@ -136,6 +151,9 @@
 .btnGrp button {
   box-shadow: 2px 2px 5px rgb(0 0 0 / 26%);
   transition: all 0s ease-in-out;
+}
+.btnGrp button:not(.active) {
+  color: #001b4c !important;
 }
 .btnGrp .active {
   color: rgb(0, 4, 255);
@@ -334,15 +352,19 @@
 
 /* Glass-Clay Cards */
 .premium-glass-card {
-  background: linear-gradient(145deg, #ffffff 0%, #f0f0f0 100%);
+  background: linear-gradient(
+    145deg,
+    var(--bg-surface) 50%,
+    var(--light-hover) 100%
+  );
   padding: 35px 30px;
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 
   box-shadow:
     10px 10px 30px rgba(163, 174, 208, 0.1),
-    inset 1px 1px 2px rgba(255, 255, 255, 1);
+    inset 1px 1px 2px var(--light-hover);
 
-  border: 1px solid rgba(255, 255, 255, 0.9);
+  border: 1px solid var(--light-hover);
   border-bottom: 1px solid rgba(163, 174, 208, 0.15);
   border-right: 1px solid rgba(163, 174, 208, 0.15);
 }
@@ -357,7 +379,7 @@
   width: 55px;
   height: 55px;
   font-size: 1.5rem;
-  background-color: #001b4c;
+  background-color: var(--color-primary);
   transition: all 0.2s ease;
 }
 
@@ -377,12 +399,12 @@
 /* section6 */
 
 .visionImg {
-  border-radius: 48% 52% 74% 26% / 71% 41% 59% 29% ;
+  border-radius: 48% 52% 74% 26% / 71% 41% 59% 29%;
   box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.438);
   transition: border-radius 0.4s ease;
 }
 .visionImg:hover {
-  border-radius: 57% 43% 30% 70% / 43% 71% 29% 57% ;
+  border-radius: 57% 43% 30% 70% / 43% 71% 29% 57%;
 }
 
 /* CTA section  */
@@ -395,7 +417,7 @@
 
 .cta-glass-wrapper {
   border-radius: 40px;
-  padding: 80px 40px;  
+  padding: 80px 40px;
   backdrop-filter: blur(80px);
 }
 
@@ -409,25 +431,41 @@
 .cta-glow1 {
   top: -28%;
   left: -20%;
-  background: radial-gradient(circle, rgb(47, 0, 255) 0%, rgba(255, 255, 255, 0) 70%);
+  background: radial-gradient(
+    circle,
+    var(--cta-blob1-color) 0%,
+    rgba(255, 255, 255, 0) 70%
+  );
 }
 
 .cta-glow2 {
   bottom: -35%;
   left: 12%;
-  background: radial-gradient(circle, rgb(238, 255, 0) 0%, rgba(134, 140, 255, 0) 70%);
+  background: radial-gradient(
+    circle,
+    var(--cta-blob2-color) 0%,
+    rgba(134, 140, 255, 0) 70%
+  );
 }
 
 .cta-glow3 {
   top: -30%;
   right: 12%;
-  background: radial-gradient(circle, rgb(255, 24, 243) 0%, rgba(255, 255, 255, 0) 70%);
+  background: radial-gradient(
+    circle,
+    var(--cta-blob3-color) 0%,
+    rgba(255, 255, 255, 0) 70%
+  );
 }
 
 .cta-glow4 {
   bottom: -35%;
   right: -20%;
-  background: radial-gradient(circle,rgb(0, 150, 150) 0%, rgba(134, 140, 255, 0) 70%);
+  background: radial-gradient(
+    circle,
+    var(--cta-blob4-color) 0%,
+    rgba(134, 140, 255, 0) 70%
+  );
 }
 
 .cta-heading {
@@ -440,18 +478,18 @@
 }
 
 .premium-cta-btn {
-  background: linear-gradient(135deg, #4318FF 0%, #140266 100%);
+  background: linear-gradient(135deg, #4318ff 0%, #140266 100%);
   padding: 18px 40px;
   font-size: 1.1rem;
   transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  box-shadow: 
+  box-shadow:
     0px 10px 20px rgba(67, 24, 255, 0.3),
     inset 0px 1px 1px rgba(255, 255, 255, 0.3);
 }
 
 .premium-cta-btn:hover {
   translate: 0 -3px;
-  box-shadow: 
+  box-shadow:
     0px 15px 25px rgba(67, 24, 255, 0.4),
     inset 0px 1px 1px rgba(255, 255, 255, 0.4);
 }
@@ -467,7 +505,7 @@
 /* how it works */
 
 .timeline-section-bg {
-  background-color: #cfe2ff;
+  background-color: var(--timeline-section-bg);
 }
 
 .timeline-container {
@@ -479,20 +517,46 @@
 
 /* The central vertical line with a sleek gradient fade */
 .timeline-container::after {
-  content: '';
+  content: "";
   position: absolute;
   width: 4px;
-  background: linear-gradient(to bottom, rgba(10,37,64,0) 0%, rgb(10, 37, 64) 50%, rgba(10,37,64,0) 100%);
+  /* Multi-layered background: 
+     Top layer is a yellow comet tail that fades upwards from the current scroll progress 
+     Bottom layer is the subtle track */
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(255, 213, 45, 0) 0%,
+      #ffd52d var(--scroll-progress, 0%),
+      transparent var(--scroll-progress, 0%),
+      transparent 100%
+    ),
+    rgba(10, 37, 64, 0.1);
   top: 0;
   bottom: 0;
   left: 50%;
-  margin-left: -1.5px;
+  margin-left: -2px;
+}
+[data-theme="dark"] .timeline-container::after {
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(255, 213, 45, 0) 0%,
+      #ffd52d var(--scroll-progress, 0%),
+      transparent var(--scroll-progress, 0%),
+      transparent 100%
+    ),
+    rgba(255, 255, 255, 0.1);
 }
 
 .timeline-step {
   padding: 20px 40px;
   position: relative;
   width: 50%;
+  margin-bottom: 15vh; /* Very spacious layout so only 1-2 show at a time */
+}
+.timeline-step:last-child {
+  margin-bottom: 0;
 }
 
 /* Alternating sides */
@@ -503,20 +567,45 @@
   left: 50%;
 }
 
+/* Base animation states for boxes (hidden by default) */
+.timeline-step {
+  opacity: 0;
+  transform: translateY(40px);
+  transition:
+    opacity 0.8s ease-out,
+    transform 0.8s ease-out;
+}
+.timeline-step.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 /* Elevated Timeline Nodes (Solid Blue with a Halo) */
 .timeline-step::after {
-  content: '';
+  content: "";
   position: absolute;
   width: 20px;
   height: 20px;
   right: -10px;
-  background-color: #cfe2ff;
-  border: 4px solid #ffd52d;
+  background-color: var(--timeline-section-bg);
+  border: 4px solid rgba(10, 37, 64, 0.2);
   top: 30px;
   border-radius: 50%;
   z-index: 1;
-  transition: all 0.3s ease;
+  transition: all 0.4s ease;
 }
+[data-theme="dark"] .timeline-step::after {
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Light up when scroll progress reaches it */
+.timeline-step.active-dot::after {
+  background-color: #ffd52d;
+  border-color: #ffd52d;
+  box-shadow: 0 0 15px rgba(255, 213, 45, 0.6);
+  transform: scale(1.2);
+}
+
 .timeline-step:nth-child(even)::after {
   left: -10px;
 }
@@ -525,7 +614,9 @@
 .timeline-content {
   padding: 32px;
   box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
   position: relative;
 }
 
@@ -543,20 +634,22 @@
 @media screen and (max-width: 768px) {
   .timeline-container::after {
     left: 24px;
+    margin-left: 0;
   }
   .timeline-step {
     width: 100%;
     padding-left: 60px;
     padding-right: 0;
-    margin-bottom: 20px;
+    margin-bottom: 12vh; /* Spacious layout for mobile */
   }
   .timeline-step:nth-child(even) {
-    left: 0%;
+    left: 0;
   }
   .timeline-step::after {
-    left: 12px;
+    left: 14px;
+    right: auto;
   }
-  .timeline-step:nth-child(odd)::after {
-    left: 12px;
+  .timeline-step:nth-child(even)::after {
+    left: 14px;
   }
 }

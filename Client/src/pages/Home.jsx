@@ -1,25 +1,61 @@
-import bannerlg from "../assets/classoraBannerLg.png";
-import bannersm from "../assets/classoraBannerPhoneNew.png";
+import bannerlgLight from "../assets/classoraBannerLg.png";
+import bannersmLight from "../assets/newPhoneBanner.png";
+import bannerlgDark from "../assets/classoraBannerNewDarkLg2.png";
+import bannersmDark from "../assets/newPhoneBannerDark2.png";
 import Main1 from "../components/Main1";
 import Main2 from "../components/Main2";
+import { useTheme } from "../store/useTheme.jsx";
+import { useAuth } from "../store/auth.jsx";
+import { useNavigate } from "react-router-dom";
 
 function Home() {
+  const { theme } = useTheme();
+  const { isLoggedIn, userRole, user } = useAuth();
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    console.log(
+      "isLoggedIn: ",
+      isLoggedIn,
+      "\nuserRole: ",
+      userRole,
+      "\nuser: ",
+      user,
+    );
+
+    if (isLoggedIn) {
+      if (userRole === "Student") {
+        navigate(`/dashboard/student/${user.rollno}`);
+        // } else if (userRole === "faculty") {
+        //   navigate(`/dashboard/faculty/${user.employeeId}`);
+      } else if (userRole === "admin") {
+        navigate(`/dashboard/admin/${user.employeeId}`);
+      }
+    } else {
+      navigate("/login");
+    }
+  };
+
   return (
     <section className="Home">
       <picture className="position-relative">
         <source
           media="(min-width: 900px)"
-          srcSet={bannerlg}
+          srcSet={theme === "light" ? bannerlgLight : bannerlgDark}
           className="w-100"
         />
 
-        <img src={bannersm} alt="Banner" className="w-100" />
+        <img
+          src={theme === "light" ? bannersmLight : bannersmDark}
+          alt="Banner"
+          className="w-100"
+        />
       </picture>
 
       <button
-        className="d-flex align-items-center justify-content-center login_btn2 px-3 rounded-1 py-1 fw-light getStartedBtn position-absolute"
+        className="d-flex align-items-center justify-content-center login_btn2 px-3 rounded-1 py-1 fw-light getStartedBtn position-absolute btn-click-animation"
+        onClick={handleClick}
       >
-        {" "}
         Get Started
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -34,8 +70,8 @@ function Home() {
         </svg>
       </button>
 
-      <Main1/>
-      <Main2/>
+      <Main1 />
+      <Main2 />
     </section>
   );
 }

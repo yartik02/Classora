@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./ContactUs.css";
 import FaqSection from "../components/Faqs";
 import { toast } from "react-toastify";
-// import { useAuth } from "../store/auth";
+import { useAuth } from "../store/auth";
+import { useTheme } from "../store/useTheme";
 
 const contactInfo = [
   {
@@ -93,13 +94,28 @@ const messageFields = [
 ];
 
 function ContactUs() {
+  const { user } = useAuth();
+  const { theme } = useTheme();
+  const [prevUser, setPrevUser] = useState(user);
   const [formData, setFormData] = useState({
-    name: "",
-    email: "",
+    name: user?.name || "",
+    email: user?.email || "",
     subject: "",
     message: "",
   });
-  //   const {user} = useAuth();
+
+  // Update formData when user loads (derived state pattern, avoids useEffect cascading render)
+  if (user !== prevUser) {
+    setPrevUser(user);
+    if (user) {
+      setFormData((prev) => ({
+        ...prev,
+        name: user.name,
+        email: user.email,
+      }));
+    }
+  }
+
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleClick = (url) => {
@@ -110,16 +126,6 @@ function ContactUs() {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
-
-  //   useEffect(() => {
-  //   if (user) {
-  //     setFormData((prev) => ({
-  //       ...prev,
-  //       name: user.name,
-  //       email: user.email,
-  //     }));
-  //   }
-  // }, [user]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -150,7 +156,7 @@ function ContactUs() {
       });
 
       if (response.ok) {
-        const res_Data = await response.json(); // Parse success data
+        // const res_Data = await response.json();
         setIsSubmitting(false);
         setFormData({ name: "", email: "", subject: "", message: "" });
         toast.success("Message sent successfully!", { autoClose: 2000 });
@@ -205,39 +211,52 @@ function ContactUs() {
       </div>
 
       <section className="contact-section" style={{ width: "100%" }}>
-        <div className="border bg-light slantedSection pb-5">
+        <div
+          className="slantedSection pb-5"
+          style={{ backgroundColor: "var(--bg-main)" }}
+        >
           <div
             className="row container g-5 my-5 py-4 mx-auto"
             style={{ width: "100%" }}
           >
             {/* --- Left Column (Sticky Form) --- */}
             <div className="col-lg-6">
-              <div className="sticky-form-wrapper bg-white">
-                <h3 className="fw-bold mb-2">Send us a Message</h3>
-                <p className="form-subtitle mb-4 text-muted fw-light mx-auto lh-0">
+              <div
+                className="sticky-form-wrapper"
+                style={{ backgroundColor: "var(--bg-surface)" }}
+              >
+                <h3 className="fw-bold mb-2">
+                  Send us a <span className="text-gradient">Message</span>
+                </h3>
+                <p
+                  className="form-subtitle mb-4 fw-light mx-auto lh-0"
+                  style={{ color: "var(--text-muted)" }}
+                >
                   Fill out the form below and we'll get back to you as soon as
                   possible.
                 </p>
                 <form>
-                  <div className="row text-start">
+                  <div className="row contactForm text-start">
                     {inputFields1.map((field, index) => (
                       <div className="col-md-6 mb-3" key={index}>
                         <input
                           id={field.id}
                           type={field.type}
                           placeholder={field.placeholder}
-                          // required
                           name={field.name}
                           value={formData[field.name]}
                           onChange={handleChange}
-                          className="form-control p-3"
-                          style={{ backgroundColor: "#fafaff" }}
+                          className="form-control"
+                          style={{ border: "1px solid var(--light-hover)" }}
                         />
                       </div>
                     ))}
                   </div>
                   {messageFields.map((field, index) => (
-                    <div className={field.divClass} key={index}>
+                    <div
+                      className={`contactForm ${field.divClass}`}
+                      key={index}
+                    >
                       {field.element === "input" ? (
                         <input
                           id={field.id}
@@ -246,8 +265,7 @@ function ContactUs() {
                           name={field.name}
                           value={formData[field.name]}
                           onChange={handleChange}
-                          className="form-control p-3"
-                          style={{ backgroundColor: "#fafaff" }}
+                          className="form-control"
                         />
                       ) : (
                         <textarea
@@ -257,15 +275,14 @@ function ContactUs() {
                           rows={field.rows}
                           value={formData[field.name]}
                           onChange={handleChange}
-                          className="form-control p-3"
-                          style={{ backgroundColor: "#fafaff" }}
+                          className="form-control"
                         />
                       )}
                     </div>
                   ))}
                   <button
                     type="submit"
-                    className="login_btn2 py-2 rounded w-100"
+                    className="login_btn2 py-2 rounded w-100 btn-click-animation"
                     onClick={handleSubmit}
                   >
                     {isSubmitting ? (
@@ -292,18 +309,28 @@ function ContactUs() {
             <div className="col-lg-6">
               <div className="scrollable-info-wrapper ms-lg-5 ps-lg-5">
                 {/* Contact Info Section */}
-                <div className="info-section shadow-sm mb-5 text-start bg-white p-5 rounded-5">
+                <div
+                  className="info-section shadow-sm mb-5 text-start p-5 rounded-5"
+                  style={{ backgroundColor: "var(--bg-surface)" }}
+                >
                   <h4 className="text-start mb-4">Contact Information</h4>
                   {contactInfo.map((item, index) => (
                     <div className="contact-item mb-4" key={index}>
                       <div
                         className="contact-icon rounded-4 p-3"
-                        style={{ backgroundColor: item.backcolor }}
+                        style={{
+                          backgroundColor:
+                            theme === "dark"
+                              ? "rgba(255, 255, 255, 0.05)"
+                              : item.backcolor,
+                          color:
+                            theme === "dark" ? "var(--text-main)" : item.color,
+                        }}
                       >
                         <svg
                           viewBox="0 0 16 16"
                           className={item.classValue}
-                          fill={item.color}
+                          fill="currentColor"
                           width="22"
                           height="22"
                         >
@@ -315,7 +342,11 @@ function ContactUs() {
                           {item.title}
                         </p>
                         {item.details.map((line, i) => (
-                          <span className="text-muted fw-light" key={i}>
+                          <span
+                            className="fw-light"
+                            key={i}
+                            style={{ color: "var(--text-muted)" }}
+                          >
                             {line}
                           </span>
                         ))}
@@ -338,21 +369,23 @@ function ContactUs() {
                     </svg>
                     Need Immediate Help?
                   </h5>
-                  <p className="text-muted">
+                  <p style={{ color: "var(--text-muted)" }}>
                     For urgent issues or technical problems, you can:
                   </p>
-                  <ul>
+                  <ul style={{ color: "var(--text-muted)" }}>
                     <li>Call our emergency hotline: +91 9876543210</li>
                     <li>Visit our FAQ section for common questions</li>
                   </ul>
                 </div>
                 {/* Follow Us Section */}
-                <div className="info-section shadow-lg text-start p-5 bg-white rounded-5">
+                <div
+                  className="info-section shadow-lg text-start p-5 rounded-5"
+                  style={{ backgroundColor: "var(--bg-surface)" }}
+                >
                   <h5
-                    className="d-flex align-items-center fw-normal p-2 px-3 rounded-5 "
+                    className="d-flex align-items-center fw-normal p-2 px-3 rounded-5 bg-secondary bg-opacity-10"
                     style={{
                       width: "fit-content",
-                      backgroundColor: "#eef2ffcb",
                     }}
                   >
                     <svg
@@ -367,7 +400,7 @@ function ContactUs() {
                     </svg>
                     Follow Us
                   </h5>
-                  <p className="text-muted">
+                  <p style={{ color: "var(--text-muted" }}>
                     Stay updated with the latest news and announcements:
                   </p>
                   <div className="social-links p-auto">
@@ -381,7 +414,7 @@ function ContactUs() {
                       >
                         <svg
                           viewBox="0 0 16 16"
-                          fill={link.color}
+                          fill="currentColor"
                           xmlns="http://www.w3.org/2000/svg"
                           width="20"
                           height="20"

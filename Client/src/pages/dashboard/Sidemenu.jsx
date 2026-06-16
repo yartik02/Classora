@@ -1,3 +1,5 @@
+import React, { useEffect } from "react";
+import * as bootstrap from "bootstrap";
 import logo from "../../assets/ClassoraLogoNew.svg";
 import { useNotifications } from "../../store/NotificationContext";
 import { Link } from "react-router-dom";
@@ -204,6 +206,16 @@ const Sidemenu = ({
     }
     setActiveTab(key);
   };
+
+  useEffect(() => {
+    const tooltipTriggerList =
+      document.querySelectorAll('[data-bs-toggle="tooltip"]');
+
+    [...tooltipTriggerList].forEach(
+      (tooltipTriggerEl) =>
+        new bootstrap.Tooltip(tooltipTriggerEl)
+    );
+  }, []);
   
   
   return (
@@ -227,7 +239,7 @@ const Sidemenu = ({
 
         <div className="fade-in">
           {!isSidebarCollapsed && (
-            <p className={`nav-group-title text-start fw-semibold ${user.role === "Admin" ? "mb-0" : "mt-4"}`}>Main menu</p>
+            <p className={`nav-group-title text-start fw-semibold ${user.role === "Admin" ? "mb-1" : "mt-4"}`}>Main menu</p>
           )}
           <nav className="nav-group">
             {navItems.map(({ key, label, icon }) => (
@@ -235,7 +247,10 @@ const Sidemenu = ({
                 key={key}
                 className={`nav-item rounded-4 ${activeTab === key ? "active" : ""} ${key === "Notifications"?"position-relative":""}`}
                 onClick={() => handleNavClick(key)}
-                title={label}
+                type="button"
+                data-bs-toggle="tooltip" 
+                data-bs-placement="right" 
+                data-bs-title={label}
               >
                 <span className="nav-icon">{icon}</span>
                 {!isSidebarCollapsed && (
@@ -256,7 +271,7 @@ const Sidemenu = ({
             ))}
           </nav>
           {!isSidebarCollapsed && (
-            <p className={`nav-group-title mt-2 text-start fw-semibold ${user.role === "Admin" ? "mb-0" : "mt-3"}`}>
+            <p className={`nav-group-title mt-2 text-start fw-semibold ${user.role === "Admin" ? "mb-1" : "mt-3"}`}>
               Settings
             </p>
           )}
@@ -269,6 +284,9 @@ const Sidemenu = ({
               className={`nav-item rounded-4 ${activeTab === "Settings" ? "active" : ""}`}
               onClick={() => setActiveTab("Settings")}
               title="Settings"
+              data-bs-toggle="tooltip" 
+              data-bs-placement="right" 
+              data-bs-title="Settings"
             >
               <span className="nav-icon">{Icons.Settings}</span>
               {!isSidebarCollapsed && (

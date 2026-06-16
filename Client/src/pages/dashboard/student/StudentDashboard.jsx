@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./StudentDash.css";
 import OverviewTab from "./OverviewStudent";
 import AssignmentsTab from "./AssignmentStudent.jsx";
-import { toast } from "react-toastify";
+// import { toast } from "react-toastify";
 import { useAuth } from "../../../store/auth.jsx";
 import NotificationsDrawer from "./NotificationsDrawer.jsx";
 // import Error from "../../Error.jsx";
@@ -197,7 +197,6 @@ const Icons = {
   ),
 };
 
-
 const navItems = [
   {
     key: "Overview",
@@ -215,7 +214,6 @@ const navItems = [
     icon: Icons.Message,
   },
 ];
-
 
 const StudentDashboard = () => {
   const [activeTab, setActiveTab] = useState("Overview");
@@ -235,13 +233,10 @@ const StudentDashboard = () => {
     }
     console.log("Student data in dashboard:", student);
   }, [user, student]);
-  
 
   if (!student) {
     return (
-      <div
-        className="mt-5 d-flex flex-column text-white p-5 align-items-center justify-content-center w-100"
-      >
+      <div className="mt-5 d-flex flex-column text-white p-5 align-items-center justify-content-center w-100">
         <div
           className="spinner-border border-2 opacity-75 text-white spinner-border-lg"
           role="status"
@@ -262,7 +257,10 @@ const StudentDashboard = () => {
   });
   return (
     <NotificationProvider>
-      <div className="classora-wrapper d-flex">
+      <div
+        className="classora-wrapper d-flex"
+        style={{ backgroundColor: "rgb(199, 221, 255)" }}
+      >
         {/* --- FIXED SIDEBAR --- */}
         <Sidemenu
           navItems={navItems}
@@ -300,7 +298,7 @@ const StudentDashboard = () => {
                   >
                     <path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3" />
                   </svg>
-                   {student.batch.currentSemester} Sem
+                  {student.batch.currentSemester} Sem
                 </p>
                 <p
                   className="text-uppercase fw-bold text-primary m-0 ps-3"
@@ -313,8 +311,8 @@ const StudentDashboard = () => {
             {activeTab === "Overview" && (
               <OverviewTab setActiveTab={setActiveTab} />
             )}
-            {activeTab === "Assignments" && <AssignmentsTab student={user}/>}
-            {activeTab === "Settings" && <SettingsPage student={user}/>}
+            {activeTab === "Assignments" && <AssignmentsTab student={user} />}
+            {activeTab === "Settings" && <SettingsPage student={user} />}
             <NotificationsDrawer />
           </div>
         </main>

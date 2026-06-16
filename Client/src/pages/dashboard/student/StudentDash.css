@@ -4,7 +4,6 @@
 
 .classora-wrapper {
   background-color: rgb(199, 221, 255);
-  font-family: "Inter", system-ui, sans-serif;
 }
 
 /* --- FIXED SIDEBAR --- */
@@ -55,7 +54,7 @@
 .mini-chart .bar {
   width: 5px;
   border-radius: 3px;
-  background-color: currentColor; /* Inherits text-success or text-danger from Bootstrap */
+  background-color: currentColor;
 }
 
 .mini-chart .bar.full {
@@ -90,7 +89,7 @@
 }
 
 .welcome-card {
-  background-color: #0d6dfd1a ;
+  background-color: #0d6dfd1a;
   border: 1px solid rgba(255, 255, 255, 0.8);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
 }
@@ -178,7 +177,7 @@ select.form-select:focus {
   --main-window-bg: #ffffff;
   /* Increased contrast for high readability */
   --text-dark: #0f172a;
-  --text-muted: #374151;
+  --text-muted-studentDash: #374151;
   --text-light: #4b5563;
   --nav-hover: rgba(0, 0, 0, 0.05);
   --nav-active: #ffffff;
@@ -193,14 +192,13 @@ select.form-select:focus {
 }
 
 /* --- Outer Wrapper --- */
-.classora-wrapper {
-  /* display: flex; */
+/* .classora-wrapper {
   height: 100vh;
   width: 100vw;
-  background-color: rgb(199, 221, 255);
+  background-color: var(--bg-student-dash);
   color: var(--text-dark);
   overflow: hidden;
-}
+} */
 
 /* --- FIXED SIDEBAR --- */
 .classora-sidebar {
@@ -318,7 +316,7 @@ select.form-select:focus {
   padding: 10px 12px;
   border: none;
   background: transparent;
-  color: var(--text-muted);
+  color: var(--text-muted-studentDash);
   font-size: 0.95rem;
   font-weight: 600;
   border-radius: 20px;
@@ -503,7 +501,7 @@ select.form-select:focus {
 }
 
 .page-header p {
-  color: var(--text-muted);
+  color: var(--text-muted-studentDash);
   margin: 0;
   font-size: 1rem;
   font-weight: 500;
@@ -530,7 +528,7 @@ select.form-select:focus {
   background: none;
   border: none;
   cursor: pointer;
-  color: var(--text-muted);
+  color: var(--text-muted-studentDash);
   font-weight: bold;
 }
 
@@ -592,7 +590,7 @@ select.form-select:focus {
 .status-text p {
   margin: 2px 0 0 0;
   font-size: 0.8rem;
-  color: var(--text-muted);
+  color: var(--text-muted-studentDash);
   font-weight: 600;
   text-transform: uppercase;
 }
@@ -746,5 +744,5 @@ select.form-select:focus {
 }
 
 .task-right {
-  color: var(--text-muted);
+  color: var(--text-muted-studentDash);
 }

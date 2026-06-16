@@ -111,6 +111,7 @@ const faqData = [
 
 const FaqSection = () => {
   const [activeCategory, setActiveCategory] = useState(faqData[0].id);
+  const [openFaqIndex, setOpenFaqIndex] = useState(null);
 
   const activeFaqs =
     faqData.find((cat) => cat.id === activeCategory)?.questions || [];
@@ -155,7 +156,10 @@ const FaqSection = () => {
         </div>
 
         {/* Premium Segmented Tabs */}
-        <div className="text-center rounded-5 p-5" style={{backgroundColor:"#0066ff2c"}}>
+        <div
+          className="text-center rounded-5 p-5"
+          style={{ backgroundColor: "#0066ff2c" }}
+        >
           <div
             className="btnGrp border bg-secondary-subtle p-1 rounded mx-auto d-flex justify-content-center gap-2 mb-5"
             style={{ width: "fit-content" }}
@@ -164,7 +168,10 @@ const FaqSection = () => {
               <button
                 className={`btn ${activeCategory === category.id ? "active" : ""} border-0 bg-white d-flex align-items-center justify-content-center`}
                 key={category.id}
-                onClick={() => setActiveCategory(category.id)}
+                onClick={() => {
+                  setActiveCategory(category.id);
+                  setOpenFaqIndex(null);
+                }}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -185,43 +192,56 @@ const FaqSection = () => {
             ))}
           </div>
 
-        {/* Floating Card Accordion Content */}
-        <div className="row justify-content-center">
-          <div className="col-lg-8 col-md-10">
-            <div className="accordion faq-accordion" id="classoraFaqAccordion">
-              {activeFaqs.map((faq, index) => (
-                <div className="accordion-item rounded-4 bg-white mb-3" key={index}>
-                  <h2 className="accordion-header" id={`heading${index}`}>
-                    <button
-                      className="accordion-button collapsed"
-                      type="button"
-                      data-bs-toggle="collapse"
-                      data-bs-target={`#collapse${index}`}
-                      aria-expanded="false"
-                      aria-controls={`collapse${index}`}
-                    >
-                      {faq.q}
-                    </button>
-                  </h2>
+          {/* Floating Card Accordion Content */}
+          <div className="row justify-content-center">
+            <div className="col-lg-8 col-md-10">
+              <div
+                className="accordion faq-accordion"
+                id="classoraFaqAccordion"
+              >
+                {activeFaqs.map((faq, index) => (
                   <div
-                    id={`collapse${index}`}
-                    className="accordion-collapse collapse"
-                    aria-labelledby={`heading${index}`}
-                    data-bs-parent="#classoraFaqAccordion"
+                    className="accordion-item rounded-4 mb-3 overflow-hidden border-0"
+                    key={index}
                   >
-                    <div className="accordion-body text-start fs-6 fw-light text-muted">
-                      {/* Properly renders line breaks from the data array */}
-                      {faq.a.split("\n").map((line, i) => (
-                        <span key={i} className="d-block mb-2">
-                          {line}
-                        </span>
-                      ))}
+                    <h2
+                      className="accordion-header border-0"
+                      id={`heading${index}`}
+                    >
+                      <button
+                        className={`accordion-button ${openFaqIndex === index ? "" : "collapsed"}`}
+                        type="button"
+                        onClick={() =>
+                          setOpenFaqIndex(openFaqIndex === index ? null : index)
+                        }
+                        aria-expanded={openFaqIndex === index}
+                        aria-controls={`collapse${index}`}
+                      >
+                        {faq.q}
+                      </button>
+                    </h2>
+                    <div
+                      id={`collapse${index}`}
+                      className={`accordion-collapse collapse ${openFaqIndex === index ? "show" : ""}`}
+                      style={{ backgroundColor: "var(--bg-surface)" }}
+                      aria-labelledby={`heading${index}`}
+                    >
+                      <div
+                        className="accordion-body text-start fs-6 fw-light"
+                        style={{ color: "var(--text-muted)" }}
+                      >
+                        {/* Properly renders line breaks from the data array */}
+                        {faq.a.split("\n").map((line, i) => (
+                          <span key={i} className="d-block mb-2">
+                            {line}
+                          </span>
+                        ))}
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
-        </div>
           </div>
         </div>
       </div>

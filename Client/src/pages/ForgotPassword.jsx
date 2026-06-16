@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useTheme } from "../store/useTheme";
+import { moon, sun } from "../store/Icons";
 import "./ForgetPassword.css";
 // import { toast } from "react-toastify";
 
@@ -7,6 +9,7 @@ import "./ForgetPassword.css";
 
 const ForgotPassword = () => {
   const navigate = useNavigate();
+  const { theme, toggleTheme } = useTheme();
 
   const [step, setStep] = useState(1);
 
@@ -127,14 +130,15 @@ const ForgotPassword = () => {
   };
 
   return (
-    <div className="forgot-password-container">
+    <div className="forgot-password-container" data-theme={theme}>
       {/* backbtn */}
       <button
-        className="back-btn shadow-lg z-3 p-2 px-3 rounded-pill border-0"
+        className="back-btn shadow-lg z-3 rounded-circle border-0 d-flex align-items-center justify-content-center"
         onClick={() => navigate(-1)}
         aria-label="Go back"
+        style={{ width: "48px", height: "48px" }}
       >
-        <svg width="24" height="24" fill="#090f3d" viewBox="0 0 16 16">
+        <svg width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
           <path
             fillRule="evenodd"
             d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"
@@ -142,10 +146,42 @@ const ForgotPassword = () => {
         </svg>
       </button>
 
+      <span
+        className="position-absolute shadow-lg z-3 p-1 rounded-circle"
+        style={{
+          top: "10%",
+          right: "10%",
+          width: "48px",
+          height: "48px",
+          backgroundColor: "var(--bg-surface)",
+        }}
+      >
+        <button
+          className="theme-toggle-btn w-100 h-100 rounded-circle btn-click-animation d-flex align-items-center justify-content-center"
+          onClick={toggleTheme}
+          aria-label="Toggle Theme"
+        >
+          <svg
+            width="24"
+            height="24"
+            fill="var(--text-main)"
+            viewBox="0 0 24 24"
+            stroke="var(--text-main)"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            {theme === "light" ? moon : sun}
+          </svg>
+        </button>
+      </span>
+
       <div className="forgot-password-card">
-        <h3 className="fw-bolder mb-0">Reset Your Password</h3>
+        <h3 className="text-dark fw-bolder mb-0" >
+          Reset Your Password
+        </h3>
         <p
-          className="text-muted mb-4"
+          className="mb-4"
           style={{
             fontSize: "0.9rem",
           }}
@@ -162,18 +198,22 @@ const ForgotPassword = () => {
             <div className="form-floating text-start mb-4">
               <input
                 type="email"
-                className="rounded-3 form-control shadow-0"
+                className="text-dark rounded-3 form-control shadow-0"
+                style={{ backgroundColor: "var(--bg-main)", borderColor: "var(--border-color)", }} 
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 id="floatingInput"
-                placeholder="Email Address"
+                placeholder=" "
               />
-              <label for="floatingInput">Email Address</label>
+              <label for="floatingInput"  className="text-muted">
+                Email Address
+              </label>
             </div>
 
             <button
               type="submit"
-              className="login_btn2 p-2 w-100 rounded-3"
+              className="btn text-white border-0 w-100 py-2 fw-bold d-flex align-items-center justify-content-center btn-click-animation"
+              style={{ backgroundColor: "var(--btn-bg-blue)" }}
               disabled={loading}
             >
               {loading ? "Sending OTP..." : "Send OTP"}
@@ -184,21 +224,29 @@ const ForgotPassword = () => {
         {/* STEP 2 */}
         {step === 2 && (
           <form onSubmit={handleVerifyOTP}>
-            <div className="input-group text-start">
-              <label>Enter OTP</label>
+            <div className="mb-3 form-floating text-start">
               <input
                 type="text"
+                id="floatingOtp"
                 value={otp}
                 onChange={(e) => setOtp(e.target.value)}
-                placeholder="6-digit code"
-                className="rounded-3"
+                className="rounded-3 form-control shadow-0 w-100"
                 maxLength="6"
-                // required
+                placeholder=" "
+                style={{
+                  backgroundColor: "var(--bg-main)",
+                  color: "var(--text-main)",
+                  borderColor: "var(--border-color)",
+                }}
               />
+              <label for="floatingOtp"  className="text-muted">
+                Enter OTP
+              </label>
             </div>
 
             <button
-              className="login_btn2 p-2 w-100 rounded-3"
+              className="btn text-white border-0 w-100 py-2 fw-bold d-flex align-items-center justify-content-center btn-click-animation"
+              style={{ backgroundColor: "var(--btn-bg-blue)" }}
               disabled={loading}
             >
               {loading ? "Verifying..." : "Verify OTP"}
@@ -206,7 +254,9 @@ const ForgotPassword = () => {
 
             <button
               type="button"
-              className="btn btn-outline-dark w-100 mt-2 rounded-3"
+              className="text-dark btn w-100 mt-2 rounded-3 btn-click-animation"
+              style={{ border: "1px solid var(--border-color)",
+                backgroundColor: "transparent", }} 
               onClick={() => setStep(1)}
             >
               Back to Email
@@ -221,30 +271,42 @@ const ForgotPassword = () => {
               <input
                 type="password"
                 value={newPassword}
-                className="rounded-3 form-control shadow-0"
+                className="text-dark rounded-3 form-control shadow-0"
+                style={{ backgroundColor: "var(--bg-main)", borderColor: "var(--border-color)", }} 
                 onChange={(e) => setNewPassword(e.target.value)}
                 id="floatingInput1"
-                placeholder="New Password"
-                // required
+                placeholder=" "
               />
-              <label for="floatingInput1">New Password</label>
+              <label
+                for="floatingInput1"
+                
+               className="text-muted">
+                New Password
+              </label>
             </div>
 
             <div className="form-floating text-start mb-4">
               <input
                 type="password"
                 value={confirmPassword}
-                className="rounded-3 form-control shadow-0"
+                className="text-dark rounded-3 form-control shadow-0"
+                style={{ backgroundColor: "var(--bg-main)", borderColor: "var(--border-color)", }} 
                 id="floatingInput2"
                 onChange={(e) => setConfirmPassword(e.target.value)}
-                placeholder="Confirm Password"
+                placeholder=" "
                 // required
               />
-              <label for="floatingInput2">Confirm Password</label>
+              <label
+                for="floatingInput2"
+                
+               className="text-muted">
+                Confirm Password
+              </label>
             </div>
 
             <button
-              className="login_btn2 p-2 w-100 rounded-3"
+              className="btn text-white border-0 w-100 py-2 fw-bold d-flex align-items-center justify-content-center btn-click-animation"
+              style={{ backgroundColor: "var(--btn-bg-blue)" }}
               disabled={loading}
             >
               {loading ? "Updating..." : "Update Password"}
