@@ -1,7 +1,7 @@
 import React from "react";
 import "./AdminDash.css";
+import { useTheme } from "../../../store/useTheme";
 
-// 1. EXTRACT SVGS: Keep your data arrays clean by storing messy SVG paths in a dictionary
 const ICONS = {
   faculty: (
     <svg
@@ -131,7 +131,12 @@ const ICONS = {
 
 const MetricCard = ({ metric, className = "" }) => (
   <div
-    className={`card metric-card bg-light gap-0 border border-secondary-50 d-flex flex-row justify-content-between align-items-center p-4 shadow-sm rounded-4 transition-hover ${className}`}
+    className={`card metric-card gap-0 d-flex flex-row justify-content-between align-items-center p-4 shadow-sm rounded-4 transition-hover ${className}`}
+    style={{
+      backgroundColor: "var(--bg-glass)",
+      border: "1px solid var(--light-hover)",
+      color: "var(--text-main)",
+    }}
   >
     <div
       className={`bg-${metric.theme} bg-opacity-10 text-${metric.theme} rounded-4 d-flex align-items-center justify-content-center`}
@@ -146,14 +151,18 @@ const MetricCard = ({ metric, className = "" }) => (
     </div>
     <div className="d-flex flex-column align-items-end text-end">
       <h3
-        className="fw-bolder m-0 text-dark"
+        className="fw-bolder m-0"
         style={{ fontSize: "2.2rem", lineHeight: "1" }}
       >
         {metric.value}
       </h3>
       <p
-        className="text-muted text-truncate w-100 fw-bold text-uppercase m-0 mt-1"
-        style={{ fontSize: "0.75rem", letterSpacing: "0.08em" }}
+        className="text-truncate w-100 fw-bold text-uppercase m-0 mt-1"
+        style={{
+          fontSize: "0.75rem",
+          letterSpacing: "0.08em",
+          color: "var(--text-muted)",
+        }}
       >
         {metric.label}
       </p>
@@ -162,6 +171,7 @@ const MetricCard = ({ metric, className = "" }) => (
 );
 
 const AdminOverview = () => {
+  const { theme } = useTheme();
   // Look how much cleaner the data is now without the raw HTML.
   const rightColumnMetrics = [
     {
@@ -207,7 +217,7 @@ const AdminOverview = () => {
       label: "Active Subjects",
       value: "42",
       iconKey: "subjects",
-      theme: "dark",
+      theme: theme === "dark" ? "light" : "dark",
     },
   ];
 
@@ -247,7 +257,10 @@ const AdminOverview = () => {
   ];
 
   return (
-    <div className="admin-overview-container fade-in">
+    <div
+      className="admin-overview-container fade-in"
+      style={{ color: "var(--text-main)" }}
+    >
       {/* Top Split Section */}
       <div className="row g-4 mb-4 align-items-stretch">
         {/* LEFT: Hero Banner */}
@@ -255,24 +268,31 @@ const AdminOverview = () => {
           <div
             className="card rounded-4 overflow-hidden position-relative h-100 w-100"
             style={{
-              background: "linear-gradient(135deg, #f0f4ff 0%, #ffffff 100%)",
-              border: "1px solid rgba(13, 110, 253, 0.08)",
+              background:
+                theme === "dark"
+                  ? "linear-gradient(135deg, #525252ff 0%, #25292c 100%)"
+                  : "linear-gradient(135deg, #f0f4ff 0%, #ffffff 100%)",
+              border: "1px solid var(--light-hover)",
               minHeight: "220px",
             }}
           >
             <div
-              className="position-absolute Adminblobs rounded-circle"
+              className={`${theme === "dark" ? "opacity-50" : ""} position-absolute Adminblobs rounded-circle`}
               style={{ right: "-80px", top: "-10%" }}
             ></div>
             <div
-              className="position-absolute Adminblobs rounded-circle"
+              className={`${theme === "dark" ? "opacity-50" : ""} position-absolute Adminblobs rounded-circle`}
               style={{ left: "-80px", bottom: "-10%" }}
             ></div>
 
             <div className="card-body z-1 p-4 p-lg-5 d-flex flex-column justify-content-center align-items-center h-100">
               <span
-                className="badge bg-secondary bg-opacity-10 text-secondary mb-3 px-3 py-2 rounded-pill fw-medium border border-secondary border-opacity-10 d-flex align-items-center gap-1"
-                style={{ fontSize: "0.85rem" }}
+                className="badge bg-secondary bg-opacity-10 mb-3 px-3 py-2 rounded-pill fw-medium d-flex align-items-center gap-1"
+                style={{
+                  fontSize: "0.85rem",
+                  color: "var(--text-muted)",
+                  border: "1px solid var(--light-hover)",
+                }}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -293,14 +313,21 @@ const AdminOverview = () => {
                 Admin Workspace
               </span>
               <h2
-                className="fw-bolder text-dark mb-2"
-                style={{ letterSpacing: "-0.5px", fontSize: "2.5rem" }}
+                className="fw-bolder mb-2"
+                style={{
+                  letterSpacing: "-0.5px",
+                  fontSize: "2.5rem",
+                  color: "var(--text-main)",
+                }}
               >
                 Welcome back, Admin!
               </h2>
               <p
-                className="text-secondary mb-0 fw-light"
-                style={{ fontSize: "0.98rem" }}
+                className="fw-medium mb-0 "
+                style={{
+                  fontSize: "0.98rem",
+                  color: "var(--text-muted)",
+                }}
               >
                 Your institutional overview and control center.
               </p>
@@ -330,33 +357,60 @@ const AdminOverview = () => {
       </div>
 
       {/* RECENT ACTIVITY TABLE */}
-      <div className="card bg-light shadow-sm rounded-4 border overflow-hidden">
-        <div className="card-header border-0 bg-white pt-4 px-4 pb-2 d-flex justify-content-between align-items-center">
-          <h5 className="fw-bold text-dark mb-0">Recent System Activities</h5>
+      <div
+        className="card shadow-sm rounded-4 overflow-hidden"
+        style={{
+          backgroundColor: "var(--bg-surface)",
+          color: "var(--text-main)",
+          border: "1px solid var(--light-hover)",
+        }}
+      >
+        <div
+          className="card-header border-0 pt-4 px-4 pb-2 d-flex justify-content-between align-items-center"
+          style={{ backgroundColor: "var(--light-hover)" }}
+        >
+          <h5 className="fw-bold mb-0">Recent System Activities</h5>
           <button className="btn btn-sm btn-link text-decoration-none fw-semibold">
             View All
           </button>
         </div>
-        <div className="card-body border-top p-0">
+        <div
+          className="card-body p-0"
+          style={{ borderTop: "1px solid var(--text-muted)" }}
+        >
           <div className="table-responsive px-4">
-            <table className="table table-hover align-middle mb-0">
-              <thead className="table-light">
+            <table
+              className={`table table-hover align-middle mb-0 table-${theme === "dark" ? "dark" : "light"}`}
+            >
+              <thead>
                 <tr>
                   <th
-                    className="text-uppercase text-muted ps-4 py-3"
-                    style={{ fontSize: "0.75rem", letterSpacing: "0.05em" }}
+                    className="text-uppercase ps-4 py-3"
+                    style={{
+                      fontSize: "0.75rem",
+                      letterSpacing: "0.05em",
+                      color: "var(--text-muted)",
+                    }}
                   >
                     Event
                   </th>
                   <th
-                    className="text-uppercase text-muted py-3"
-                    style={{ fontSize: "0.75rem", letterSpacing: "0.05em" }}
+                    className="text-uppercase py-3"
+                    style={{
+                      fontSize: "0.75rem",
+                      letterSpacing: "0.05em",
+                      color: "var(--text-muted)",
+                    }}
                   >
                     Details
                   </th>
                   <th
-                    className="text-uppercase text-muted text-end pe-4 py-3"
-                    style={{ fontSize: "0.75rem", letterSpacing: "0.05em" }}
+                    className="text-uppercase text-end pe-4 py-3"
+                    style={{
+                      fontSize: "0.75rem",
+                      letterSpacing: "0.05em",
+                      color: "var(--text-muted)",
+                    }}
                   >
                     Timestamp
                   </th>
@@ -372,7 +426,7 @@ const AdminOverview = () => {
                         : ""
                     }
                   >
-                    <td className="ps-4 py-3 border-light">
+                    <td className="ps-4 py-3">
                       <div className="d-flex align-items-center gap-3">
                         <div
                           className={`bg-${log.theme} bg-opacity-10 text-${log.theme} rounded d-flex align-items-center justify-content-center`}
@@ -383,13 +437,28 @@ const AdminOverview = () => {
                             {ICONS[log.iconKey]}
                           </div>
                         </div>
-                        <span className="fw-bold text-dark">{log.action}</span>
+                        <span
+                          className="fw-bold"
+                          style={{ color: "var(--text-main)" }}
+                        >
+                          {log.action}
+                        </span>
                       </div>
                     </td>
-                    <td className="py-3 text-secondary border-light">
+                    <td
+                      className="py-3"
+                      style={{
+                        color: "var(--text-muted)",
+                      }}
+                    >
                       {log.details}
                     </td>
-                    <td className="py-3 text-end text-muted small pe-4 border-light fw-medium">
+                    <td
+                      className="py-3 text-end small pe-4"
+                      style={{
+                        color: "var(--text-muted)",
+                      }}
+                    >
                       {log.time}
                     </td>
                   </tr>

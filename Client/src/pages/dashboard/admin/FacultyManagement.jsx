@@ -2,6 +2,7 @@ import React, { useState, useMemo } from "react";
 import "./AdminDash.css";
 import CustomDropdown from "../../../components/CustomDropdown";
 import { toast } from "react-toastify";
+import { useTheme } from "../../../store/useTheme";
 
 const ICONS = {
   search: (
@@ -321,11 +322,21 @@ const AddFacultyModal = ({
       }}
     >
       <div
-        className="bg-white rounded-4 shadow-lg w-100 overflow-hidden fade-in"
-        style={{ maxWidth: "650px" }}
+        className="rounded-4 shadow-lg w-100 overflow-hidden fade-in"
+        style={{
+          maxWidth: "650px",
+          backgroundColor: "var(--bg-surface)",
+          border: "1px solid var(--light-hover)",
+        }}
       >
-        <div className="d-flex justify-content-between align-items-center p-4 border-bottom bg-light">
-          <h5 className="fw-bold text-dark mb-0">Onboard New Faculty</h5>
+        <div
+          className="d-flex justify-content-between align-items-center p-4"
+          style={{
+            backgroundColor: "var(--light-hover)",
+            borderBottom: "1px solid var(--text-muted)",
+          }}
+        >
+          <h5 className="fw-bold mb-0">Onboard New Faculty</h5>
           <button className="btn btn-link text-secondary p-0" onClick={onClose}>
             {ICONS.close}
           </button>
@@ -336,12 +347,15 @@ const AddFacultyModal = ({
             {ADD_FORM_FIELDS.map(
               ({ id, label, type, placeholder, col, required, maxLength }) => (
                 <div key={id} className={col}>
-                  <label className="form-label fw-bold small text-muted text-uppercase">
+                  <label
+                    className="form-label fw-bold small text-uppercase"
+                    style={{ color: "var(--text-muted)" }}
+                  >
                     {label}
                   </label>
                   <input
                     type={type}
-                    className="form-control form-control-lg bg-light border-0 fs-6"
+                    className="form-control form-control-lg border-0 fs-6"
                     placeholder={placeholder}
                     required={required}
                     maxLength={maxLength}
@@ -358,7 +372,10 @@ const AddFacultyModal = ({
               ),
             )}
             <div className="col-6">
-              <label className="form-label fw-bold text-muted small text-uppercase">
+              <label
+                className="form-label fw-bold small text-uppercase"
+                style={{ color: "var(--text-muted)" }}
+              >
                 Designation *
               </label>
               <CustomDropdown
@@ -368,7 +385,10 @@ const AddFacultyModal = ({
               />
             </div>
             <div className="col-6 " style={{ zIndex: 5 }}>
-              <label className="form-label fw-bold small text-muted text-uppercase">
+              <label
+                className="form-label fw-bold small text-uppercase"
+                style={{ color: "var(--text-muted)" }}
+              >
                 Primary Department *
               </label>
               <CustomDropdown
@@ -391,7 +411,10 @@ const AddFacultyModal = ({
               >
                 Secure Credential Generation
               </h6>
-              <p className="text-muted small mb-0 lh-sm">
+              <p
+                className="small mb-0 lh-sm"
+                style={{ color: "var(--text-muted)" }}
+              >
                 A secure password will be automatically generated and sent
                 directly to the faculty member's email address upon creation.
               </p>
@@ -408,8 +431,8 @@ const AddFacultyModal = ({
             </button>
             <button
               type="submit"
-              className="btn text-white fw-bold px-4 bg-dark"
-              style={{ backgroundColor: "var(--classora-dark-blue, #0f172a)" }}
+              className="btn text-white fw-bold px-4"
+              style={{ backgroundColor: "var(--btn-bg-blue)" }}
             >
               Send Invite
             </button>
@@ -429,7 +452,7 @@ const ProfileDrawer = ({ profile, onClose }) => {
       value: profile.activeAssignments,
       color: "primary",
     },
-    { label: "Submissions Graded", value: profile.totalGraded, color: "dark" },
+    { label: "Submissions Graded", value: profile.totalGraded, color: "" },
   ];
 
   return (
@@ -442,74 +465,112 @@ const ProfileDrawer = ({ profile, onClose }) => {
       }}
     >
       <div
-        className="bg-white h-100 shadow-lg d-flex flex-column drawer-slide"
-        style={{ width: "100%", maxWidth: "450px" }}
+        className="h-100 shadow-lg d-flex flex-column drawer-slide"
+        style={{
+          width: "100%",
+          maxWidth: "450px",
+          backgroundColor: "var(--bg-surface)",
+        }}
       >
-        <div className="p-4 d-flex justify-content-between align-items-center border-bottom">
-          <h5 className="fw-bold text-dark mb-0">Faculty Identity</h5>
+        <div
+          className="p-4 d-flex justify-content-between align-items-center"
+          style={{ borderBottom: "1px solid var(--text-muted)" }}
+        >
+          <h5 className="fw-bold mb-0">Faculty Identity</h5>
           <button
-            className="btn btn-light rounded-circle p-2 text-secondary d-flex align-items-center justify-content-center"
+            className="btn rounded-circle p-2 text-secondary d-flex align-items-center justify-content-center"
+            style={{ backgroundColor: "var(--light-hover)" }}
             onClick={onClose}
           >
             {ICONS.close}
           </button>
         </div>
 
-        <div className="p-4 overflow-auto flex-grow-1 bg-light bg-opacity-50">
-          <div className="bg-white p-4 rounded-4 border shadow-sm text-center mb-4">
+        <div
+          className="p-4 overflow-auto flex-grow-1"
+          style={{ backgroundColor: "var(--light-hover)" }}
+        >
+          <div
+            className="p-4 rounded-4 shadow-sm text-center mb-4 position-relative"
+            style={{
+              backgroundColor: "var(--bg-glass)",
+              border: "1px solid var(--light-hover)",
+            }}
+          >
             <div
               className="rounded-circle d-flex align-items-center justify-content-center fw-bold text-primary bg-primary bg-opacity-10 mx-auto mb-3"
               style={{ width: "80px", height: "80px", fontSize: "1.8rem" }}
             >
               {getInitials(profile.name)}
             </div>
-            <h4 className="fw-bolder text-dark mb-1">{profile.name}</h4>
+            <h4 className="fw-bolder mb-1">{profile.name}</h4>
             <div className="d-flex justify-content-center align-items-center gap-2 mb-3">
-              <span className="badge bg-secondary bg-opacity-10 text-dark border border-secondary border-opacity-25 px-2 py-1">
+              <span className="badge bg-secondary bg-opacity-10 text-secondary border border-secondary border-opacity-25 px-2 py-1">
                 {profile.empId}
               </span>
-              <span className="text-muted small">•</span>
+              <span className="text-secondary small">•</span>
               <span className="fw-medium text-secondary small">
                 {profile.deptCode} Department
               </span>
             </div>
-            <div className="d-flex justify-content-center">
+            <div className="d-flex justify-content-center position-absolute top-0 end-0 m-3">
               <StatusBadge isActive={profile.isActive} />
             </div>
           </div>
 
           <h6
-            className="fw-bold text-muted text-uppercase mb-3"
-            style={{ fontSize: "0.75rem", letterSpacing: "0.5px" }}
+            className="fw-bold text-uppercase mb-3"
+            style={{
+              fontSize: "0.75rem",
+              letterSpacing: "0.5px",
+              color: "var(--text-muted)",
+            }}
           >
             Contact Details
           </h6>
-          <div className="bg-white rounded-4 border shadow-sm mb-4 overflow-hidden">
-            <div className="d-flex align-items-center gap-3 p-3 border-bottom">
+          <div
+            className="rounded-4 shadow-sm mb-4 overflow-hidden"
+            style={{
+              backgroundColor: "var(--bg-surface)",
+              border: "1px solid var(--light-hover)",
+            }}
+          >
+            <div
+              className="d-flex align-items-center gap-3 p-3"
+              style={{ borderBottom: "1px solid var(--light-hover)" }}
+            >
               <div className="text-secondary">{ICONS.mail}</div>
-              <div className="text-dark fw-medium">{profile.email}</div>
+              <div className="fw-medium">{profile.email}</div>
             </div>
             <div className="d-flex align-items-center gap-3 p-3">
               <div className="text-secondary">{ICONS.phone}</div>
-              <div className="text-dark fw-medium">
-                {profile.phone || "Not Provided"}
-              </div>
+              <div className="fw-medium">{profile.phone || "Not Provided"}</div>
             </div>
           </div>
 
           <h6
-            className="fw-bold text-muted text-uppercase mb-3"
-            style={{ fontSize: "0.75rem", letterSpacing: "0.5px" }}
+            className="fw-bold text-uppercase mb-3"
+            style={{
+              fontSize: "0.75rem",
+              letterSpacing: "0.5px",
+              color: "var(--text-muted)",
+            }}
           >
             Platform Activity
           </h6>
           <div className="row g-3 mb-4">
             {stats.map(({ label, value, color }) => (
               <div key={label} className="col-6">
-                <div className="bg-white p-3 rounded-4 border shadow-sm">
+                <div
+                  className="p-3 rounded-4 shadow-sm"
+                  style={{
+                    backgroundColor: "var(--bg-surface)",
+                    border: "1px solid var(--light-hover)",
+                  }}
+                >
                   <div
-                    className="text-muted small fw-bold text-uppercase mb-2"
-                    style={{ fontSize: "0.65rem" }}
+                    className="small fw-bold text-uppercase mb-2"
+                    style={{ fontSize: "0.65rem", color: "var(--text-muted)" }}
                   >
                     {label}
                   </div>
@@ -536,6 +597,7 @@ const FacultyManagement = () => {
     designation: "",
     phone: "",
   });
+  const { theme } = useTheme();
 
   const filteredFaculty = useMemo(() => {
     const q = searchQuery.toLowerCase();
@@ -563,21 +625,27 @@ const FacultyManagement = () => {
   return (
     <div className="faculty-management-container fade-in position-relative">
       <div className="text-center mt-5 mb-4">
-        <h1
-          className="fw-bolder text-dark mb-2"
-          style={{ letterSpacing: "-0.5px" }}
-        >
+        <h1 className="fw-bolder mb-2" style={{ letterSpacing: "-0.5px" }}>
           Faculty Directory
         </h1>
-        <p className="text-muted fw-medium fs-6">
+        <p className="fw-medium fs-6" style={{ color: "var(--text-muted)" }}>
           Manage academic staff identities and platform access.
         </p>
       </div>
 
-      <div className="card px-4 px-md-5 border-0 pb-5">
-        <div className="bg-light rounded-4 overflow-hidden border">
+      <div className="card bg-transparent px-4 px-md-5 border-0 pb-5">
+        <div
+          className="rounded-4 overflow-hidden"
+          style={{
+            backgroundColor: "var(--bg-main)",
+            border: "1px solid var(--light-hover)",
+          }}
+        >
           {/* TOOLBAR */}
-          <div className="p-4 d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 border-bottom">
+          <div
+            className="p-4 d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3"
+            style={{ borderBottom: "1px solid var(--text-muted)" }}
+          >
             <div
               className="d-flex flex-wrap flex-md-nowrap gap-2 w-100"
               style={{ maxWidth: "650px" }}
@@ -588,7 +656,11 @@ const FacultyManagement = () => {
                 </span>
                 <input
                   type="text"
-                  className="w-100 bg-secondary bg-opacity-10 border rounded-3 ps-5 py-2 fw-light focus-ring focus-ring-secondary"
+                  className="w-100 bg-secondary bg-opacity-10 rounded-3 ps-5 py-2 fw-light focus-ring focus-ring-secondary"
+                  style={{
+                    color: "var(--text-main)",
+                    border: "1px solid var(--light-hover)",
+                  }}
                   placeholder="Search by name, ID, or email..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
@@ -608,7 +680,7 @@ const FacultyManagement = () => {
             </div>
             <button
               onClick={() => setIsAddModalOpen(true)}
-              className="btn text-white bg-dark rounded-3 px-4 py-2 fw-bold d-flex align-items-center gap-2 flex-shrink-0"
+              className={`btn rounded-3 px-4 py-2 fw-bold d-flex align-items-center gap-2 flex-shrink-0 ${theme === "light" ? "btn-outline-dark" : "btn-outline-light"}`}
               style={{
                 fontSize: "0.9rem",
               }}
@@ -619,14 +691,20 @@ const FacultyManagement = () => {
 
           {/* DIRECTORY TABLE */}
           <div className="table-responsive">
-            <table className="table table-hover align-middle mb-0">
-              <thead className="table-light">
+            <table
+              className={`table table-hover align-middle mb-0 table-${theme === "light" ? "light" : "dark"}`}
+            >
+              <thead>
                 <tr>
                   {TABLE_HEADERS.map(({ label, cls }, idx) => (
                     <th
                       key={idx}
-                      className={`text-uppercase text-muted py-3 border-bottom-0 ${cls}`}
-                      style={{ fontSize: "0.75rem", letterSpacing: "0.08em" }}
+                      className={`text-uppercase py-3 border-bottom-0 ${cls}`}
+                      style={{
+                        fontSize: "0.75rem",
+                        letterSpacing: "0.08em",
+                        color: "var(--text-muted)",
+                      }}
                     >
                       {label}
                     </th>
@@ -641,7 +719,7 @@ const FacultyManagement = () => {
                       style={{ cursor: "pointer" }}
                       onClick={() => setViewProfileId(faculty.id)}
                     >
-                      <td className="ps-4 py-3 border-light">
+                      <td className="ps-4 py-3">
                         <div className="d-flex align-items-center gap-3">
                           <div
                             className="rounded-circle d-flex align-items-center justify-content-center fw-bold text-primary bg-primary bg-opacity-10"
@@ -654,28 +732,32 @@ const FacultyManagement = () => {
                             {getInitials(faculty.name)}
                           </div>
                           <div>
-                            <div className="fw-bold text-dark">
-                              {faculty.name}
-                            </div>
-                            <div className="text-muted small">
+                            <div className="fw-bold">{faculty.name}</div>
+                            <div
+                              className="small"
+                              style={{ color: "var(--text-muted)" }}
+                            >
                               {faculty.email}
                             </div>
                           </div>
                         </div>
                       </td>
-                      <td className="border-light text-dark fw-medium">
+                      <td
+                        className="fw-medium"
+                        style={{ color: "var(--text-muted)" }}
+                      >
                         {faculty.empId}
                       </td>
-                      <td className="border-light">
-                        <span className="badge bg-secondary bg-opacity-10 text-dark border border-secondary border-opacity-25 px-2 py-1 rounded">
+                      <td>
+                        <span className="badge bg-secondary bg-opacity-10 text-secondary border border-secondary border-opacity-25 px-2 py-1 rounded">
                           {faculty.deptCode}
                         </span>
                       </td>
-                      <td className="border-light">
+                      <td>
                         <StatusBadge isActive={faculty.isActive} />
                       </td>
                       <td
-                        className="text-end pe-4 border-light"
+                        className="text-end pe-4"
                         onClick={(e) => e.stopPropagation()}
                       >
                         <div className="d-flex justify-content-end gap-2">
@@ -700,7 +782,11 @@ const FacultyManagement = () => {
                   ))
                 ) : (
                   <tr>
-                    <td colSpan="5" className="text-center py-5 text-muted">
+                    <td
+                      colSpan="5"
+                      className="text-center py-5"
+                      style={{ color: "var(--text-muted)" }}
+                    >
                       No faculty members found.
                     </td>
                   </tr>

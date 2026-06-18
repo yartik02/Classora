@@ -1,15 +1,43 @@
 :root {
+  --bg-student-dash: rgb(199, 221, 255);
+  --bg-upNext: #80c4ff26;
+
+  /* --main-window-bg: #ffffff; */
+  /* Increased contrast for high readability */
+  --text-dark: #0f172a;
+  --text-muted-studentDash: #374151;
+  --text-light: #4b5563;
+  --nav-hover: rgba(0, 0, 0, 0.05);
+  --nav-active: #ffffff;
+  --border-color: #e5e7eb;
+  --success-color: #10b981;
+  --success-light: #ecfdf5;
+  --danger-color: #ef4444;
+  --danger-light: #fef2f2;
+  --warning-color: #8b5cf6;
+  --warning-light: #f3e8ff;
   --black-accent: #0f172a;
 }
 
+[data-theme="dark"] {
+  --bg-student-dash: rgb(91, 113, 148);
+  --bg-upNext: var(--bg-main);
+  --text-muted-studentDash: #f1f1f1;
+}
+
 .classora-wrapper {
-  background-color: rgb(199, 221, 255);
+  background-color: var(--bg-student-dash);
+  color: var(--text-main);
 }
 
 /* --- FIXED SIDEBAR --- */
 .classora-sidebar {
   width: 250px;
+  height: 100vh;
   flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -18,12 +46,12 @@
 }
 /* Nav Item Hover States */
 .nav-item:hover {
-  background-color: rgba(0, 0, 0, 0.05) !important;
-  color: #0f172a !important;
+  background-color: var(--light-hover) !important;
+  color: var(--text-main) !important;
 }
 
 .nav-item.active {
-  color: #0f172a !important;
+  color: var(--text-main) !important;
 }
 
 /* Ensure the icon doesn't shrink when collapsed */
@@ -84,13 +112,13 @@
 /* overview section */
 .bento-card {
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
-  border: 1px solid rgba(226, 232, 240, 0.6);
+  border: 1px solid var(--light-hover);
   position: relative;
 }
 
 .welcome-card {
   background-color: #0d6dfd1a;
-  border: 1px solid rgba(255, 255, 255, 0.8);
+  border: 1px solid transparent;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
 }
 
@@ -120,13 +148,14 @@
 
 /* The Priority Tasks List Items */
 .priority-task-item {
-  border: 1px solid transparent;
-  background-color: #f1f7ffe8;
+  border: 1px solid var(--light-hover);
+  background-color: var(--bg-surface);
+  transition: all 0.2s ease-in-out;
 }
 
 .priority-task-item:hover {
-  background-color: #ffffff;
-  border-color: rgba(226, 232, 240, 1);
+  background-color: var(--bg-surface);
+  border-color: rgb(172, 172, 172);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
 }
 
@@ -171,49 +200,25 @@ select.form-select:focus {
   outline: none;
 }
 
-/* --- Global Aesthetic Variables --- */
-
-:root {
-  --main-window-bg: #ffffff;
-  /* Increased contrast for high readability */
-  --text-dark: #0f172a;
-  --text-muted-studentDash: #374151;
-  --text-light: #4b5563;
-  --nav-hover: rgba(0, 0, 0, 0.05);
-  --nav-active: #ffffff;
-  --border-color: #e5e7eb;
-  --success-color: #10b981;
-  --success-light: #ecfdf5;
-  --danger-color: #ef4444;
-  --danger-light: #fef2f2;
-  --warning-color: #8b5cf6;
-  --warning-light: #f3e8ff;
-  --black-accent: #0f172a;
-}
-
 /* --- Outer Wrapper --- */
-/* .classora-wrapper {
-  height: 100vh;
+.classora-wrapper {
+  /* display: flex; */
   width: 100vw;
   background-color: var(--bg-student-dash);
   color: var(--text-dark);
   overflow: hidden;
-} */
+}
 
 /* --- FIXED SIDEBAR --- */
 .classora-sidebar {
-  width: 250px;
-  height: 100vh; /* Fixed 100vh height */
+  /* width: 250px;
+  height: 100vh; 
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  padding: 1rem 0;
-}
-
-.classora-sidebar.collapsed {
-  width: 80px; /* Slim sidebar */
+  padding: 1rem 0; */
 }
 
 .fade-in {
@@ -269,14 +274,14 @@ select.form-select:focus {
 .brand-name {
   font-weight: 700;
   font-size: 1.2rem;
-  color: var(--text-dark);
+  color: var(--text-main);
   flex: 1;
 }
 
 .collapse-toggle {
   background: transparent;
   border: none;
-  color: var(--text-dark);
+  color: var(--text-main);
   cursor: pointer;
   padding: 4px;
   display: flex;
@@ -286,7 +291,7 @@ select.form-select:focus {
 
 .nav-group-title {
   font-size: 0.8rem;
-  color: var(--text-light);
+  color: var(--text-muted);
   text-transform: uppercase;
   letter-spacing: 0.5px;
   margin: 0 0 10px 12px;
@@ -317,8 +322,9 @@ select.form-select:focus {
   border: none;
   background: transparent;
   color: var(--text-muted-studentDash);
+  /* color: var(--text-muted); */
   font-size: 0.95rem;
-  font-weight: 600;
+  font-weight: 500;
   border-radius: 20px;
   cursor: pointer;
   transition: all 0.2s;
@@ -342,12 +348,12 @@ select.form-select:focus {
 }
 
 .nav-item:hover {
-  background: var(--nav-hover);
+  background: var(--light-hover);
   color: var(--text-dark);
 }
 
 .nav-item.active {
-  background: var(--nav-active);
+  background: var(--bg-surface);
   color: var(--text-dark);
   font-weight: 700;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.02);
@@ -356,7 +362,6 @@ select.form-select:focus {
 .badge-count {
   margin-left: auto;
   background-color: var(--black-accent);
-  color: white;
   font-size: 0.75rem;
   padding: 2px 8px;
   border-radius: 12px;
@@ -396,13 +401,13 @@ select.form-select:focus {
   margin: 0;
   font-size: 0.95rem;
   font-weight: 700;
-  color: var(--text-dark);
+  color: var(--text-main);
 }
 
 .account-info p {
   margin: 0;
   font-size: 0.8rem;
-  color: var(--text-light);
+  color: var(--text-muted);
   font-weight: 500;
 }
 
@@ -416,7 +421,6 @@ select.form-select:focus {
 }
 
 .main-content-window {
-  background-color: var(--main-window-bg);
   border-radius: 30px;
   flex: 1;
   padding: 2.5rem 3rem;
@@ -447,12 +451,12 @@ select.form-select:focus {
 }
 
 .bc-parent {
-  color: var(--text-light);
+  color: var(--text-muted);
   font-weight: 600;
 }
 
 .bc-separator {
-  color: var(--text-light);
+  color: var(--text-muted);
   display: flex;
   align-items: center;
 }
@@ -462,7 +466,7 @@ select.form-select:focus {
   display: flex;
   align-items: center;
   gap: 6px;
-  color: var(--text-dark);
+  color: var(--text-main);
 }
 
 .header-tools {

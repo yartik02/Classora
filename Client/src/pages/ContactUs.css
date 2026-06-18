@@ -84,12 +84,12 @@
   display: grid;
   place-items: center;
   background: var(--bg-main);
-  color: var(--color-secondary);
+  color: var(--text-main);
   border-radius: 50%;
   transition: all 0.3s ease;
 }
 .social-icon:hover {
-  background-color: var(--color-secondary);
+  background-color: var(--text-main);
   color: var(--bg-main);
   transform: translateY(-3px);
 }
@@ -128,11 +128,8 @@
     clip-path: polygon(0 calc(100% - 1%), 0 0, 100% 1%, 100% 100%);
   }
 }
-/* @media (min-width: 990px) { */
 
-.slantedSection/* ═══════════════════════════════════════════════════════
-   FAQ ACCORDION
-══════════════════════════════════════════════════════════ */
+/* FAQ ACCORDION */
 
 /* Floating Card Accordion */
 .faq-accordion .accordion-item {

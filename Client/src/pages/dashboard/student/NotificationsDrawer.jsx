@@ -11,6 +11,7 @@ import {
   BellOff,
 } from "lucide-react";
 import "./NotificationsDrawer.css";
+import { useTheme } from "../../../store/useTheme.jsx";
 
 const NotificationsDrawer = () => {
   const {
@@ -22,6 +23,7 @@ const NotificationsDrawer = () => {
     clearAll,
     unreadCount,
   } = useNotifications();
+  const { theme } = useTheme();
 
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -66,7 +68,7 @@ const NotificationsDrawer = () => {
         <div
           className="custom-backdrop fade show"
           onClick={handleCloseDrawer}
-          style={{ zIndex: 1040 }}
+          style={{ zIndex: 1040, color: "var(--text-main)" }}
         ></div>
       )}
 
@@ -75,12 +77,15 @@ const NotificationsDrawer = () => {
         tabIndex="-1"
         style={{
           visibility: showNotifications ? "visible" : "hidden",
-          zIndex: 1050, // <-- This forces the drawer on top of the backdrop
+          color: "var(--bg-main)",
+          zIndex: 1050,
         }}
       >
         <div className="offcanvas-header px-4 py-4">
           <div className="d-flex align-items-center gap-2">
-            <h5 className="fw-bold m-0 text-dark">Notifications</h5>
+            <h5 className="fw-bold m-0" style={{ color: "var(--text-main)" }}>
+              Notifications
+            </h5>
             {unreadCount > 0 && (
               <span className="unread-badge rounded-pill fw-semibold">
                 {unreadCount} New
@@ -89,7 +94,7 @@ const NotificationsDrawer = () => {
           </div>
           <button
             type="button"
-            className="btn-close shadow-none"
+            className={`btn-close shadow-none ${theme === "light" ? "" : "btn-close-white"}`}
             onClick={handleCloseDrawer}
             aria-label="Close"
           ></button>
@@ -108,9 +113,16 @@ const NotificationsDrawer = () => {
                   <EllipsisVertical width={20} strokeWidth={1.5} />
                 </button>
                 {menuOpen && (
-                  <div className="menu-dropdown shadow-sm border position-absolute end-0 mt-2 bg-white rounded-3 z-3">
+                  <div
+                    className="menu-dropdown shadow position-absolute end-0 mt-2 rounded-3 z-3"
+                    style={{
+                      backgroundColor: "var(--bg-surface)",
+                      border: "1px solid var(--light-hover)",
+                    }}
+                  >
                     <button
-                      className="btn btn-link text-dark text-decoration-none d-block w-100 text-start"
+                      className="btn btn-link text-decoration-none d-block w-100 text-start"
+                      style={{ color: "var(--text-muted)" }}
                       onClick={() => {
                         markAllAsRead();
                         setMenuOpen(false);
@@ -161,14 +173,25 @@ const NotificationsDrawer = () => {
                       </div>
                       <div className="flex-grow-1">
                         <div className="d-flex justify-content-between align-items-start">
-                          <h6 className="notif-title fw-bold text-dark m-0">
+                          <h6
+                            className="notif-title fw-bold m-0"
+                            style={{ color: "var(--text-main)" }}
+                          >
                             {n.title}
                           </h6>
-                          <small className="notif-time text-muted fw-medium ms-2 flex-shrink-0">
+                          <small
+                            className="notif-time fw-medium ms-2 flex-shrink-0"
+                            style={{ color: "var(--text-muted)" }}
+                          >
                             {n.time}
                           </small>
                         </div>
-                        <p className="notif-msg m-0 mt-1">{n.message}</p>
+                        <p
+                          className="notif-msg m-0 mt-1"
+                          style={{ color: "var(--text-muted)" }}
+                        >
+                          {n.message}
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -179,7 +202,7 @@ const NotificationsDrawer = () => {
         </div>
       </div>
     </>,
-    document.body
+    document.body,
   );
 };
 

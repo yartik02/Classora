@@ -257,10 +257,7 @@ const StudentDashboard = () => {
   });
   return (
     <NotificationProvider>
-      <div
-        className="classora-wrapper d-flex"
-        style={{ backgroundColor: "rgb(199, 221, 255)" }}
-      >
+      <div className="classora-wrapper d-flex">
         {/* --- FIXED SIDEBAR --- */}
         <Sidemenu
           navItems={navItems}
@@ -273,7 +270,10 @@ const StudentDashboard = () => {
 
         {/* --- SCROLLABLE MAIN CONTENT (NO SCROLLBAR) --- */}
         <main className="classora-main p-3">
-          <div className="main-content-window bg-white p-5 shadow">
+          <div
+            className="main-content-window p-5 shadow"
+            style={{ backgroundColor: "var(--bg-surface)" }}
+          >
             <header className="content-header mt-0 mb-4">
               <div className="breadcrumbs">
                 <span className="bc-parent">Classora</span>
@@ -284,8 +284,13 @@ const StudentDashboard = () => {
               </div>
               <div className="d-flex flex-row align-items-center">
                 <p
-                  className="text-uppercase fw-bold border-end border-2 d-flex align-items-center text-secondary m-0 pe-3 border-dark-subtle"
-                  style={{ letterSpacing: "1px", fontSize: "0.85rem" }}
+                  className="text-uppercase fw-bold d-flex align-items-center m-0 pe-3"
+                  style={{
+                    letterSpacing: "1px",
+                    fontSize: "0.85rem",
+                    borderRight: "1.5px solid var(--text-muted)",
+                    color: "var(--text-muted)",
+                  }}
                 >
                   {student.batch.programName} &nbsp;{student.department.code}
                   <svg

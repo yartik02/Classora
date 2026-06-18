@@ -260,7 +260,7 @@ const Register = () => {
 
     try {
       const response = await fetch(
-        "http://localhost:4000/api/auth/sendOtpToMail",
+        "http://localhost:4000/api/v1/auth/sendOtpToMail",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -299,7 +299,7 @@ const Register = () => {
       setIsVerifying(true);
 
       const verifyRes = await fetch(
-        `http://localhost:4000/api/auth/verifyOtp`,
+        `http://localhost:4000/api/v1/auth/verifyOtp`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -314,20 +314,23 @@ const Register = () => {
       }
 
       // CRITICAL UPDATE: Payload exactly matches Mongoose Schema requirements
-      const response = await fetch(`http://localhost:4000/api/auth/register`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: formData.name,
-          email: formData.email,
-          password: formData.password,
-          role: "Student", // Drives the Discriminator logic on the backend
-          rollno: formData.rollno,
-          department: formData.department,
-          batch: formData.batch,
-          section: formData.section,
-        }),
-      });
+      const response = await fetch(
+        `http://localhost:4000/api/v1/auth/register`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name: formData.name,
+            email: formData.email,
+            password: formData.password,
+            role: "Student", // Drives the Discriminator logic on the backend
+            rollno: formData.rollno,
+            department: formData.department,
+            batch: formData.batch,
+            section: formData.section,
+          }),
+        },
+      );
 
       if (response.ok) {
         setFormData({

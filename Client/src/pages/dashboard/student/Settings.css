@@ -1,101 +1,81 @@
 .settings-window {
-    animation: fadeIn 0.4s ease-out;
-    /* background-color: #d8d8d8; */
-    min-height: 100vh;
+  animation: fadeIn 0.4s ease-out;
+  min-height: 100vh;
+  background-color: var(--bg-main);
+}
+
+.settings-card {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--light-hover);
+  color: var(--text-main);
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-
-/* ACADEMIC IDENTITY GRID */
-.identity-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1.5rem;
-}
-
-.info-item .headings {
-    display: block;
-    font-size: 0.7rem;
-    font-weight: 800;
-    color: #003391; 
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    /* margin-bottom: 4px; */
-}
-
-.info-item p {
-    font-size: 0.95rem;
-    font-weight: 600;
-    color: #2D3748;
-    margin: 0;
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* SECURITY ITEMS (Modern Navigational Style) */
 .security-link-item {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 1rem 1.25rem;
-    border-radius: 16px;
-    background: #f8fafc;
-    border: 1px solid #edf2f7;
-    text-decoration: none !important;
-    transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.25rem;
+  border-radius: 16px;
+  background: var(--bg-glass);
+  border: 1px solid var(--border-login);
+  text-decoration: none !important;
+  transition: all 0.2s ease;
 }
 
 .security-link-item:hover {
-    background: #ffffff;
-    border-color: #A8E6CF; /* Mint Green from Overview */
-    transform: translateY(-2px);
-    box-shadow: 0 8px 15px rgba(168, 230, 207, 0.15);
+  border-color: var(--classora-accent-blue); /* Mint Green from Overview */
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
 }
 
 .item-icon-circle {
-    width: 44px;
-    height: 44px;
-    background: white;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.1rem;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.04);
-}
-
-/* The main unified container */
-.academic-profile-card {
-  background-color: #ffffff;
-  border: 1px solid #f1f5f9;
-  box-shadow: 0 10px 40px -10px rgba(15, 23, 42, 0.05); /* Very soft, wide shadow */
+  width: 44px;
+  height: 44px;
+  background: var(--light-hover);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
 }
 
 /* The wrapper for each piece of data */
 .profile-item {
   cursor: default;
-  transition: transform 0.2s ease;
+  transition: all 0.2s ease;
 }
 
 /* The Icon Container */
 .icon-box {
   width: 44px;
   height: 44px;
-  background-color: #f8fafc; /* Light slate grey */
-  color: #64748b; /* Medium slate */
-  transition: all 0.3s ease-in-out;
+  background: linear-gradient(135deg, #051734, var(--classora-accent-blue));
+  color: var(--text-white); /* Medium slate */
+  transition:
+    all 0.2s ease-in-out,
+    background 0.3s ease-in-out;
 }
 
 /* The Hover Effect: Turns the icon box solid blue when hovering over the row */
 .profile-item:hover .icon-box {
-  background-color: var(--classora-accent-blue, #3b82f6);
-  color: #ffffff;
+  background: linear-gradient(135deg, var(--classora-accent-blue), #051734);
   transform: scale(1.05) rotate(10deg);
 }
 .profile-item:hover {
-  background-color:  #6ca4ff27;
+  background-color: #6ca4ff27;
 }
 
 /* Typography */
@@ -106,5 +86,11 @@
 
 .item-value {
   font-size: 1.15rem;
-  color: #0f172a; /* Near black for maximum readability */
+  color: var(--text-muted); /* Near black for maximum readability */
+}
+
+.themeCards {
+  background-color: var(--bg-glass);
+  border: 1px solid var(--border-login);
+  color: var(--text-muted);
 }

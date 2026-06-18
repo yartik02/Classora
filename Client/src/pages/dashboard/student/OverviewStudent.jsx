@@ -7,8 +7,10 @@ import {
   Star,
 } from "lucide-react";
 import "./StudentDash.css";
+import { useTheme } from "../../../store/useTheme";
 
 const OverviewTab = ({ setActiveTab }) => {
+  const { theme } = useTheme();
   const studentName = "Yartik";
 
   // Data State
@@ -92,7 +94,10 @@ const OverviewTab = ({ setActiveTab }) => {
   ];
 
   return (
-    <div className="overview-container fade-in">
+    <div
+      className="overview-container fade-in"
+      style={{ color: "var(--text-main)" }}
+    >
       {/* 1. TOP BENTO ROW */}
       <div className="row g-4 mb-4">
         <div className="col-lg-8">
@@ -102,14 +107,14 @@ const OverviewTab = ({ setActiveTab }) => {
               style={{ zIndex: 2 }}
             >
               <h1
-                className="fw-bolder text-dark mb-0"
+                className="fw-bolder mb-0"
                 style={{ fontSize: "2.5rem", letterSpacing: "-1px" }}
               >
                 Welcome, {studentName} !
               </h1>
               <p
-                className="text-muted fw-medium fs-6 mb-0"
-                style={{ maxWidth: "500px" }}
+                className="fw-medium fs-6 mb-0"
+                style={{ maxWidth: "500px", color: "var(--text-muted)" }}
               >
                 You have <strong>{stats.urgent} urgent</strong> assignments to
                 focus on today. Let's get them cleared out.
@@ -130,9 +135,7 @@ const OverviewTab = ({ setActiveTab }) => {
         {/* Circular Progress Card */}
         <div className="col-lg-4">
           <div className="bento-card rounded-5 bg-primary bg-opacity-25 h-100 p-4 d-flex flex-column align-items-center justify-content-center text-center">
-            <h6 className="fw-bold text-dark mb-3 w-100 text-start">
-              Weekly Completion
-            </h6>
+            <h6 className="fw-bold mb-3 w-100 text-start">Weekly Completion</h6>
             <div className="position-relative d-inline-flex align-items-center justify-content-center mb-2">
               <svg
                 width="120"
@@ -145,7 +148,7 @@ const OverviewTab = ({ setActiveTab }) => {
                   cy="60"
                   r={circleRadius}
                   fill="none"
-                  stroke="#f1f5f9"
+                  stroke={theme === "dark" ? "#1a1a1a" : "#f1f5f9"}
                   strokeWidth="12"
                 />
                 <circle
@@ -161,11 +164,14 @@ const OverviewTab = ({ setActiveTab }) => {
                   style={{ transition: "stroke-dashoffset 1.5s ease-out" }}
                 />
               </svg>
-              <span className="position-absolute fw-bolder text-dark fs-5">
+              <span className="position-absolute fw-bolder fs-5">
                 {stats.completion}%
               </span>
             </div>
-            <p className="text-muted small fw-semibold mt-2 mb-0">
+            <p
+              className="tsmall fw-semibold mt-2 mb-0"
+              style={{ color: "var(--text-muted)" }}
+            >
               You're on track! Keep it up.
             </p>
           </div>
@@ -178,8 +184,9 @@ const OverviewTab = ({ setActiveTab }) => {
           <div key={card.id} className="col-12 col-md-6 col-xl-3">
             <div
               className={`bento-card rounded-4 p-4 d-flex justify-content-between align-items-center h-100 transition-all ${
-                card.id === 4 ? "bg-dark cursor-pointer hover-lift shadow" : "bg-white"
+                card.id === 4 ? "bg-dark cursor-pointer hover-lift shadow" : ""
               }`}
+              style={{ backgroundColor: "var(--bg-glass)" }}
               onClick={() => {
                 if (card.id === 4) setActiveTab("Assignments");
               }}
@@ -187,16 +194,20 @@ const OverviewTab = ({ setActiveTab }) => {
               {/* Left Side: Text Content */}
               <div className="d-flex flex-column text-start">
                 <p
-                  className={`fw-bold text-uppercase mb-1 text-truncate ${
-                    card.id === 4 ? "text-white-50" : "text-muted"
-                  }`}
-                  style={{ fontSize: "0.75rem", letterSpacing: "0.5px" }}
+                  className={`fw-bold text-uppercase mb-1 text-truncate`}
+                  style={{
+                    fontSize: "0.75rem",
+                    letterSpacing: "0.5px",
+                    color: "var(--text-muted)",
+                  }}
                 >
                   {card.label}
                 </p>
                 <h2
                   className={`fw-bolder m-0 ${
-                    card.id === 4 ? "text-white fs-5 mt-1" : `text-${card.color}`
+                    card.id === 4
+                      ? "text-white fs-5 mt-1"
+                      : `text-${card.color}`
                   }`}
                 >
                   {card.value}
@@ -225,34 +236,41 @@ const OverviewTab = ({ setActiveTab }) => {
       <div className="row g-4">
         {/* LEFT: Priority Tasks */}
         <div className="col-lg-7">
-          <div className="bento-card bg-white shadow-sm rounded-5 p-4 h-100">
-            <h5 className="mb-4 fw-bold text-dark">Up Next</h5>
+          <div
+            className={`bento-card shadow-sm rounded-5 p-4 h-100 ${theme === "light" ? "" : ""}`}
+            style={{ backgroundColor: "var(--bg-upNext)" }}
+          >
+            <h5 className="mb-4 fw-bold">Up Next</h5>
             <div className="d-flex flex-column gap-3">
               {priorityTasks.map((task) => (
                 <div
                   key={task.id}
-                  className="priority-task-item hover-lift transition-all p-3 rounded-4 d-flex align-items-center justify-content-between transition-all border border-light"
+                  className="priority-task-item hover-lift transition-all p-3 rounded-4 d-flex align-items-center justify-content-between transition-all"
                 >
                   <div className="d-flex align-items-center gap-3">
                     <div
-                      className="fw-bolder d-flex align-items-center bg-white justify-content-center rounded-3 flex-shrink-0 shadow-sm"
+                      className="fw-bolder d-flex align-items-center justify-content-center rounded-3 flex-shrink-0 shadow-sm"
                       style={{
                         width: "45px",
                         height: "45px",
                         color: task.color,
                         fontSize: "0.9rem",
+                        backgroundColor: "var(--bg-glass)",
                       }}
                     >
                       {task.type}
                     </div>
                     <div>
                       <h6
-                        className="m-0 fw-bold text-dark mb-1"
+                        className="m-0 fw-bold mb-1"
                         style={{ fontSize: "0.95rem" }}
                       >
                         {task.title}
                       </h6>
-                      <p className="m-0 text-muted small fw-medium">
+                      <p
+                        className="m-0 small fw-medium"
+                        style={{ color: "var(--text-muted)" }}
+                      >
                         {task.course}
                       </p>
                     </div>
@@ -265,9 +283,16 @@ const OverviewTab = ({ setActiveTab }) => {
                       >
                         {task.due}
                       </p>
-                      <p className="m-0 text-muted small">{task.time}</p>
+                      <p
+                        className="m-0 small"
+                        style={{ color: "var(--text-muted)" }}
+                      >
+                        {task.time}
+                      </p>
                     </div>
-                    <button className="btn btn-outline-dark rounded-pill fw-bold btn-sm px-3 py-2">
+                    <button
+                      className={`btn ${theme === "light" ? "btn-outline-dark" : "btn-outline-light"} rounded-pill fw-bold btn-sm px-3 py-2`}
+                    >
                       Open
                     </button>
                   </div>
@@ -279,13 +304,17 @@ const OverviewTab = ({ setActiveTab }) => {
 
         {/* RIGHT: Recent Feedback */}
         <div className="col-lg-5">
-          <div className="bento-card border border-secondary border-opacity-10 rounded-5 p-4 h-100 bg-light">
-            <h5 className="fw-bold text-dark mb-4">Latest Feedback</h5>
+          <div
+            className={`bento-card rounded-5 p-4 h-100 bg-light ${theme === "light" ? " border border-secondary border-opacity-10" : "bg-opacity-10 "}`}
+            style={{ backgroundColor: "var(--bg-main)" }}
+          >
+            <h5 className="fw-bold mb-4">Latest Feedback</h5>
             <div className="d-flex flex-column gap-3">
               {recentFeedback.map((fb) => (
                 <div
                   key={fb.id}
-                  className="bg-white p-3 rounded-4 shadow-sm border border-light transition-all hover-lift"
+                  className="p-3 rounded-4 shadow-sm transition-all hover-lift"
+                  style={{ backgroundColor: "var(--bg-glass)" }}
                 >
                   <div className="d-flex justify-content-between align-items-start mb-2">
                     <div className="d-flex align-items-center gap-2">
@@ -293,7 +322,7 @@ const OverviewTab = ({ setActiveTab }) => {
                         <Star size={16} fill="currentColor" />
                       </div>
                       <h6
-                        className="m-0 fw-bold text-dark"
+                        className="m-0 fw-bold"
                         style={{ fontSize: "0.9rem" }}
                       >
                         {fb.title}
@@ -304,15 +333,15 @@ const OverviewTab = ({ setActiveTab }) => {
                     </span>
                   </div>
                   <p
-                    className="m-0 text-muted fw-medium mb-2"
-                    style={{ fontSize: "0.8rem" }}
+                    className="m-0 fw-medium mb-2"
+                    style={{ fontSize: "0.8rem", color: "var(--text-muted)" }}
                   >
                     {fb.course}
                   </p>
-                  <div className="bg-light p-2 rounded-3">
-                    <p className="m-0 text-dark small fst-italic">
-                      "{fb.comment}"
-                    </p>
+                  <div
+                    className={`bg-light p-2 rounded-3 ${theme === "light" ? "" : "bg-opacity-50 "}`}
+                  >
+                    <p className="m-0 small fst-italic">"{fb.comment}"</p>
                   </div>
                 </div>
               ))}

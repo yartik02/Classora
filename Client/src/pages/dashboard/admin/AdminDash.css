@@ -1,3 +1,11 @@
+:root {
+  --admin-dash-bg: #cdd8e2;
+}
+
+[data-theme="dark"] {
+  --admin-dash-bg: #515e6a;
+}
+
 .admin-overview-container {
   padding: 1rem;
   animation: fadeIn 0.4s ease-out;

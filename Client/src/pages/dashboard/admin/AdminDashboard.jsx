@@ -1,4 +1,4 @@
-import React, { useState, useEffect, use } from "react";
+import React, { useState, useEffect } from "react";
 import { NotificationProvider } from "../../../store/NotificationContext.jsx";
 import Sidemenu from "../Sidemenu";
 import AcademicStructure from "./AcademicStructure";
@@ -191,19 +191,16 @@ const navItems = [
 const AdminDashboard = () => {
   const [activePage, setActivePage] = useState("Overview");
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(true);
-  const [adminData, setAdminData] = useState(null);
   const { user } = useAuth();
 
-  useEffect(() => {
-    if (user && !adminData) {
-      setAdminData({
+  const adminData = user
+    ? {
         name: user.name,
         roleId: user.roleID,
         role: user.role,
         email: user.email,
-      });
-    }
-  }, [user, adminData]);
+      }
+    : null;
 
   const formattedDate = new Date().toLocaleDateString("en-US", {
     weekday: "long",
@@ -228,9 +225,9 @@ const AdminDashboard = () => {
   return (
     <NotificationProvider>
       <div
-        className="classora-wrapper d-flex"
+        className="d-flex"
         style={{
-          backgroundColor: " #cdd8e2",
+          backgroundColor: "var(--admin-dash-bg)",
         }}
       >
         {/* --- FIXED SIDEBAR --- */}
@@ -245,7 +242,10 @@ const AdminDashboard = () => {
 
         {/* --- DYNAMIC MAIN CONTENT --- */}
         <main className="classora-main">
-          <div className="main-content-window shadow">
+          <div
+            className="main-content-window shadow "
+            style={{ backgroundColor: "var(--bg-surface)" }}
+          >
             {/* Breadcrumb Header */}
             <header className="content-header mb-4">
               <div className="breadcrumbs">

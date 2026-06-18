@@ -144,16 +144,19 @@ function ContactUs() {
     }
 
     try {
-      const response = await fetch(`http://localhost:4000/api/auth/contactUs`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: formData.name,
-          email: formData.email,
-          subject: formData.subject,
-          message: formData.message,
-        }),
-      });
+      const response = await fetch(
+        `http://localhost:4000/api/v1/auth/contactUs`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name: formData.name,
+            email: formData.email,
+            subject: formData.subject,
+            message: formData.message,
+          }),
+        },
+      );
 
       if (response.ok) {
         // const res_Data = await response.json();

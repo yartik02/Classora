@@ -3,6 +3,7 @@ import * as bootstrap from "bootstrap";
 import logo from "../../assets/ClassoraLogoNew.svg";
 import { useNotifications } from "../../store/NotificationContext";
 import { Link } from "react-router-dom";
+import { useTheme } from "../../store/useTheme";
 
 const Icons = {
   SidebarToggle: (
@@ -201,23 +202,40 @@ const Sidemenu = ({
 }) => {
   const { openNotifications, unreadCount } = useNotifications();
   const handleNavClick = (key) => {
+    hideTooltips();
     if (key === "Notifications") {
       return openNotifications();
     }
     setActiveTab(key);
   };
+  const { theme } = useTheme();
+
+  const hideTooltips = () => {
+    const tooltipTriggerList = document.querySelectorAll(
+      '[data-bs-toggle="tooltip"]',
+    );
+    [...tooltipTriggerList].forEach((tooltipTriggerEl) => {
+      const tooltip = bootstrap.Tooltip.getInstance(tooltipTriggerEl);
+      if (tooltip) {
+        tooltip.hide();
+      }
+    });
+  };
 
   useEffect(() => {
-    const tooltipTriggerList =
-      document.querySelectorAll('[data-bs-toggle="tooltip"]');
-
-    [...tooltipTriggerList].forEach(
-      (tooltipTriggerEl) =>
-        new bootstrap.Tooltip(tooltipTriggerEl)
+    const tooltipTriggerList = document.querySelectorAll(
+      '[data-bs-toggle="tooltip"]',
     );
-  }, []);
-  
-  
+
+    const tooltips = [...tooltipTriggerList].map(
+      (tooltipTriggerEl) => new bootstrap.Tooltip(tooltipTriggerEl),
+    );
+
+    return () => {
+      tooltips.forEach((tooltip) => tooltip.dispose());
+    };
+  }, [isSidebarCollapsed]);
+
   return (
     <aside
       className={`classora-sidebar ${isSidebarCollapsed ? "collapsed" : ""}`}
@@ -230,7 +248,10 @@ const Sidemenu = ({
           )}
           <button
             className={`collapse-toggle ${isSidebarCollapsed ? "closed" : ""}`}
-            onClick={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
+            onClick={() => {
+              hideTooltips();
+              setIsSidebarCollapsed(!isSidebarCollapsed);
+            }}
             title="Toggle Sidebar"
           >
             {Icons.SidebarToggle}
@@ -239,24 +260,28 @@ const Sidemenu = ({
 
         <div className="fade-in">
           {!isSidebarCollapsed && (
-            <p className={`nav-group-title text-start fw-semibold ${user.role === "Admin" ? "mb-1" : "mt-4"}`}>Main menu</p>
+            <p
+              className={`nav-group-title text-start fw-semibold ${user.role === "Admin" ? "mb-1" : "mt-4"}`}
+            >
+              Main menu
+            </p>
           )}
           <nav className="nav-group">
             {navItems.map(({ key, label, icon }) => (
               <button
                 key={key}
-                className={`nav-item rounded-4 ${activeTab === key ? "active" : ""} ${key === "Notifications"?"position-relative":""}`}
+                className={`nav-item rounded-4 ${activeTab === key ? "active" : ""} ${key === "Notifications" ? "position-relative" : ""}`}
                 onClick={() => handleNavClick(key)}
                 type="button"
-                data-bs-toggle="tooltip" 
-                data-bs-placement="right" 
+                data-bs-toggle="tooltip"
+                data-bs-placement="right"
                 data-bs-title={label}
               >
                 <span className="nav-icon">{icon}</span>
                 {!isSidebarCollapsed && (
                   <span className="nav-text">{label}</span>
                 )}
-                {key==="Notifications" && unreadCount > 0 && (
+                {key === "Notifications" && unreadCount > 0 && (
                   <span
                     className="position-absolute translate-middle rounded-circle bg-danger"
                     style={{
@@ -271,21 +296,29 @@ const Sidemenu = ({
             ))}
           </nav>
           {!isSidebarCollapsed && (
-            <p className={`nav-group-title mt-2 text-start fw-semibold ${user.role === "Admin" ? "mb-1" : "mt-3"}`}>
+            <p
+              className={`nav-group-title mt-2 text-start fw-semibold ${user.role === "Admin" ? "mb-1" : "mt-3"}`}
+            >
               Settings
             </p>
           )}
           {isSidebarCollapsed && (
-            <hr className="mt-4 w-50 mx-auto border-secondary" />
+            <hr
+              className="mt-4 w-50 mx-auto rounded-5"
+              style={{ border: "1px solid var(--text-muted)" }}
+            />
           )}
           {/* When collapsed, we add top margin to separate settings from main menu visually */}
           <nav className={`nav-group`}>
             <button
               className={`nav-item rounded-4 ${activeTab === "Settings" ? "active" : ""}`}
-              onClick={() => setActiveTab("Settings")}
+              onClick={() => {
+                hideTooltips();
+                setActiveTab("Settings");
+              }}
               title="Settings"
-              data-bs-toggle="tooltip" 
-              data-bs-placement="right" 
+              data-bs-toggle="tooltip"
+              data-bs-placement="right"
               data-bs-title="Settings"
             >
               <span className="nav-icon">{Icons.Settings}</span>
@@ -298,24 +331,26 @@ const Sidemenu = ({
       </div>
 
       {/* Account stays at bottom, only shows Avatar when collapsed */}
-      <div className="sidebar-bottom fade-in d-flex flex-column py-0">
+      <div className="sidebar-bottom fade-in d-flex flex-column pb-3 pt-0">
         {!isSidebarCollapsed && (
           <p className="nav-group-title text-start fw-semibold">Account</p>
         )}
         <div
-          className={`account-card rounded-pill ${isSidebarCollapsed ? "bg-transparent mx-auto" : "bg-white bg-opacity-75"}`}
+          className={`account-card rounded-pill ${isSidebarCollapsed ? "bg-transparent mx-auto" : `${theme === "light" ? "bg-white bg-opacity-75" : "bg-black bg-opacity-10"}`}`}
         >
-          <div className={`account-avatar d-flex align-items-center justify-content-center rounded-circle text-white fw-bold ${user.role === "Admin" ? "bg-dark" : ""}`}>
+          <div
+            className={`account-avatar d-flex align-items-center justify-content-center rounded-circle text-white fw-bold ${user.role === "Admin" ? "bg-dark" : ""}`}
+          >
             {user.name.charAt(0)}
           </div>
           {!isSidebarCollapsed && (
             <div className="account-info d-flex flex-column align-items-start">
               <h4>{user.name}</h4>
-              <p>{user.role|| "Student"}</p>
+              <p>{user.role || "Student"}</p>
             </div>
           )}
         </div>
-        
+
         <Link
           className={`nav-item d-flex mt-3 align-items-center justify-content-center rounded-4 py-2 px-3 transition-all  ${isSidebarCollapsed ? "justify-content-center w-75 mx-auto rounded-3" : "bg-danger bg-opacity-10 gap-2"}`}
           onClick={() => {
@@ -325,7 +360,10 @@ const Sidemenu = ({
           style={{ textDecoration: "none" }}
           title="Logout"
         >
-          <span className="nav-icon text-danger">
+          <span
+            className={`nav-icon ${theme === "dark" ? "" : " text-danger"}`}
+            style={{ color: "#ff5858ff" }}
+          >
             <svg
               width="20"
               height="20"
@@ -342,7 +380,12 @@ const Sidemenu = ({
             </svg>
           </span>
           {!isSidebarCollapsed && (
-            <span className="fw-semibold text-danger">Logout</span>
+            <span
+              className={`fw-semibold ${theme === "dark" ? "" : "text-danger"}`}
+              style={{ color: "#ff5858ff" }}
+            >
+              Logout
+            </span>
           )}
         </Link>
       </div>
@@ -350,4 +393,4 @@ const Sidemenu = ({
   );
 };
 
-export default Sidemenu
+export default Sidemenu;

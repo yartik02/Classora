@@ -63,8 +63,9 @@ function Footer() {
               Classora
             </div>
             <p className="mt-2 fw-lighter small">
-              Empowering students to voice their concerns and create positive
-              change in their academic environment.
+              Empowering institutes to add structure, order and transparency to
+              their processes, leading to better growth and development of
+              students and stakeholders.
             </p>
           </div>
 

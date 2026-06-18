@@ -3,6 +3,7 @@ import "./AdminDash.css";
 import CustomDropdown from "../../../components/CustomDropdown";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useTheme } from "../../../store/useTheme";
 
 const ICONS = {
   search: (
@@ -270,10 +271,20 @@ const getInitials = (name) => {
 };
 
 const ServerPaginationFooter = () => (
-  <div className="bg-light p-3 border-top d-flex justify-content-between align-items-center mt-auto">
-    <span className="text-muted small fw-medium">
-      Showing <span className="text-dark fw-bold">1 - 5</span> of{" "}
-      <span className="text-dark fw-bold">4,102</span> Students
+  <div
+    className="p-3 d-flex justify-content-between align-items-center mt-auto"
+    style={{ backgroundColor: "var(--light-hover)" }}
+  >
+    <span className="small fw-medium" style={{ color: "var(--text-muted)" }}>
+      Showing{" "}
+      <span className="fw-bold" style={{ color: "var(--text-main)" }}>
+        1 - 5
+      </span>
+      of{" "}
+      <span className="fw-bold" style={{ color: "var(--text-main)" }}>
+        4,102
+      </span>{" "}
+      Students
     </span>
     <div className="d-flex align-items-center gap-2">
       <button
@@ -282,7 +293,12 @@ const ServerPaginationFooter = () => (
       >
         {ICONS.chevronLeft}
       </button>
-      <span className="text-dark small fw-bold px-2">Page 1 of 821</span>
+      <span
+        className="small fw-bold px-2"
+        style={{ color: "var(--text-muted)" }}
+      >
+        Page 1 of 821
+      </span>
       <button
         className="btn btn-sm btn-outline-secondary d-flex align-items-center justify-content-center"
         style={{ width: "32px", height: "32px" }}
@@ -318,10 +334,13 @@ const SuspendModal = ({ student, onClose, onSuspend }) => {
       }}
     >
       <div
-        className="bg-white rounded-4 shadow-lg w-100 overflow-hidden fade-in"
-        style={{ maxWidth: "500px" }}
+        className="rounded-4 shadow-lg w-100 overflow-hidden fade-in"
+        style={{ maxWidth: "500px", backgroundColor: "var(--bg-surface)" }}
       >
-        <div className="bg-danger bg-opacity-10 p-4 border-bottom border-danger border-opacity-25 d-flex justify-content-between align-items-center">
+        <div
+          className="p-4 d-flex justify-content-between align-items-center"
+          style={{ borderBottom: "1px solid var(--text-muted)" }}
+        >
           <div className="d-flex align-items-center gap-3">
             <div
               className="bg-danger text-white rounded-circle d-flex align-items-center justify-content-center"
@@ -343,11 +362,14 @@ const SuspendModal = ({ student, onClose, onSuspend }) => {
 
         <form onSubmit={handleSubmit} className="p-4 p-md-5">
           <div className="mb-4">
-            <label className="form-label fw-bold small text-muted">
+            <label
+              className="form-label fw-bold small"
+              style={{ color: "var(--text-muted)" }}
+            >
               Suspension Duration *
             </label>
             <select
-              className="form-select form-select-lg bg-light border-0 fs-6 text-dark"
+              className="form-select form-select-lg border-0 fs-6 text-dark"
               value={duration}
               onChange={(e) => setDuration(e.target.value)}
             >
@@ -358,7 +380,10 @@ const SuspendModal = ({ student, onClose, onSuspend }) => {
             </select>
           </div>
           <div className="mb-4">
-            <label className="form-label fw-bold small text-muted">
+            <label
+              className="form-label fw-bold small"
+              style={{ color: "var(--text-muted)" }}
+            >
               Reason for Suspension *
             </label>
             <textarea
@@ -401,21 +426,38 @@ const ProfileDrawer = ({ student, onClose }) => {
       }}
     >
       <div
-        className="bg-white h-100 shadow-lg d-flex flex-column drawer-slide"
-        style={{ width: "100%", maxWidth: "450px" }}
+        className="h-100 shadow-lg d-flex flex-column drawer-slide"
+        style={{
+          width: "100%",
+          maxWidth: "450px",
+          backgroundColor: "var(--bg-surface)",
+        }}
       >
-        <div className="p-4 d-flex justify-content-between align-items-center border-bottom">
-          <h5 className="fw-bold text-dark mb-0">Student Profile</h5>
+        <div
+          className="p-4 d-flex justify-content-between align-items-center border-bottom"
+          style={{ borderBottom: "1px solid var(--text-muted)" }}
+        >
+          <h5 className="fw-bold mb-0">Student Profile</h5>
           <button
-            className="btn btn-light rounded-circle p-2 text-secondary d-flex align-items-center justify-content-center"
+            className="btn rounded-circle p-2 text-secondary d-flex align-items-center justify-content-center"
+            style={{ backgroundColor: "var(--light-hover)" }}
             onClick={onClose}
           >
             {ICONS.close}
           </button>
         </div>
 
-        <div className="p-4 overflow-auto flex-grow-1 bg-light bg-opacity-50">
-          <div className="bg-white p-4 rounded-4 border shadow-sm text-center mb-4">
+        <div
+          className="p-4 overflow-auto flex-grow-1"
+          style={{ backgroundColor: "var(--light-hover)" }}
+        >
+          <div
+            className="p-4 rounded-4 position-relative shadow-sm text-center mb-4"
+            style={{
+              backgroundColor: "var(--bg-glass)",
+              border: "1px solid var(--light-hover)",
+            }}
+          >
             <div className="header mb-2 d-flex align-items-center justify-content-between text-start">
               <div
                 className="rounded-circle col-3 k d-flex align-items-center justify-content-center fw-bold text-primary bg-primary bg-opacity-10 "
@@ -425,49 +467,75 @@ const ProfileDrawer = ({ student, onClose }) => {
               </div>
               <div className="nameDetails col-9">
                 <div className="name d-flex align-items-center justify-content-between">
-                  <h4 className="fw-bolder text-dark mb-1">{student.name}</h4>
-                  <div className="d-flex justify-content-center">
-                    <StatusBadge status={student.status} />
-                  </div>
+                  <h4 className="fw-bolder mb-1 z-0">{student.name}</h4>
                 </div>
-                <div className="d-flex justify-content-start align-items-center gap-2">
-                  <span className="badge bg-secondary bg-opacity-10 text-dark border border-secondary border-opacity-25 px-2 py-1">
+                <div
+                  className="d-flex justify-content-start align-items-center gap-2"
+                  style={{ color: "var(--text-muted)" }}
+                >
+                  <span className="badge bg-secondary bg-opacity-10 text-secondary border border-secondary border-opacity-25 px-2 py-1">
                     {student.rollNo}
                   </span>
-                  <span className="text-muted small">•</span>
-                  <span className="fw-medium text-secondary small">
+                  <span className="small">•</span>
+                  <span className="fw-medium small">
                     {student.dept} • {student.sem}
                   </span>
+                </div>
+                <div className="d-flex justify-content-center position-absolute top-0 end-0 m-3 z-100">
+                  <StatusBadge status={student.status} />
                 </div>
               </div>
             </div>
           </div>
 
           <h6
-            className="fw-bold text-muted text-uppercase mb-3"
-            style={{ fontSize: "0.75rem", letterSpacing: "0.5px" }}
+            className="fw-bold text-uppercase mb-3"
+            style={{
+              fontSize: "0.75rem",
+              letterSpacing: "0.5px",
+              color: "var(--text-muted)",
+            }}
           >
             Contact Details
           </h6>
-          <div className="bg-white rounded-4 border shadow-sm mb-4 overflow-hidden">
+          <div
+            className="rounded-4 shadow-sm mb-4 overflow-hidden"
+            style={{
+              backgroundColor: "var(--bg-glass)",
+              border: "1px solid var(--light-hover)",
+            }}
+          >
             <div className="d-flex align-items-center gap-3 p-3">
               <div className="text-secondary">{ICONS.mail}</div>
-              <div className="text-dark fw-medium">{student.email}</div>
+              <div className="fw-medium">{student.email}</div>
             </div>
           </div>
 
           <h6
-            className="fw-bold text-muted text-uppercase mb-3"
-            style={{ fontSize: "0.75rem", letterSpacing: "0.5px" }}
+            className="fw-bold text-uppercase mb-3"
+            style={{
+              fontSize: "0.75rem",
+              letterSpacing: "0.5px",
+              color: "var(--text-muted)",
+            }}
           >
             Assignment Engagement
           </h6>
           <div className="row g-3 mb-4">
             <div className="col-6">
-              <div className="bg-white p-3 rounded-4 border shadow-sm">
+              <div
+                className="p-3 rounded-4 shadow-sm"
+                style={{
+                  backgroundColor: "var(--bg-glass)",
+                  border: "1px solid var(--light-hover)",
+                }}
+              >
                 <div
-                  className="text-muted small fw-bold text-uppercase mb-2"
-                  style={{ fontSize: "0.65rem" }}
+                  className="small fw-bold text-uppercase mb-2"
+                  style={{
+                    fontSize: "0.65rem",
+                    color: "var(--text-muted)",
+                  }}
                 >
                   Pending
                 </div>
@@ -477,10 +545,19 @@ const ProfileDrawer = ({ student, onClose }) => {
               </div>
             </div>
             <div className="col-6">
-              <div className="bg-white p-3 rounded-4 border shadow-sm">
+              <div
+                className="p-3 rounded-4 shadow-sm"
+                style={{
+                  backgroundColor: "var(--bg-glass)",
+                  border: "1px solid var(--light-hover)",
+                }}
+              >
                 <div
-                  className="text-muted small fw-bold text-uppercase mb-2"
-                  style={{ fontSize: "0.65rem" }}
+                  className="small fw-bold text-uppercase mb-2"
+                  style={{
+                    fontSize: "0.65rem",
+                    color: "var(--text-muted)",
+                  }}
                 >
                   Completed
                 </div>
@@ -500,6 +577,7 @@ const StudentManagement = () => {
   // Filters
   const [searchQuery, setSearchQuery] = useState("");
   const [filters, setFilters] = useState({ dept: "", sem: "", status: "" });
+  const { theme } = useTheme();
 
   // Overlays
   const [viewProfileId, setViewProfileId] = useState(null);
@@ -540,27 +618,30 @@ const StudentManagement = () => {
 
   return (
     <div className="student-management-container fade-in position-relative">
-
       {/* HEADER */}
       <div className="text-center mt-5 mb-4">
-        <h1
-          className="fw-bolder text-dark mb-2"
-          style={{ letterSpacing: "-0.5px" }}
-        >
+        <h1 className="fw-bolder mb-2" style={{ letterSpacing: "-0.5px" }}>
           Student Directory
         </h1>
-        <p className="text-muted fw-medium fs-6">
+        <p className="fw-medium fs-6" style={{ color: "var(--text-muted)" }}>
           Monitor student engagement and manage academic access.
         </p>
       </div>
 
       {/* MAIN CARD */}
-      <div className="card px-4 px-md-5 border-0 pb-5">
+      <div className="card bg-transparent px-4 px-md-5 border-0 pb-5">
         <div
-          className="bg-light rounded-4 overflow-hidden border d-flex flex-column"
+          className="rounded-4 overflow-hidden d-flex flex-column"
+          style={{
+            backgroundColor: "var(--bg-main)",
+            border: "1px solid var(--light-hover)",
+          }}
         >
           {/* TOOLBAR */}
-          <div className="p-4 d-flex flex-column flex-xl-row justify-content-between align-items-xl-center gap-3 border-bottom">
+          <div
+            className="p-4 d-flex flex-column flex-xl-row justify-content-between align-items-xl-center gap-3"
+            style={{ borderBottom: "1px solid var(--text-muted)" }}
+          >
             <div className="d-flex flex-wrap flex-md-nowrap gap-2 w-100">
               <div
                 className="position-relative w-100"
@@ -571,7 +652,11 @@ const StudentManagement = () => {
                 </span>
                 <input
                   type="text"
-                  className="w-100 bg-secondary bg-opacity-10 border rounded-3 ps-5 py-2 fw-light focus-ring focus-ring-secondary"
+                  className="w-100 bg-secondary bg-opacity-10 rounded-3 ps-5 py-2 fw-light focus-ring focus-ring-secondary"
+                  style={{
+                    border: "1px solid var(--light-hover)",
+                    color: "var(--text-main)",
+                  }}
                   placeholder="Search by Name or Roll No..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
@@ -610,14 +695,20 @@ const StudentManagement = () => {
 
           {/* DIRECTORY TABLE */}
           <div className="table-responsive flex-grow-1">
-            <table className="table table-hover align-middle mb-0">
-              <thead className="table-light">
+            <table
+              className={`table table-hover align-middle mb-0 table-${theme === "light" ? "light" : "dark"}`}
+            >
+              <thead>
                 <tr>
                   {TABLE_HEADERS.map(({ label, cls }, idx) => (
                     <th
                       key={idx}
-                      className={`text-uppercase text-muted py-3 border-bottom-0 ${cls}`}
-                      style={{ fontSize: "0.75rem", letterSpacing: "0.08em" }}
+                      className={`text-uppercase py-3 border-bottom-0 ${cls}`}
+                      style={{
+                        fontSize: "0.75rem",
+                        letterSpacing: "0.08em",
+                        color: "var(--text-muted)",
+                      }}
                     >
                       {label}
                     </th>
@@ -632,7 +723,7 @@ const StudentManagement = () => {
                       style={{ cursor: "pointer" }}
                       onClick={() => setViewProfileId(student.id)}
                     >
-                      <td className="ps-4 py-3 border-light">
+                      <td className="ps-4 py-3">
                         <div className="d-flex align-items-center gap-3">
                           <div
                             className="rounded-circle d-flex align-items-center justify-content-center fw-bold text-primary bg-primary bg-opacity-10"
@@ -645,31 +736,38 @@ const StudentManagement = () => {
                             {getInitials(student.name)}
                           </div>
                           <div>
-                            <div className="fw-bold text-dark">
-                              {student.name}
-                            </div>
-                            <div className="text-muted small">
+                            <div className="fw-bold">{student.name}</div>
+                            <div
+                              className="small"
+                              style={{ color: "var(--text-muted)" }}
+                            >
                               {student.email}
                             </div>
                           </div>
                         </div>
                       </td>
-                      <td className="border-light text-dark fw-medium">
+                      <td
+                        className="fw-medium"
+                        style={{ color: "var(--text-muted)" }}
+                      >
                         {student.rollNo}
                       </td>
-                      <td className="border-light">
-                        <div className="text-dark fw-medium mb-1">
+                      <td>
+                        <div
+                          className="fw-medium mb-1"
+                          style={{ color: "var(--text-muted)" }}
+                        >
                           {student.dept}
                         </div>
-                        <span className="badge bg-secondary bg-opacity-10 text-dark border border-secondary border-opacity-25 px-2 py-1 rounded">
+                        <span className="badge bg-secondary bg-opacity-10 text-secondary border border-secondary border-opacity-25 px-2 py-1 rounded">
                           {student.sem}
                         </span>
                       </td>
-                      <td className="border-light">
+                      <td>
                         <StatusBadge status={student.status} />
                       </td>
                       <td
-                        className="text-end pe-4 border-light"
+                        className="text-end pe-4"
                         onClick={(e) => e.stopPropagation()}
                       >
                         <div className="d-flex justify-content-end gap-2">
@@ -697,7 +795,11 @@ const StudentManagement = () => {
                   ))
                 ) : (
                   <tr>
-                    <td colSpan="5" className="text-center py-5 text-muted">
+                    <td
+                      colSpan="5"
+                      className="text-center py-5"
+                      style={{ color: "var(--text-muted)" }}
+                    >
                       No students match your filter criteria.
                     </td>
                   </tr>

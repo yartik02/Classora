@@ -9,7 +9,7 @@
   --bg-darkBlue: #001b4c;
   --btn-bg-blue: #001b4c;
   --bg-surface: #ffffff;
-  --bg-card: #ffffff;
+  --bg-card: #d0e3ff;
   --bg-main: #f2f5fe;
   --bg-tab-btns: #ffffff;
   --bg-light-blue: #eef2ff;
@@ -24,7 +24,7 @@
   --text-main: #111827;
   --text-secondary: #4b5563;
   --text-dark: var(--color-primary);
-  --text-muted: #676767;
+  --text-muted: #636363;
   --text-on-primary: #ffffff;
   --text-gradient:
     130deg, teal 10%, rgb(216, 111, 129) 20%, rgb(247, 79, 171) 40%, purple 60%,
@@ -78,7 +78,7 @@
   --text-main: #f1f1f1;
   --text-secondary: #94a3b8;
   --text-dark: var(--color-primary);
-  --text-muted: #94a3b8;
+  --text-muted: #a9b2bf;
   --text-on-primary: #020813;
 
   /*  Interactive / Utility  */
@@ -100,8 +100,8 @@
     rgb(0 0 0 / 70%) 8px 9px 20px 2px;
 
   /*  Shadows  */
-  --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.4);
-  --shadow-md: 0px 8px 24px rgba(0, 0, 0, 0.6);
+  --shadow-sm: 0 4px 12px rgba(149, 149, 149, 0.168);
+  --shadow-md: 0px 8px 24px rgba(94, 94, 94, 0.208);
 }
 
 /*  BASE RESET & TYPOGRAPHY  */

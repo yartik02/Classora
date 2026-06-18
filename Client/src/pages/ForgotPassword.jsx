@@ -177,13 +177,14 @@ const ForgotPassword = () => {
       </span>
 
       <div className="forgot-password-card">
-        <h3 className="text-dark fw-bolder mb-0" >
+        <h3 className="fw-bolder mb-0" style={{ color: "var(--text-main)" }}>
           Reset Your Password
         </h3>
         <p
           className="mb-4"
           style={{
             fontSize: "0.9rem",
+            color: "var(--text-muted)",
           }}
         >
           Classora Account Recovery
@@ -198,14 +199,18 @@ const ForgotPassword = () => {
             <div className="form-floating text-start mb-4">
               <input
                 type="email"
-                className="text-dark rounded-3 form-control shadow-0"
-                style={{ backgroundColor: "var(--bg-main)", borderColor: "var(--border-color)", }} 
+                className="rounded-3 form-control shadow-0"
+                style={{
+                  backgroundColor: "var(--bg-main)",
+                  borderColor: "var(--border-color)",
+                  color: "var(--text-main)",
+                }}
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 id="floatingInput"
                 placeholder=" "
               />
-              <label for="floatingInput"  className="text-muted">
+              <label for="floatingInput" style={{ color: "var(--text-muted)" }}>
                 Email Address
               </label>
             </div>
@@ -239,7 +244,7 @@ const ForgotPassword = () => {
                   borderColor: "var(--border-color)",
                 }}
               />
-              <label for="floatingOtp"  className="text-muted">
+              <label for="floatingOtp" style={{ color: "var(--text-muted)" }}>
                 Enter OTP
               </label>
             </div>
@@ -254,9 +259,7 @@ const ForgotPassword = () => {
 
             <button
               type="button"
-              className="text-dark btn w-100 mt-2 rounded-3 btn-click-animation"
-              style={{ border: "1px solid var(--border-color)",
-                backgroundColor: "transparent", }} 
+              className={`btn ${theme === "dark" ? "btn-outline-light" : "btn-outline-dark"} w-100 mt-2 rounded-3 btn-click-animation`}
               onClick={() => setStep(1)}
             >
               Back to Email
@@ -272,15 +275,18 @@ const ForgotPassword = () => {
                 type="password"
                 value={newPassword}
                 className="text-dark rounded-3 form-control shadow-0"
-                style={{ backgroundColor: "var(--bg-main)", borderColor: "var(--border-color)", }} 
+                style={{
+                  backgroundColor: "var(--bg-main)",
+                  borderColor: "var(--border-color)",
+                }}
                 onChange={(e) => setNewPassword(e.target.value)}
                 id="floatingInput1"
                 placeholder=" "
               />
               <label
                 for="floatingInput1"
-                
-               className="text-muted">
+                style={{ color: "var(--text-muted)" }}
+              >
                 New Password
               </label>
             </div>
@@ -290,16 +296,18 @@ const ForgotPassword = () => {
                 type="password"
                 value={confirmPassword}
                 className="text-dark rounded-3 form-control shadow-0"
-                style={{ backgroundColor: "var(--bg-main)", borderColor: "var(--border-color)", }} 
+                style={{
+                  backgroundColor: "var(--bg-main)",
+                  borderColor: "var(--border-color)",
+                }}
                 id="floatingInput2"
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 placeholder=" "
-                // required
               />
               <label
                 for="floatingInput2"
-                
-               className="text-muted">
+                style={{ color: "var(--text-muted)" }}
+              >
                 Confirm Password
               </label>
             </div>
